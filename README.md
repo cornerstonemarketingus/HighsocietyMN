@@ -1,5 +1,21 @@
 # High Society MN - Premium Cannabis Dispensary Web Application
 
+## ✅ Current Live Demo Scope (Implemented)
+
+This repository now includes a working Next.js 16 live demo with:
+
+- Product catalog (`/products`) + product detail (`/products/[id]`)
+- Cart (`/cart`) with Minnesota tax calculation (6.875%)
+- Checkout (`/checkout`) with pickup/delivery scheduling
+- Order history (`/orders`)
+- Persistent Budtender AI chat widget with chat APIs
+- Community forum page (`/community`) + forum/blog/marketing API endpoints
+- Blog pages (`/blog`, `/blog/[id]`)
+- Loyalty pages (`/loyalty`, `/loyalty/redeem`, `/loyalty/games`, `/loyalty/leaderboard`)
+- Referral dashboard (`/referral`)
+
+> Note: Current persistence is in-memory for live demo speed. Restarting the server resets cart/orders/forum/chat state.
+
 A luxury, full-stack cannabis dispensary web application featuring modern eCommerce, customer accounts, AI-powered product discovery, inventory management, a dual-token point system, loyalty rewards, and an administrative dashboard.
 
 ## 🎯 Vision
