@@ -40,6 +40,11 @@ const forumComments: Array<{ id: string; postId: string; content: string; likes:
 const blogs = [...blogPosts];
 const marketingDrafts: Array<{ id: string; title: string; content: string; published: boolean }> = [];
 let emailStats = { opens: 210, clicks: 92, unsubscribes: 3 };
+let orderCounter = 1;
+let forumPostCounter = forumPosts.length + 1;
+let forumCommentCounter = 1;
+let blogCounter = blogs.length + 1;
+let draftCounter = 1;
 
 export const getProducts = () => products;
 export const getCart = (userId: string) => carts.get(userId) ?? [];
@@ -63,7 +68,7 @@ export const clearCartItem = (userId: string, productId: string) => {
 export const createOrder = (input: Omit<Order, "id" | "createdAt" | "status">) => {
   const order: Order = {
     ...input,
-    id: String(orders.length + 1),
+    id: String(orderCounter++),
     status: "PENDING",
     createdAt: new Date().toISOString(),
   };
@@ -85,7 +90,7 @@ export const getChat = (userId: string) => chatMessages.get(userId) ?? [];
 
 export const getForumPosts = () => forumPosts;
 export const createForumPost = (title: string, content: string, category: string) => {
-  const post = { id: String(forumPosts.length + 1), title, content, category, likes: 0, createdAt: new Date().toISOString() };
+  const post = { id: String(forumPostCounter++), title, content, category, likes: 0, createdAt: new Date().toISOString() };
   forumPosts.unshift(post);
   return post;
 };
@@ -104,7 +109,7 @@ export const deleteForumPost = (id: string) => {
 };
 
 export const createForumComment = (postId: string, content: string) => {
-  const comment = { id: String(forumComments.length + 1), postId, content, likes: 0 };
+  const comment = { id: String(forumCommentCounter++), postId, content, likes: 0 };
   forumComments.push(comment);
   return comment;
 };
@@ -126,13 +131,13 @@ export const deleteForumComment = (id: string) => {
 export const listBlogs = () => blogs;
 export const getBlog = (id: string) => blogs.find((entry) => entry.id === id);
 export const createBlog = (title: string, content: string) => {
-  const blog = { id: String(blogs.length + 1), slug: title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-"), title, excerpt: content.slice(0, 120), content, tags: ["ai"] };
+  const blog = { id: String(blogCounter++), slug: title.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-"), title, excerpt: content.slice(0, 120), content, tags: ["ai"] };
   blogs.unshift(blog);
   return blog;
 };
 
 export const generateDraft = () => {
-  const id = String(marketingDrafts.length + 1);
+  const id = String(draftCounter++);
   const draft = {
     id,
     title: `AI Weekly Spotlight ${id}`,

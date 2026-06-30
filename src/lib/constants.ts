@@ -1,0 +1,1 @@
+export const MINNESOTA_CANNABIS_TAX_RATE = 0.06875;

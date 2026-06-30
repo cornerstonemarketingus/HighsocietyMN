@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { MINNESOTA_CANNABIS_TAX_RATE } from "@/lib/constants";
 
 type CartItem = { productId: string; quantity: number; name: string; price: number };
 
@@ -32,7 +33,7 @@ export default function CartPage() {
   }, []);
 
   const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.price * item.quantity, 0), [items]);
-  const tax = Number((subtotal * 0.06875).toFixed(2));
+  const tax = Number((subtotal * MINNESOTA_CANNABIS_TAX_RATE).toFixed(2));
   const total = Number((subtotal + tax).toFixed(2));
 
   const updateQuantity = async (productId: string, quantity: number) => {

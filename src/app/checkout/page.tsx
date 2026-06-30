@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { MINNESOTA_CANNABIS_TAX_RATE } from "@/lib/constants";
 
 const pickupSlots = ["10:00 AM", "12:00 PM", "2:00 PM", "4:00 PM", "6:00 PM"];
 
@@ -20,7 +21,7 @@ export default function CheckoutPage() {
     const cartResponse = await fetch("/api/cart");
     const cartData = await cartResponse.json();
     const subtotal = cartData.items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
-    const tax = Number((subtotal * 0.06875).toFixed(2));
+    const tax = Number((subtotal * MINNESOTA_CANNABIS_TAX_RATE).toFixed(2));
     const total = Number((subtotal + tax).toFixed(2));
 
     const response = await fetch("/api/orders", {
