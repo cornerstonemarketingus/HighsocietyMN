@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  FLOWER
+  EDIBLES
+  VAPES
+  CONCENTRATES
+  ACCESSORIES
+}
+
+enum FulfillmentType {
+  PICKUP
+  DELIVERY
+}
+
+model Product {
+  id             String      @id @default(cuid())
+  name           String
+  description    String
+  category       Category
+  priceCents     Int
+  thcPercent     Float
+  cbdPercent     Float
+  terpeneProfile Json
+  effects        Json
+  images         Json
+  stock          Int
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  reviews        Review[]
+  cartItems      CartItem[]
+  orderItems     OrderItem[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  author    String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model Cart {
+  id        String     @id
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int      @default(1)
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@index([cartId])
+}
+
+model Order {
+  id              String          @id @default(cuid())
+  sessionId       String
+  fulfillmentType FulfillmentType
+  subtotalCents   Int
+  taxCents        Int
+  totalCents      Int
+  pickupDate      DateTime?
+  pickupLocation  String?
+  deliveryAddress String?
+  createdAt       DateTime        @default(now())
+  items           OrderItem[]
+
+  @@index([sessionId])
+}
+
+model OrderItem {
+  id            String  @id @default(cuid())
+  orderId       String
+  productId     String
+  quantity      Int
+  unitPriceCents Int
+  order         Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+}

@@ -1,1 +1,71 @@
-'use client';\n\nimport { useState } from 'react';\nimport { AlertCircle } from 'lucide-react';\n\nexport function AgeVerificationGate() {\n  const [birthDate, setBirthDate] = useState('');\n  const [error, setError] = useState('');\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n    setError('');\n\n    if (!birthDate) {\n      setError('Please enter your date of birth');\n      return;\n    }\n\n    const birth = new Date(birthDate);\n    const today = new Date();\n    let age = today.getFullYear() - birth.getFullYear();\n    const monthDiff = today.getMonth() - birth.getMonth();\n\n    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {\n      age--;\n    }\n\n    if (age < 21) {\n      setError('You must be at least 21 years old to enter this site.');\n      return;\n    }\n\n    localStorage.setItem('ageVerified', 'true');\n    localStorage.setItem('ageVerifiedDate', new Date().toISOString());\n    window.location.reload();\n  };\n\n  return (\n    <div className=\"min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-900 to-brand-700 px-4\">\n      <div className=\"bg-white dark:bg-luxury-dark rounded-lg shadow-xl p-8 max-w-md w-full\">\n        {/* Logo */}\n        <div className=\"text-center mb-8\">\n          <div className=\"w-16 h-16 bg-brand-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl mx-auto mb-4\">\n            21+\n          </div>\n          <h1 className=\"text-3xl font-serif font-bold mb-2\">High Society MN</h1>\n          <p className=\"text-gray-600 dark:text-gray-400\">Age Verification Required</p>\n        </div>\n\n        {/* Content */}\n        <div className=\"mb-8\">\n          <div className=\"bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex gap-3 mb-6\">\n            <AlertCircle className=\"w-5 h-5 text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5\" />\n            <div>\n              <p className=\"text-sm font-semibold text-yellow-800 dark:text-yellow-200 mb-1\">Age Restricted</p>\n              <p className=\"text-sm text-yellow-700 dark:text-yellow-300\">\n                You must be at least 21 years old to enter this site and purchase cannabis products.\n              </p>\n            </div>\n          </div>\n\n          <p className=\"text-gray-700 dark:text-gray-300 text-center mb-4\">\n            Please verify your age by entering your date of birth.\n          </p>\n        </div>\n\n        {/* Form */}\n        <form onSubmit={handleSubmit} className=\"space-y-4\">\n          <div>\n            <label className=\"block text-sm font-semibold mb-2\">Date of Birth</label>\n            <input\n              type=\"date\"\n              value={birthDate}\n              onChange={(e) => setBirthDate(e.target.value)}\n              className=\"w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent dark:bg-gray-900 dark:text-white\"\n              required\n            />\n            {error && (\n              <p className=\"text-red-600 dark:text-red-400 text-sm mt-2 font-semibold\">{error}</p>\n            )}\n          </div>\n\n          <button\n            type=\"submit\"\n            className=\"w-full bg-brand-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-700 transition\"\n          >\n            Verify & Enter\n          </button>\n        </form>\n\n        {/* Legal Text */}\n        <p className=\"text-xs text-gray-500 dark:text-gray-500 text-center mt-6\">\n          By entering this site, you acknowledge that you are 21+ years old and agree to our Terms of Service and Privacy Policy.\n        </p>\n      </div>\n    </div>\n  );\n}
+'use client';
+
+import { useState } from 'react';
+
+export function AgeVerificationGate() {
+  const [birthDate, setBirthDate] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!birthDate) {
+      setError('Please enter your date of birth');
+      return;
+    }
+
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age -= 1;
+    }
+
+    if (age < 21) {
+      setError('You must be at least 21 years old to enter this site.');
+      return;
+    }
+
+    localStorage.setItem('ageVerified', 'true');
+    localStorage.setItem('ageVerifiedDate', new Date().toISOString());
+    window.location.reload();
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-900 to-emerald-700 px-4">
+      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl mx-auto mb-4">
+            21+
+          </div>
+          <h1 className="text-3xl font-bold mb-2">High Society MN</h1>
+          <p className="text-gray-600">Age Verification Required</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-semibold mb-2" htmlFor="birthDate">
+              Date of Birth
+            </label>
+            <input
+              id="birthDate"
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+              required
+            />
+            {error && <p className="text-red-600 text-sm mt-2 font-semibold">{error}</p>}
+          </div>
+
+          <button type="submit" className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold">
+            Verify & Enter
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
