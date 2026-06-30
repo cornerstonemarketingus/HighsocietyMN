@@ -40,8 +40,8 @@ export async function POST(req: NextRequest) {
   }
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const tax      = parseFloat((subtotal * (MN_CANNABIS_TAX + MN_SALES_TAX)).toFixed(2));
-  const total    = parseFloat((subtotal + tax).toFixed(2));
+  const total    = parseFloat((subtotal * (1 + MN_CANNABIS_TAX + MN_SALES_TAX)).toFixed(2));
+  const tax      = parseFloat((total - subtotal).toFixed(2));
 
   const order = await prisma.order.create({
     data: {

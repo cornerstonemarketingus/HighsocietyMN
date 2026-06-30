@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import type { CartItem, Product } from '@prisma/client';
 
 interface CartItemRowProps {
@@ -9,6 +10,7 @@ interface CartItemRowProps {
 }
 
 export function CartItemRow({ item }: CartItemRowProps) {
+  const router           = useRouter();
   const [qty,     setQty]     = useState(item.quantity);
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ productId: item.productId }),
         });
-        window.location.reload();
+        router.refresh();
         return;
       }
       await fetch('/api/cart', {

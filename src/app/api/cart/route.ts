@@ -29,6 +29,10 @@ export async function POST(req: NextRequest) {
   if (!productId) {
     return NextResponse.json({ error: 'productId required' }, { status: 400 });
   }
+  const qty = Math.floor(Number(quantity));
+  if (!Number.isFinite(qty) || qty < 1 || qty > 99) {
+    return NextResponse.json({ error: 'quantity must be between 1 and 99' }, { status: 400 });
+  }
 
   const product = await prisma.product.findUnique({ where: { id: productId } });
   if (!product) {
@@ -37,8 +41,8 @@ export async function POST(req: NextRequest) {
 
   const item = await prisma.cartItem.upsert({
     where: { userId_productId: { userId: session.user.id, productId } },
-    update: { quantity },
-    create: { userId: session.user.id, productId, quantity },
+    update: { quantity: qty },
+    create: { userId: session.user.id, productId, quantity: qty },
     include: { product: true },
   });
 
