@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { addToCart } from '@/lib/cart-client';
-import { formatUsd } from '@/lib/format';
+import { firstImage, formatUsd } from '@/lib/format';
 import { useToast } from '@/components/ui/ToastProvider';
 
 type ProductCardProps = {
@@ -37,11 +37,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <Link href={`/products/${product.id}`}>
         <div className="relative aspect-square w-full overflow-hidden bg-emerald-100">
           <Image
-            src={product.images[0]}
+            src={firstImage(product.images)}
             alt={product.name}
             fill
             className="object-cover transition duration-300 hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 25vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 23vw"
           />
         </div>
       </Link>

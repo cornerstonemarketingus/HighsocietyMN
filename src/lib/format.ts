@@ -10,3 +10,7 @@ export function potencyLabel(thc: number) {
   if (thc < 20) return 'medium';
   return 'strong';
 }
+
+export function firstImage(images: string[]) {
+  return images[0] ?? 'https://picsum.photos/seed/hsmn-fallback/800/800';
+}

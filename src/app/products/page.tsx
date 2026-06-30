@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { ProductCard } from '@/components/products/ProductCard';
-import { CATEGORY_OPTIONS } from '@/lib/constants';
+import { CATEGORY_OPTIONS, MAX_PRICE_FILTER } from '@/lib/constants';
 
 type Product = {
   id: string;
@@ -26,7 +26,7 @@ export default function ProductsPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(120);
+  const [maxPrice, setMaxPrice] = useState(MAX_PRICE_FILTER);
   const [sort, setSort] = useState('newest');
 
   const query = useMemo(() => {
@@ -118,7 +118,7 @@ export default function ProductsPage() {
             <input
               type="range"
               min={0}
-              max={120}
+              max={MAX_PRICE_FILTER}
               value={minPrice}
               onChange={(event) => {
                 setLoading(true);
@@ -135,7 +135,7 @@ export default function ProductsPage() {
             <input
               type="range"
               min={0}
-              max={120}
+              max={MAX_PRICE_FILTER}
               value={maxPrice}
               onChange={(event) => {
                 setLoading(true);

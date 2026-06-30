@@ -1,4 +1,5 @@
 export const TAX_RATE = 0.06875;
+export const MAX_PRICE_FILTER = 120;
 
 export const CATEGORY_OPTIONS = [
   'FLOWER',

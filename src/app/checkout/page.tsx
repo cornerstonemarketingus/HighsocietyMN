@@ -67,13 +67,15 @@ export default function CheckoutPage() {
     setError('');
 
     const sessionId = getSessionId();
+    const pickupIsoDate =
+      pickupDate && !Number.isNaN(new Date(pickupDate).getTime()) ? new Date(pickupDate).toISOString() : null;
     const response = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         sessionId,
         fulfillmentType,
-        pickupDate: pickupDate ? new Date(pickupDate).toISOString() : null,
+        pickupDate: pickupIsoDate,
         pickupLocation,
         deliveryAddress,
       }),

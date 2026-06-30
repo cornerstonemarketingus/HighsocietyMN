@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { CATEGORY_OPTIONS } from '@/lib/constants';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
@@ -31,6 +32,10 @@ export async function GET(request: NextRequest) {
     }
 
     if (category) {
+      if (!CATEGORY_OPTIONS.includes(category as (typeof CATEGORY_OPTIONS)[number])) {
+        return NextResponse.json({ error: 'Invalid category value.' }, { status: 400 });
+      }
+
       where.category = category as Prisma.EnumCategoryFilter<'Product'>;
     }
 

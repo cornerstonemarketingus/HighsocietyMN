@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import { addToCart } from '@/lib/cart-client';
-import { formatUsd } from '@/lib/format';
+import { firstImage, formatUsd } from '@/lib/format';
 import { useToast } from '@/components/ui/ToastProvider';
 
 type ProductResponse = {
@@ -50,6 +50,10 @@ export default function ProductDetailPage() {
   }, [id]);
 
   const canAdd = useMemo(() => product && product.stock > 0, [product]);
+  const selectedSrc = useMemo(
+    () => (product ? product.images[selectedImage] ?? firstImage(product.images) : ''),
+    [product, selectedImage],
+  );
 
   const handleAdd = async () => {
     if (!product) return;
@@ -70,7 +74,7 @@ export default function ProductDetailPage() {
         <div className="space-y-3">
           <div className="relative aspect-square overflow-hidden rounded-lg bg-emerald-100">
             <Image
-              src={product.images[selectedImage]}
+              src={selectedSrc}
               alt={product.name}
               fill
               className="object-cover transition duration-300 hover:scale-110"
@@ -78,7 +82,7 @@ export default function ProductDetailPage() {
             />
           </div>
           <div className="grid grid-cols-3 gap-2">
-            {product.images.map((image, index) => (
+            {(product.images.length ? product.images : [firstImage(product.images)]).map((image, index) => (
               <button
                 key={image}
                 type="button"
@@ -133,7 +137,7 @@ export default function ProductDetailPage() {
               id="quantity"
               type="number"
               min={1}
-              max={Math.max(1, product.stock)}
+              max={product.stock > 0 ? product.stock : 1}
               value={quantity}
               onChange={(event) => setQuantity(Math.max(1, Number(event.target.value) || 1))}
               className="w-20 rounded-md border border-slate-300 px-2 py-1"
@@ -173,7 +177,7 @@ export default function ProductDetailPage() {
               className="min-w-52 rounded-lg border border-slate-200 p-2"
             >
               <div className="relative mb-2 aspect-square overflow-hidden rounded-md">
-                <Image src={related.images[0]} alt={related.name} fill className="object-cover" sizes="208px" />
+                <Image src={firstImage(related.images)} alt={related.name} fill className="object-cover" sizes="208px" />
               </div>
               <p className="line-clamp-1 text-sm font-semibold text-slate-900">{related.name}</p>
               <p className="text-sm text-emerald-700">{formatUsd(related.priceCents)}</p>

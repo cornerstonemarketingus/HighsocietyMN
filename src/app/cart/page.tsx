@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { getSessionId } from '@/lib/cart-client';
 import { TAX_RATE } from '@/lib/constants';
-import { formatUsd } from '@/lib/format';
+import { firstImage, formatUsd } from '@/lib/format';
 
 type CartItem = {
   productId: string;
@@ -86,7 +86,7 @@ export default function CartPage() {
         {items.map((item) => (
           <article key={item.productId} className="flex items-center gap-3 rounded-lg border border-slate-200 p-3">
             <div className="relative h-20 w-20 flex-none overflow-hidden rounded-md bg-slate-100">
-              <Image src={item.product.images[0]} alt={item.product.name} fill className="object-cover" sizes="80px" />
+              <Image src={firstImage(item.product.images)} alt={item.product.name} fill className="object-cover" sizes="80px" />
             </div>
             <div className="flex-1">
               <p className="font-semibold text-slate-900">{item.product.name}</p>

@@ -47,6 +47,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Pickup date and location are required.' }, { status: 400 });
     }
 
+    if (fulfillmentType === 'PICKUP' && pickupDate && pickupDate.getTime() <= Date.now()) {
+      return NextResponse.json({ error: 'Pickup date must be in the future.' }, { status: 400 });
+    }
+
     if (fulfillmentType === 'DELIVERY' && (!deliveryAddress || deliveryAddress.trim().length < 8)) {
       return NextResponse.json({ error: 'Valid delivery address is required.' }, { status: 400 });
     }
