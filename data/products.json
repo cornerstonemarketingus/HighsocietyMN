@@ -1,0 +1,928 @@
+[
+  {
+    "sku": "flower-atomic-kush-001",
+    "name": "Atomic Kush",
+    "slug": "atomic-kush",
+    "description": "Atomic Kush is a potent indica-dominant hybrid delivering deep relaxation and euphoric bliss. Dense, trichome-coated buds emit a pungent earthy aroma with notes of pine and citrus. Perfect for evening use, this strain melts away stress and promotes restful sleep.",
+    "price": 45.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "INDICA",
+    "thcPercentage": 24.5,
+    "cbdPercentage": 0.3,
+    "weight": "3.5g",
+    "effects": ["relaxing", "euphoric", "sleepy", "happy"],
+    "terpenes": ["myrcene", "limonene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1611517002285-c02c39d8eced?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 42,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "One of the best indicas I've ever had. Incredibly relaxing and the taste is amazing.", "verified": true },
+      { "rating": 4, "comment": "Great strain for nighttime. Helps with my insomnia big time.", "verified": true },
+      { "rating": 5, "comment": "Dense nugs, super frosty. The pine aroma is wonderful.", "verified": false }
+    ]
+  },
+  {
+    "sku": "flower-frosted-truffle-pie-001",
+    "name": "Frosted Truffle Pie",
+    "slug": "frosted-truffle-pie",
+    "description": "Frosted Truffle Pie is a decadent hybrid strain with rich, dessert-like flavors. The buds are blanketed in a thick layer of frosty trichomes, producing a sweet, earthy aroma with hints of chocolate and vanilla. Delivers a balanced euphoric and relaxing high.",
+    "price": 50.00,
+    "compareAtPrice": 55.00,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 26.8,
+    "cbdPercentage": 0.2,
+    "weight": "3.5g",
+    "effects": ["euphoric", "creative", "relaxing", "happy"],
+    "terpenes": ["caryophyllene", "limonene", "linalool"],
+    "images": [
+      "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 28,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Incredible flavor profile! Tastes exactly like dessert.", "verified": true },
+      { "rating": 5, "comment": "My new favorite strain. The frostiness is unreal.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-butter-stuff-001",
+    "name": "Butter Stuff",
+    "slug": "butter-stuff",
+    "description": "Butter Stuff is a smooth, creamy sativa-leaning hybrid that delivers a buttery, sweet flavor with uplifting effects. Known for its remarkable bag appeal, these golden-hued buds produce a warm body buzz paired with an energizing mental lift.",
+    "price": 48.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 22.1,
+    "cbdPercentage": 0.4,
+    "weight": "3.5g",
+    "effects": ["uplifting", "energetic", "creative", "focused"],
+    "terpenes": ["terpinolene", "ocimene", "myrcene"],
+    "images": [
+      "https://images.unsplash.com/photo-1570879773660-5d49dc0e5fed?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 35,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Smooth smoke and great daytime high. Perfect for creative work.", "verified": true },
+      { "rating": 5, "comment": "Buttery flavor is spot on. Great for social situations.", "verified": false }
+    ]
+  },
+  {
+    "sku": "flower-gelato-skittlez-001",
+    "name": "Gelato Skittlez",
+    "slug": "gelato-skittlez",
+    "description": "Gelato Skittlez is a vibrant cross of the legendary Gelato and Zkittlez strains. These colorful, candy-scented buds burst with tropical fruit and creamy dessert notes. The high is a perfect balance of mental clarity and physical relaxation.",
+    "price": 52.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 25.3,
+    "cbdPercentage": 0.5,
+    "weight": "3.5g",
+    "effects": ["happy", "relaxing", "euphoric", "uplifting"],
+    "terpenes": ["limonene", "linalool", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1603394630099-fe4ac0f31498?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 20,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "The fruity flavor is insane! Best gelato cross I've tried.", "verified": true },
+      { "rating": 5, "comment": "Beautiful buds, rainbow of colors. Tastes like candy.", "verified": true },
+      { "rating": 4, "comment": "Great for stress relief. Very smooth smoke.", "verified": false }
+    ]
+  },
+  {
+    "sku": "flower-cuban-runtz-001",
+    "name": "Cuban Runtz",
+    "slug": "cuban-runtz",
+    "description": "Cuban Runtz is an exotic strain that combines the classic Runtz genetics with a unique Cuban twist. Rich, tropical aroma with notes of candy and fresh citrus. The high is smooth, euphoric, and long-lasting, making it ideal for relaxing evenings.",
+    "price": 55.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 27.2,
+    "cbdPercentage": 0.2,
+    "weight": "3.5g",
+    "effects": ["euphoric", "relaxing", "happy", "creative"],
+    "terpenes": ["limonene", "caryophyllene", "myrcene"],
+    "images": [
+      "https://images.unsplash.com/photo-1606818616001-36b7e4e7e7c7?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 18,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Premium quality all the way. The aroma alone is worth it.", "verified": true },
+      { "rating": 5, "comment": "Hits hard but smooth. Great for unwinding after work.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-snowballs-001",
+    "name": "Snowballs",
+    "slug": "snowballs",
+    "description": "Snowballs lives up to its name with buds so covered in trichomes they look like freshly fallen snow. This potent indica delivers a heavy, sedating stone perfect for deep relaxation. Sweet vanilla and earthy pine flavors make every session a treat.",
+    "price": 45.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "INDICA",
+    "thcPercentage": 28.4,
+    "cbdPercentage": 0.3,
+    "weight": "3.5g",
+    "effects": ["sedating", "relaxing", "sleepy", "pain-relief"],
+    "terpenes": ["myrcene", "linalool", "bisabolol"],
+    "images": [
+      "https://images.unsplash.com/photo-1529596736929-7e0e38c12871?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 30,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Ridiculously frosty. Knocked me out in the best way possible.", "verified": true },
+      { "rating": 4, "comment": "Strong indica for sure. Great for pain and sleep issues.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-purple-headband-001",
+    "name": "Purple Headband",
+    "slug": "purple-headband",
+    "description": "Purple Headband is a classic hybrid known for its distinctive headband-like cerebral pressure and gorgeous purple hues. The grape and diesel aroma gives way to a balanced high that's both stimulating and body-relaxing. Perfect for afternoon sessions.",
+    "price": 48.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 21.8,
+    "cbdPercentage": 0.6,
+    "weight": "3.5g",
+    "effects": ["uplifting", "focused", "relaxing", "euphoric"],
+    "terpenes": ["myrcene", "pinene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 25,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Classic strain that never disappoints. Great balanced high.", "verified": true },
+      { "rating": 5, "comment": "Beautiful purple coloring and the flavor is phenomenal.", "verified": false }
+    ]
+  },
+  {
+    "sku": "flower-churros-001",
+    "name": "Churros",
+    "slug": "churros",
+    "description": "Churros is a mouthwatering sativa-dominant strain that perfectly captures the warm, sugary essence of the beloved pastry. Sweet cinnamon and vanilla notes dominate, while the uplifting, energetic high makes it a fantastic choice for daytime adventures.",
+    "price": 50.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "SATIVA",
+    "thcPercentage": 23.6,
+    "cbdPercentage": 0.3,
+    "weight": "3.5g",
+    "effects": ["energetic", "uplifting", "creative", "focused"],
+    "terpenes": ["terpinolene", "limonene", "ocimene"],
+    "images": [
+      "https://images.unsplash.com/photo-1598512752271-33f913a5af13?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 22,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Smells exactly like churros! Great morning strain.", "verified": true },
+      { "rating": 4, "comment": "Fantastic daytime sativa. Keeps me energized and focused.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-icee-runtz-001",
+    "name": "Icee Runtz",
+    "slug": "icee-runtz",
+    "description": "Icee Runtz is the cool, refreshing evolution of the classic Runtz strain. The icy-blue buds sparkle with crystalline trichomes and deliver a chilly, fruity flavor reminiscent of frozen candy. Balanced hybrid effects bring clear-headed euphoria and subtle body relaxation.",
+    "price": 53.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 25.9,
+    "cbdPercentage": 0.2,
+    "weight": "3.5g",
+    "effects": ["euphoric", "happy", "relaxing", "uplifting"],
+    "terpenes": ["limonene", "myrcene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1608739779848-f7d54cde3a87?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 16,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "So good! The flavor is like a frozen candy bar. Love it.", "verified": true },
+      { "rating": 5, "comment": "Premium grade, worth every penny. Frosty and flavorful.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-grape-mintz-001",
+    "name": "Grape Mintz",
+    "slug": "grape-mintz",
+    "description": "Grape Mintz is an exceptionally refreshing hybrid that blends rich grape sweetness with a cool mint finish. The aroma is complex and inviting, and the effects are wonderfully balanced — offering both mental clarity and full-body relaxation without sedation.",
+    "price": 47.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 22.4,
+    "cbdPercentage": 0.4,
+    "weight": "3.5g",
+    "effects": ["relaxing", "happy", "euphoric", "uplifting"],
+    "terpenes": ["linalool", "myrcene", "limonene"],
+    "images": [
+      "https://images.unsplash.com/photo-1584473457493-17c4c24290c5?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 32,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Unique flavor combo that really works. Minty and sweet.", "verified": true },
+      { "rating": 5, "comment": "Great all-day strain. Not too heavy, not too light.", "verified": false }
+    ]
+  },
+  {
+    "sku": "flower-zkittlez-001",
+    "name": "Zkittlez",
+    "slug": "zkittlez",
+    "description": "Zkittlez is the award-winning indica-dominant strain known for its exceptional multi-colored bag appeal and irresistible fruity flavor. Bursting with notes of tropical fruit punch and grape candy, this strain delivers a calming, full-body relaxation with a happy, uplifted mindset.",
+    "price": 50.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "INDICA",
+    "thcPercentage": 23.0,
+    "cbdPercentage": 0.5,
+    "weight": "3.5g",
+    "effects": ["relaxing", "happy", "euphoric", "focused"],
+    "terpenes": ["caryophyllene", "humulene", "linalool"],
+    "images": [
+      "https://images.unsplash.com/photo-1616440347437-b1c73416efc2?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 27,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Taste the rainbow! This strain is as good as advertised.", "verified": true },
+      { "rating": 4, "comment": "Beautiful, colorful buds and incredible flavor. A classic.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-wedding-cake-001",
+    "name": "Wedding Cake",
+    "slug": "wedding-cake",
+    "description": "Wedding Cake (also known as Pink Cookies) is a potent hybrid strain with a rich, tangy flavor profile and a complex terpene profile. The vanilla and earthy pepper notes are complemented by a relaxing euphoric high, making it perfect for any celebration.",
+    "price": 52.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 24.7,
+    "cbdPercentage": 0.3,
+    "weight": "3.5g",
+    "effects": ["relaxing", "euphoric", "happy", "uplifting"],
+    "terpenes": ["caryophyllene", "limonene", "myrcene"],
+    "images": [
+      "https://images.unsplash.com/photo-1543581621-3d96f1161bcc?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 19,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Classic strain that never disappoints. Rich, creamy flavor.", "verified": true }
+    ]
+  },
+  {
+    "sku": "preroll-infused-blunt-001",
+    "name": "Infused Blunt - OG Kush",
+    "slug": "infused-blunt-og-kush",
+    "description": "Our premium infused blunts are hand-rolled with top-shelf OG Kush flower, infused with live resin concentrate, and rolled in a natural tobacco-free wrap. Each blunt is meticulously crafted for an elevated smoking experience with unmatched flavor and potency.",
+    "price": 22.00,
+    "compareAtPrice": null,
+    "category": "PRE_ROLLS",
+    "strain": "INDICA",
+    "thcPercentage": 35.0,
+    "cbdPercentage": 0.2,
+    "weight": "2g",
+    "effects": ["relaxing", "euphoric", "sleepy", "pain-relief"],
+    "terpenes": ["myrcene", "limonene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 50,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Best blunt I've ever had. The infusion makes it so much better.", "verified": true },
+      { "rating": 5, "comment": "Burns perfectly and the flavor is incredible. Worth it.", "verified": true }
+    ]
+  },
+  {
+    "sku": "preroll-5pack-001",
+    "name": "Pre-Roll 5-Pack - House Blend",
+    "slug": "pre-roll-5pack-house-blend",
+    "description": "Our House Blend Pre-Roll 5-Pack offers an exceptional value with five perfectly rolled, .5g joints filled with a curated blend of our top indoor-grown flower. Each pre-roll is sealed fresh for maximum flavor and potency. Perfect for sharing or stocking up.",
+    "price": 30.00,
+    "compareAtPrice": 35.00,
+    "category": "PRE_ROLLS",
+    "strain": "HYBRID",
+    "thcPercentage": 21.5,
+    "cbdPercentage": 0.5,
+    "weight": "2.5g (5 × 0.5g)",
+    "effects": ["happy", "relaxing", "uplifting", "creative"],
+    "terpenes": ["myrcene", "caryophyllene", "limonene"],
+    "images": [
+      "https://images.unsplash.com/photo-1605270012917-bf157c5a9541?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 60,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Great value for the price. Consistent quality across the pack.", "verified": true },
+      { "rating": 5, "comment": "These are my go-to pre-rolls. Always fresh and well-rolled.", "verified": true }
+    ]
+  },
+  {
+    "sku": "vape-live-resin-cart-001",
+    "name": "Live Resin Vape Cart - Blue Dream",
+    "slug": "live-resin-vape-cart-blue-dream",
+    "description": "Our Live Resin Vape Cartridge captures the full spectrum of Blue Dream's terpene profile through a proprietary live resin extraction process. The result is an authentic, flavorful vapor experience with the classic Blue Dream effects: uplifting creativity and gentle relaxation.",
+    "price": 55.00,
+    "compareAtPrice": null,
+    "category": "VAPE_CARTS",
+    "strain": "HYBRID",
+    "thcPercentage": 82.0,
+    "cbdPercentage": 1.5,
+    "weight": "1g",
+    "effects": ["uplifting", "creative", "euphoric", "relaxing"],
+    "terpenes": ["myrcene", "caryophyllene", "pinene"],
+    "images": [
+      "https://images.unsplash.com/photo-1536060316316-2466bda904f1?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 40,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Best cart I've ever used. The live resin flavor is incredible.", "verified": true },
+      { "rating": 5, "comment": "Smooth hits and great effects. No burnt taste at all.", "verified": true },
+      { "rating": 4, "comment": "Very potent. Great for daytime use without getting too couch-locked.", "verified": false }
+    ]
+  },
+  {
+    "sku": "vape-distillate-cart-001",
+    "name": "Distillate Vape Cart - Gelato",
+    "slug": "distillate-vape-cart-gelato",
+    "description": "Our Gelato Distillate Vape Cartridge delivers a clean, consistent experience with strain-specific terpenes reintroduced for authentic Gelato flavor. Crystal-clear distillate at 90%+ THC with no additives or cutting agents. Compatible with standard 510-thread batteries.",
+    "price": 45.00,
+    "compareAtPrice": null,
+    "category": "VAPE_CARTS",
+    "strain": "HYBRID",
+    "thcPercentage": 90.0,
+    "cbdPercentage": 0.5,
+    "weight": "1g",
+    "effects": ["euphoric", "happy", "relaxing", "creative"],
+    "terpenes": ["caryophyllene", "limonene", "linalool"],
+    "images": [
+      "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 55,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Clean and smooth. The Gelato flavor comes through nicely.", "verified": true },
+      { "rating": 5, "comment": "Great value cart. Lasts a long time and hits consistently.", "verified": true }
+    ]
+  },
+  {
+    "sku": "vape-disposable-001",
+    "name": "Disposable Vape Pen - Strawberry Cough",
+    "slug": "disposable-vape-pen-strawberry-cough",
+    "description": "The Strawberry Cough Disposable Vape Pen comes pre-charged and pre-filled with 1g of premium live resin extract. Just open the box and enjoy the sweet strawberry flavor with energetic sativa effects. No charging, no filling — just perfect hits every time.",
+    "price": 35.00,
+    "compareAtPrice": null,
+    "category": "VAPE_CARTS",
+    "strain": "SATIVA",
+    "thcPercentage": 78.0,
+    "cbdPercentage": 1.0,
+    "weight": "1g",
+    "effects": ["energetic", "uplifting", "creative", "focused"],
+    "terpenes": ["myrcene", "caryophyllene", "pinene"],
+    "images": [
+      "https://images.unsplash.com/photo-1606818616001-36b7e4e7e7c7?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 45,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Perfect for on-the-go. Love the strawberry flavor.", "verified": true },
+      { "rating": 5, "comment": "Great daytime pen. The effects are uplifting and clear-headed.", "verified": false }
+    ]
+  },
+  {
+    "sku": "concentrate-live-rosin-001",
+    "name": "Live Rosin - Wedding Cake",
+    "slug": "live-rosin-wedding-cake",
+    "description": "Our premium Wedding Cake Live Rosin is produced through a cold-pressed, solventless extraction method using fresh-frozen whole plant material. This artisanal concentrate preserves the complete terpene profile and cannabinoid spectrum of the Wedding Cake strain, resulting in an unparalleled flavor and potency.",
+    "price": 65.00,
+    "compareAtPrice": null,
+    "category": "CONCENTRATES",
+    "strain": "HYBRID",
+    "thcPercentage": 72.0,
+    "cbdPercentage": 1.0,
+    "weight": "1g",
+    "effects": ["relaxing", "euphoric", "creative", "happy"],
+    "terpenes": ["caryophyllene", "limonene", "myrcene"],
+    "images": [
+      "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 20,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Solventless all the way. The flavor is absolutely incredible.", "verified": true },
+      { "rating": 5, "comment": "Worth every penny. This is the pinnacle of cannabis extracts.", "verified": true }
+    ]
+  },
+  {
+    "sku": "concentrate-wax-001",
+    "name": "Wax Concentrate - Gorilla Glue #4",
+    "slug": "wax-concentrate-gorilla-glue-4",
+    "description": "Our Gorilla Glue #4 Wax Concentrate delivers the legendary GG4 experience in a highly potent, easy-to-handle wax form. The earthy, diesel aroma is intensified in this extract, and the effects are powerfully sedating and euphoric, true to the original strain.",
+    "price": 45.00,
+    "compareAtPrice": null,
+    "category": "CONCENTRATES",
+    "strain": "HYBRID",
+    "thcPercentage": 76.0,
+    "cbdPercentage": 0.5,
+    "weight": "1g",
+    "effects": ["relaxing", "euphoric", "sedating", "happy"],
+    "terpenes": ["caryophyllene", "myrcene", "limonene"],
+    "images": [
+      "https://images.unsplash.com/photo-1616440347437-b1c73416efc2?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 30,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Classic GG4 in wax form. Super sticky and super potent.", "verified": true },
+      { "rating": 4, "comment": "Great consistency and incredible flavor. Highly recommended.", "verified": false }
+    ]
+  },
+  {
+    "sku": "concentrate-shatter-001",
+    "name": "Shatter - Lemon Haze",
+    "slug": "shatter-lemon-haze",
+    "description": "Lemon Haze Shatter is a golden, glass-like concentrate that shatters cleanly and vaporizes beautifully. The bright lemon and citrus terpenes make for a refreshing, uplifting dabbing experience. Ideal for daytime use when you need clarity and motivation.",
+    "price": 40.00,
+    "compareAtPrice": null,
+    "category": "CONCENTRATES",
+    "strain": "SATIVA",
+    "thcPercentage": 80.0,
+    "cbdPercentage": 0.3,
+    "weight": "1g",
+    "effects": ["energetic", "uplifting", "focused", "creative"],
+    "terpenes": ["limonene", "terpinolene", "ocimene"],
+    "images": [
+      "https://images.unsplash.com/photo-1598512752271-33f913a5af13?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 25,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Clean, potent shatter with a beautiful lemon flavor.", "verified": true },
+      { "rating": 5, "comment": "Perfect daytime concentrate. Clear-headed and motivated.", "verified": true }
+    ]
+  },
+  {
+    "sku": "edibles-gummies-001",
+    "name": "THC Gummies - Mixed Berry (10-Pack)",
+    "slug": "thc-gummies-mixed-berry-10-pack",
+    "description": "Our Mixed Berry THC Gummies are crafted with premium cannabis distillate and natural fruit flavors. Each gummy contains precisely 10mg of THC for consistent, predictable dosing. Available in strawberry, blueberry, and blackberry flavors, these vegan gummies are a delicious way to enjoy cannabis.",
+    "price": 25.00,
+    "compareAtPrice": null,
+    "category": "EDIBLES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "100mg total (10 × 10mg)",
+    "effects": ["relaxing", "euphoric", "happy", "sleepy"],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 80,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Delicious gummies with consistent dosing. Great for beginners.", "verified": true },
+      { "rating": 4, "comment": "Love the mixed berry flavors. Effects kick in about an hour.", "verified": true },
+      { "rating": 5, "comment": "Best edibles I've tried. Taste great and work perfectly.", "verified": false }
+    ]
+  },
+  {
+    "sku": "edibles-chocolate-001",
+    "name": "Dark Chocolate Bar - 100mg THC",
+    "slug": "dark-chocolate-bar-100mg-thc",
+    "description": "Our premium Dark Chocolate Cannabis Bar is made with 70% cacao and infused with 100mg of full-spectrum THC distillate. Divided into 10 precisely dosed squares of 10mg each, this artisanal bar delivers a sophisticated cannabis experience alongside rich, complex chocolate flavors.",
+    "price": 30.00,
+    "compareAtPrice": null,
+    "category": "EDIBLES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "100mg total (10 × 10mg)",
+    "effects": ["relaxing", "euphoric", "happy"],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 45,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "The dark chocolate is genuinely gourmet quality. Amazing combo.", "verified": true },
+      { "rating": 4, "comment": "Rich flavor, consistent dosing. My favorite edible on the menu.", "verified": true }
+    ]
+  },
+  {
+    "sku": "edibles-caramels-001",
+    "name": "Cannabis Caramels - Salted Caramel (5-Pack)",
+    "slug": "cannabis-caramels-salted-caramel-5-pack",
+    "description": "These handcrafted Salted Caramel Cannabis Chews bring together the best of artisan candy-making and premium cannabis. Each caramel contains 20mg of THC and boasts a perfect balance of sweet and salty with a smooth, melting texture. 5 caramels per package, 100mg total.",
+    "price": 22.00,
+    "compareAtPrice": null,
+    "category": "EDIBLES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "100mg total (5 × 20mg)",
+    "effects": ["relaxing", "euphoric", "happy"],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1484597819038-c3a35b7ca2a1?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 60,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "These caramels are incredible. Perfect texture and great effects.", "verified": true },
+      { "rating": 4, "comment": "High dose caramels that really work. Be careful with dosing!", "verified": true }
+    ]
+  },
+  {
+    "sku": "edibles-rso-capsules-001",
+    "name": "RSO Capsules - Full Spectrum (30-Count)",
+    "slug": "rso-capsules-full-spectrum-30-count",
+    "description": "Our Full Spectrum RSO (Rick Simpson Oil) Capsules offer a convenient, precise, and discreet way to consume cannabis. Each capsule contains 25mg of full-spectrum RSO, maintaining the complete cannabinoid and terpene profile for maximum therapeutic benefit.",
+    "price": 65.00,
+    "compareAtPrice": null,
+    "category": "EDIBLES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "750mg total (30 × 25mg)",
+    "effects": ["relaxing", "pain-relief", "sleepy", "anti-anxiety"],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1550572017-edd951b55104?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 35,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "These have been game-changing for my chronic pain. So grateful.", "verified": true },
+      { "rating": 5, "comment": "Consistent, precise dosing. The full-spectrum effect is superior.", "verified": true }
+    ]
+  },
+  {
+    "sku": "tincture-cbd-relief-001",
+    "name": "CBD Relief Tincture - 1000mg",
+    "slug": "cbd-relief-tincture-1000mg",
+    "description": "Our CBD Relief Tincture is formulated with broad-spectrum hemp CBD for maximum therapeutic benefit with minimal psychoactivity. Each 30ml bottle contains 1000mg of CBD in an MCT oil base with natural peppermint flavoring. Sublingual administration ensures fast onset and high bioavailability.",
+    "price": 55.00,
+    "compareAtPrice": null,
+    "category": "TINCTURES",
+    "strain": "CBD",
+    "thcPercentage": 0.3,
+    "cbdPercentage": 33.3,
+    "weight": "30ml",
+    "effects": ["anti-anxiety", "pain-relief", "relaxing", "focused"],
+    "terpenes": ["myrcene", "linalool"],
+    "images": [
+      "https://images.unsplash.com/photo-1611517002285-c02c39d8eced?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 40,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "This has helped my anxiety tremendously. No high, just calm.", "verified": true },
+      { "rating": 4, "comment": "Great for daily use. Peppermint flavor is pleasant.", "verified": true }
+    ]
+  },
+  {
+    "sku": "tincture-1to1-001",
+    "name": "1:1 THC:CBD Tincture - 500mg Each",
+    "slug": "1to1-thc-cbd-tincture-500mg",
+    "description": "Our balanced 1:1 THC:CBD Tincture offers the synergistic benefits of both major cannabinoids working in harmony. With 500mg each of THC and CBD in a convenient 30ml dropper bottle, this tincture provides moderate psychoactivity alongside powerful therapeutic effects.",
+    "price": 70.00,
+    "compareAtPrice": null,
+    "category": "TINCTURES",
+    "strain": "HYBRID",
+    "thcPercentage": 1.67,
+    "cbdPercentage": 1.67,
+    "weight": "30ml",
+    "effects": ["relaxing", "pain-relief", "anti-anxiety", "euphoric"],
+    "terpenes": ["myrcene", "caryophyllene", "linalool"],
+    "images": [
+      "https://images.unsplash.com/photo-1584473457493-17c4c24290c5?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 25,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Perfect balance of effects. Great for medical patients.", "verified": true },
+      { "rating": 4, "comment": "The 1:1 ratio is exactly what I needed for pain management.", "verified": false }
+    ]
+  },
+  {
+    "sku": "topical-relief-cream-001",
+    "name": "Cannabis Pain Relief Cream - 500mg",
+    "slug": "cannabis-pain-relief-cream-500mg",
+    "description": "Our Cannabis Pain Relief Cream combines 500mg of full-spectrum CBD with menthol, arnica, and other natural botanical extracts for targeted topical relief. Non-psychoactive when applied topically, this fast-absorbing cream provides localized relief for sore muscles and joints.",
+    "price": 45.00,
+    "compareAtPrice": null,
+    "category": "TOPICALS",
+    "strain": "CBD",
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "60ml",
+    "effects": ["pain-relief", "anti-inflammatory", "relaxing"],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 30,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "This cream is incredible for my arthritis. Real pain relief.", "verified": true },
+      { "rating": 4, "comment": "Works well for muscle soreness after workouts. Absorbs quickly.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-mac1-001",
+    "name": "MAC 1 (Miracle Alien Cookies)",
+    "slug": "mac-1-miracle-alien-cookies",
+    "description": "MAC 1, or Miracle Alien Cookies #1, is one of the most sought-after cannabis strains in the world. Developed by Capulator, this balanced hybrid produces strikingly beautiful buds with amber hairs and a heavy trichome coating. The flavor blends floral, spicy, and diesel notes for a truly unique experience.",
+    "price": 60.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 23.0,
+    "cbdPercentage": 0.4,
+    "weight": "3.5g",
+    "effects": ["euphoric", "creative", "uplifting", "happy"],
+    "terpenes": ["caryophyllene", "limonene", "myrcene"],
+    "images": [
+      "https://images.unsplash.com/photo-1603394630099-fe4ac0f31498?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 12,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Legendary strain for a reason. The most beautiful buds I've seen.", "verified": true },
+      { "rating": 5, "comment": "Worth the premium price. Exceptional in every way.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-runtz-001",
+    "name": "Runtz",
+    "slug": "runtz",
+    "description": "Runtz is the iconic hybrid strain that took the cannabis world by storm. With an irresistibly sweet, candy-like aroma and dense, trichome-coated buds in a rainbow of colors, Runtz delivers a smoothly balanced high that's both energizing and relaxing.",
+    "price": 55.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 24.0,
+    "cbdPercentage": 0.3,
+    "weight": "3.5g",
+    "effects": ["euphoric", "relaxing", "happy", "uplifting"],
+    "terpenes": ["limonene", "myrcene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 22,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "The original and still the best. Perfect candy strain.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-pink-rozay-001",
+    "name": "Pink Rozay",
+    "slug": "pink-rozay",
+    "description": "Pink Rozay is a sophisticated indica-dominant strain reminiscent of the finest rosé wine. The pastel pink hues and sweet berry aroma create an elegant cannabis experience. The effects are calming and euphoric, perfect for unwinding in style.",
+    "price": 52.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "INDICA",
+    "thcPercentage": 22.5,
+    "cbdPercentage": 0.4,
+    "weight": "3.5g",
+    "effects": ["relaxing", "euphoric", "sleepy", "happy"],
+    "terpenes": ["linalool", "myrcene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 18,
+    "featured": false,
+    "reviews": [
+      { "rating": 4, "comment": "Elegant strain with beautiful color and lovely effects.", "verified": true },
+      { "rating": 5, "comment": "Perfect evening strain. Like sippin rosé by the pool.", "verified": false }
+    ]
+  },
+  {
+    "sku": "flower-cereal-milk-001",
+    "name": "Cereal Milk",
+    "slug": "cereal-milk",
+    "description": "Cereal Milk is an iconic Cookies phenotype known for its sweet, creamy flavor reminiscent of the milk left over after a bowl of sugary cereal. This perfectly balanced hybrid delivers a euphoric yet relaxing experience that's both uplifting and mellow.",
+    "price": 55.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 23.8,
+    "cbdPercentage": 0.3,
+    "weight": "3.5g",
+    "effects": ["euphoric", "happy", "relaxing", "creative"],
+    "terpenes": ["caryophyllene", "limonene", "linalool"],
+    "images": [
+      "https://images.unsplash.com/photo-1570879773660-5d49dc0e5fed?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 20,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Exactly as described! Tastes like cereal milk. Incredible.", "verified": true },
+      { "rating": 4, "comment": "Great balanced hybrid. Perfect for social occasions.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-tropicana-cookies-001",
+    "name": "Tropicana Cookies",
+    "slug": "tropicana-cookies",
+    "description": "Tropicana Cookies is a vibrant sativa-dominant hybrid that bursts with bright citrus and tropical fruit flavors. The orange-tinged buds are a visual treat, and the energetic, uplifting effects make this a perfect daytime strain for productivity and creativity.",
+    "price": 50.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "SATIVA",
+    "thcPercentage": 21.3,
+    "cbdPercentage": 0.5,
+    "weight": "3.5g",
+    "effects": ["energetic", "uplifting", "creative", "focused"],
+    "terpenes": ["limonene", "ocimene", "terpinolene"],
+    "images": [
+      "https://images.unsplash.com/photo-1529596736929-7e0e38c12871?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 28,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Bright, citrusy, and uplifting. My favorite sativa.", "verified": true },
+      { "rating": 4, "comment": "Great work strain. Keeps me focused without anxiety.", "verified": true }
+    ]
+  },
+  {
+    "sku": "concentrate-live-resin-001",
+    "name": "Live Resin - Sour Diesel",
+    "slug": "live-resin-sour-diesel",
+    "description": "Sour Diesel Live Resin is extracted from fresh-frozen Sour Diesel plants immediately after harvest to preserve maximum terpene content. The result is a golden, sauce-like concentrate bursting with the classic Sour Diesel fuel and citrus aroma with potent, energetic effects.",
+    "price": 60.00,
+    "compareAtPrice": null,
+    "category": "CONCENTRATES",
+    "strain": "SATIVA",
+    "thcPercentage": 68.0,
+    "cbdPercentage": 0.8,
+    "weight": "1g",
+    "effects": ["energetic", "creative", "uplifting", "focused"],
+    "terpenes": ["myrcene", "limonene", "caryophyllene"],
+    "images": [
+      "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 15,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "The Sour Diesel flavor is unmatched in live resin form. WOW.", "verified": true },
+      { "rating": 4, "comment": "Great sativa concentrate for daytime sessions.", "verified": false }
+    ]
+  },
+  {
+    "sku": "edibles-beverages-thc-001",
+    "name": "THC-Infused Lemonade - 10mg",
+    "slug": "thc-infused-lemonade-10mg",
+    "description": "Our refreshing THC-Infused Lemonade combines real lemon juice with a precise 10mg dose of nano-emulsified THC for fast onset (15-30 minutes vs 1-2 hours for traditional edibles). Available in original, pink lemonade, and sparkling varieties. Low-calorie and delicious.",
+    "price": 8.00,
+    "compareAtPrice": null,
+    "category": "BEVERAGES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "12oz",
+    "effects": ["relaxing", "happy", "uplifting"],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 100,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "Fast-acting and delicious. Perfect for social events.", "verified": true },
+      { "rating": 4, "comment": "Love the nano tech for quick onset. Taste is amazing.", "verified": true }
+    ]
+  },
+  {
+    "sku": "accessory-grinder-001",
+    "name": "4-Piece Herb Grinder - Premium Aluminum",
+    "slug": "4-piece-herb-grinder-premium-aluminum",
+    "description": "Our Premium 4-Piece Aluminum Herb Grinder features aircraft-grade aluminum construction, diamond-cut teeth, a fine mesh kief catcher screen, and a removable pollen scraper. Available in multiple colorways, this grinder is built to last and provides a consistently perfect grind every time.",
+    "price": 35.00,
+    "compareAtPrice": 45.00,
+    "category": "ACCESSORIES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "2.5 inch diameter",
+    "effects": [],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 50,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "Best grinder I've owned. Super smooth and durable.", "verified": true },
+      { "rating": 4, "comment": "Great build quality. The kief catcher is a nice bonus.", "verified": true }
+    ]
+  },
+  {
+    "sku": "accessory-rolling-papers-001",
+    "name": "Raw Organic Hemp Rolling Papers - King Size",
+    "slug": "raw-organic-hemp-rolling-papers-king-size",
+    "description": "RAW Organic Hemp Rolling Papers are made from 100% organic hemp with zero additives or chalk. These unbleached, natural papers feature a patented criss-cross watermark that prevents runs and ensures an even burn. The hemp gum on the sticky strip is also organic. 32 papers per pack.",
+    "price": 4.00,
+    "compareAtPrice": null,
+    "category": "ACCESSORIES",
+    "strain": null,
+    "thcPercentage": null,
+    "cbdPercentage": null,
+    "weight": "32 papers",
+    "effects": [],
+    "terpenes": [],
+    "images": [
+      "https://images.unsplash.com/photo-1543581621-3d96f1161bcc?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 200,
+    "featured": false,
+    "reviews": [
+      { "rating": 5, "comment": "The gold standard of rolling papers. Burns perfectly.", "verified": true }
+    ]
+  },
+  {
+    "sku": "flower-gary-payton-001",
+    "name": "Gary Payton",
+    "slug": "gary-payton",
+    "description": "Gary Payton is an elite, Cookies-bred strain that carries the legacy of the NBA Hall of Famer. These dense, dark green buds with purple undertones produce a diesel and spicy pepper aroma. The high is powerfully euphoric, motivating, and long-lasting — making it a champion among strains.",
+    "price": 60.00,
+    "compareAtPrice": null,
+    "category": "FLOWER",
+    "strain": "HYBRID",
+    "thcPercentage": 25.5,
+    "cbdPercentage": 0.2,
+    "weight": "3.5g",
+    "effects": ["euphoric", "uplifting", "creative", "focused"],
+    "terpenes": ["caryophyllene", "limonene", "myrcene"],
+    "images": [
+      "https://images.unsplash.com/photo-1606818616001-36b7e4e7e7c7?w=800"
+    ],
+    "inStock": true,
+    "stockQuantity": 10,
+    "featured": true,
+    "reviews": [
+      { "rating": 5, "comment": "A championship strain in every way. Absolutely top shelf.", "verified": true },
+      { "rating": 5, "comment": "The Cookies lineage shows. Incredible quality and flavor.", "verified": true }
+    ]
+  }
+]
