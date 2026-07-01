@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { AddToCartButton } from '@/components/cart/AddToCartButton';
 import { Star } from 'lucide-react';
@@ -46,11 +47,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-6">
-        <a href="/shop" className="hover:text-brand-600">Shop</a>
+        <Link href="/shop" className="hover:text-brand-600">Shop</Link>
         <span className="mx-2">/</span>
-        <a href={`/shop?category=${product.category}`} className="hover:text-brand-600 capitalize">
+        <Link href={`/shop?category=${product.category}`} className="hover:text-brand-600 capitalize">
           {product.category.replace(/_/g, ' ').toLowerCase()}
-        </a>
+        </Link>
         <span className="mx-2">/</span>
         <span className="text-gray-900">{product.name}</span>
       </nav>
