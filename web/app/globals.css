@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-background: #0a0a0a;
+  --color-foreground: #f8fafc;
+  --color-muted: #94a3b8;
+  --color-surface: #111827;
+  --color-surface-strong: #1f2937;
+  --color-brand-50: #fefce8;
+  --color-brand-100: #fef9c3;
+  --color-brand-200: #fef08a;
+  --color-brand-300: #fde047;
+  --color-brand-400: #facc15;
+  --color-brand-500: #eab308;
+  --color-brand-600: #ca8a04;
+  --color-brand-700: #a16207;
+  --color-brand-800: #854d0e;
+  --color-brand-900: #713f12;
+}
+
+html.light {
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+  --color-muted: #475569;
+  --color-surface: #ffffff;
+  --color-surface-strong: #e2e8f0;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(234, 179, 8, 0.35);
+}
+
+.page-shell {
+  margin-inline: auto;
+  width: min(1200px, calc(100% - 2rem));
+}
+
+.glass-card {
+  border: 1px solid rgba(250, 204, 21, 0.18);
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.94), rgba(10, 10, 10, 0.96));
+  backdrop-filter: blur(18px);
+}
+
+html.light .glass-card {
+  border-color: rgba(161, 98, 7, 0.16);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.98));
+}
+
+.section-heading {
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
