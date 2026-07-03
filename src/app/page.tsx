@@ -3,7 +3,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { ArrowRight, Star, Shield, Truck, Clock } from "lucide-react";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { ArrowRight, Star, Shield, Truck, Clock, Zap } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +81,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Drop teaser */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <Link
+          href="/drops"
+          className="flex items-center justify-between rounded-2xl border border-amber-500/40 bg-amber-900/10 px-6 py-4 hover:border-amber-500/70 transition-all group"
+        >
+          <div className="flex items-center gap-3">
+            <Zap className="h-6 w-6 text-amber-400" />
+            <div>
+              <p className="text-white font-semibold text-sm sm:text-base">New drops every Tue · Thu · Sat @ 10am</p>
+              <p className="text-gray-400 text-xs sm:text-sm">Be first in line for new arrivals</p>
+            </div>
+          </div>
+          <ArrowRight className="h-5 w-5 text-amber-400 group-hover:translate-x-1 transition-transform shrink-0" />
+        </Link>
+      </section>
+
       {/* Features */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -145,6 +163,11 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
+        <NewsletterSignup />
       </section>
 
       <Footer />

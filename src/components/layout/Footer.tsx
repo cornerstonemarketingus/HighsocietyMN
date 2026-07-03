@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { Leaf, MapPin, Phone, Mail } from "lucide-react";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black mt-20">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* Newsletter */}
+        <div className="mb-12" id="newsletter">
+          <NewsletterSignup />
+        </div>
+
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
@@ -51,14 +57,9 @@ export function Footer() {
                 { href: "/products?category=flower", label: "Flower" },
                 { href: "/products?category=edibles", label: "Edibles" },
                 { href: "/products?category=vapes", label: "Vapes" },
-                {
-                  href: "/products?category=concentrates",
-                  label: "Concentrates",
-                },
-                {
-                  href: "/products?category=beverages",
-                  label: "Beverages",
-                },
+                { href: "/products?category=concentrates", label: "Concentrates" },
+                { href: "/products?category=beverages", label: "Beverages" },
+                { href: "/drops", label: "⚡ Drops" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -72,13 +73,15 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Info */}
+          {/* Community */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
-              Information
+              Community
             </h3>
             <ul className="space-y-2">
               {[
+                { href: "/blog", label: "Blog" },
+                { href: "/forum", label: "Forum" },
                 { href: "/about", label: "About Us" },
                 { href: "/terms", label: "Terms of Service" },
                 { href: "/privacy", label: "Privacy Policy" },

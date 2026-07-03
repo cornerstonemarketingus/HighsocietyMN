@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { AgeVerification } from "@/components/AgeVerification";
+import { ChatWidget } from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: {
@@ -37,6 +38,7 @@ export default function RootLayout({
         <SessionProvider>
           <AgeVerification />
           {children}
+          <ChatWidget />
         </SessionProvider>
       </body>
     </html>

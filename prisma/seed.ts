@@ -203,6 +203,61 @@ async function main() {
   });
   console.log("✓ Admin user: admin@highsocietymn.com / admin1234");
 
+  // Create forum categories
+  const forumCategories = [
+    { name: "General Discussion", slug: "general", description: "Talk about anything cannabis-related", sortOrder: 1 },
+    { name: "Strain Reviews", slug: "strain-reviews", description: "Share your thoughts on strains we carry", sortOrder: 2 },
+    { name: "Tips & Tricks", slug: "tips-tricks", description: "Dosing guides, consumption tips, and best practices", sortOrder: 3 },
+    { name: "Events & Drops", slug: "events", description: "Discuss upcoming drops and store events", sortOrder: 4 },
+    { name: "New Members", slug: "new-members", description: "Introduce yourself to the community", sortOrder: 5 },
+  ];
+
+  for (const cat of forumCategories) {
+    await db.forumCategory.upsert({
+      where: { slug: cat.slug },
+      update: cat,
+      create: cat,
+    });
+    console.log(`✓ Forum category: ${cat.name}`);
+  }
+
+  // Seed a sample blog post
+  const admin = await db.user.findUnique({ where: { email: "admin@highsocietymn.com" } });
+  if (admin) {
+    await db.blogPost.upsert({
+      where: { slug: "welcome-to-high-society-mn" },
+      update: {},
+      create: {
+        title: "Welcome to High Society MN",
+        slug: "welcome-to-high-society-mn",
+        excerpt: "Minnesota's most elevated cannabis experience is officially open. Here's what you need to know.",
+        content: `Minnesota's most elevated cannabis experience is officially here — and we couldn't be more excited to welcome you to High Society MN.
+
+Whether you're a seasoned connoisseur or exploring cannabis for the first time, our mission is simple: provide premium products, honest information, and a welcoming community for every kind of cannabis enthusiast.
+
+**What We Carry**
+
+We stock a curated selection of the finest cannabis products available in Minnesota — from single-origin flower and live rosin concentrates to precisely dosed edibles and fast-acting beverages. Every product on our shelf has been third-party tested and hand-selected by our team.
+
+**Our Drop Schedule**
+
+We believe fresh is best. That's why we do new product drops every Tuesday, Thursday, and Saturday at 10am. Follow our Drops page and sign up for our newsletter to get early alerts.
+
+**The Community**
+
+This forum and blog are for you. Share strain reviews, ask questions, swap tips, and connect with fellow Minnesota cannabis enthusiasts. We're building something special here and we want you to be part of it.
+
+Thanks for being here. Welcome to the High Society.
+
+— The HS MN Team`,
+        published: true,
+        publishedAt: new Date(),
+        authorId: admin.id,
+      },
+    });
+    console.log("✓ Sample blog post created");
+  }
+
   console.log("✅ Seed complete!");
 }
 
