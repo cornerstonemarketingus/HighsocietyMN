@@ -4,15 +4,13 @@ import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black mt-20">
+    <footer className="mt-20 border-t border-white/10 bg-black">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Newsletter */}
         <div className="mb-12" id="newsletter">
           <NewsletterSignup />
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Leaf className="h-6 w-6 text-amber-500" />
@@ -21,15 +19,14 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-gray-400">
-              Premium cannabis dispensary serving Minnesota with luxury
-              products and exceptional service.
+              Premium cannabis delivery boutique serving Saint Paul and Minneapolis with a luxury, discreet experience.
             </p>
             <div className="flex gap-3">
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-amber-400 transition-colors text-sm font-medium"
+                className="text-sm font-medium text-gray-400 transition-colors hover:text-amber-400"
                 aria-label="Instagram"
               >
                 IG
@@ -38,7 +35,7 @@ export function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-amber-400 transition-colors text-sm font-medium"
+                className="text-sm font-medium text-gray-400 transition-colors hover:text-amber-400"
                 aria-label="Facebook"
               >
                 FB
@@ -46,9 +43,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Shop */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Shop
             </h3>
             <ul className="space-y-2">
@@ -64,7 +60,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-amber-400 transition-colors"
+                    className="text-sm text-gray-400 transition-colors hover:text-amber-400"
                   >
                     {link.label}
                   </Link>
@@ -73,9 +69,8 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Community */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
               Community
             </h3>
             <ul className="space-y-2">
@@ -90,7 +85,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-amber-400 transition-colors"
+                    className="text-sm text-gray-400 transition-colors hover:text-amber-400"
                   >
                     {link.label}
                   </Link>
@@ -99,53 +94,49 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
-              Visit Us
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+              Delivery Info
             </h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                 <span className="text-sm text-gray-400">
-                  Minneapolis, MN
+                  Saint Paul & Minneapolis Metro
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-amber-500 shrink-0" />
+                <Phone className="h-4 w-4 shrink-0 text-amber-500" />
                 <a
                   href="tel:+16125550000"
-                  className="text-sm text-gray-400 hover:text-amber-400 transition-colors"
+                  className="text-sm text-gray-400 transition-colors hover:text-amber-400"
                 >
                   (612) 555-0000
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-amber-500 shrink-0" />
+                <Mail className="h-4 w-4 shrink-0 text-amber-500" />
                 <a
                   href="mailto:hello@highsocietymn.com"
-                  className="text-sm text-gray-400 hover:text-amber-400 transition-colors"
+                  className="text-sm text-gray-400 transition-colors hover:text-amber-400"
                 >
                   hello@highsocietymn.com
                 </a>
               </div>
             </div>
-            <div className="text-xs text-gray-500 space-y-1">
-              <p>Mon–Sat: 10am–9pm</p>
-              <p>Sunday: 11am–7pm</p>
+            <div className="space-y-1 text-xs text-gray-500">
+              <p>Delivery windows: Tue · Thu · Sat</p>
+              <p>New drops land at 10am</p>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-8 space-y-4">
+        <div className="mt-12 space-y-4 border-t border-white/10 pt-8">
           <p className="text-center text-xs text-gray-500">
-            ⚠️ Cannabis products are for adults 21+ only. Must show valid ID at
-            pickup. Not for resale. Keep out of reach of children. Use
-            responsibly.
+            ⚠️ Cannabis products are for adults 21+ only. Valid ID required at delivery. Not for resale. Keep out of reach of children. Use responsibly.
           </p>
           <p className="text-center text-xs text-gray-600">
-            © {new Date().getFullYear()} High Society MN. All rights reserved.
-            Licensed Minnesota Cannabis Retailer.
+            © {new Date().getFullYear()} High Society MN. All rights reserved. Licensed Minnesota Cannabis Retailer.
           </p>
         </div>
       </div>

@@ -3,43 +3,42 @@ import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-// Lightweight rule-based fallback when OPENAI_API_KEY is not set
 function ruleBasedResponse(message: string, productSummary: string): string {
   const lower = message.toLowerCase();
   if (lower.includes("hour") || lower.includes("open") || lower.includes("close")) {
-    return "We're open Monday–Saturday 10am–9pm and Sunday 11am–7pm. Stop by and see us!";
+    return "Our team is available Monday–Saturday 10am–9pm and Sunday 11am–7pm, with delivery service available Tuesday, Thursday, and Saturday.";
   }
-  if (lower.includes("pickup") || lower.includes("order")) {
-    return "All orders are available for in-store pickup. Place your order online and we'll have it ready when you arrive — just bring a valid 21+ ID.";
+  if (lower.includes("pickup") || lower.includes("delivery") || lower.includes("order")) {
+    return "High Society MN is delivery-only — no in-person pickup. We deliver on Tuesday, Thursday, and Saturday throughout Saint Paul and the greater Minneapolis–Saint Paul metro area.";
   }
   if (lower.includes("drop") || lower.includes("new product") || lower.includes("restock")) {
-    return "New product drops happen every Tuesday, Thursday, and Saturday at 10am! Keep an eye on our Drops page for what's coming next.";
+    return "New product drops happen every Tuesday, Thursday, and Saturday at 10am. Check our Drops page to see what's landing next.";
   }
   if (lower.includes("thc") || lower.includes("cbd") || lower.includes("potency")) {
-    return "All our products are third-party lab tested. THC and CBD percentages are listed on each product page. We're happy to help you find the right potency for your needs!";
+    return "All our products are third-party lab tested, and THC/CBD percentages are listed on each product page. I can also help you compare potency options for adults 21+.";
   }
   if (lower.includes("discount") || lower.includes("coupon") || lower.includes("promo") || lower.includes("deal")) {
-    return "Sign up for our newsletter to get 10% off your first order! You'll also be the first to hear about new drops and exclusive deals.";
+    return "Sign up for our newsletter to get 10% off your first delivery order and be first to hear about fresh drops and exclusive offers.";
   }
   if (lower.includes("flower")) {
-    return "Our flower selection includes premium sativa, indica, and hybrid strains. Check out the Flower category in our shop for current availability and THC/CBD info.";
+    return "Our flower selection includes premium sativa, indica, and hybrid strains. Browse the Flower category for current availability, terpene profiles, and THC/CBD details.";
   }
   if (lower.includes("edible")) {
-    return "We carry a wide range of edibles — gummies, chocolates, mints, and more. Edibles are precisely dosed for a consistent experience. Start low, go slow!";
+    return "We carry a wide range of edibles including gummies, chocolates, mints, and more. They're precisely dosed for consistency — start low and go slow.";
   }
   if (lower.includes("vape") || lower.includes("cartridge")) {
-    return "Our vape cartridges include live resin and full-spectrum options in sativa, indica, and hybrid blends. Check the Vapes section for current stock.";
+    return "Our vape lineup includes live resin and full-spectrum options across sativa, indica, and hybrid profiles. Check the Vapes section for current inventory.";
   }
   if (lower.includes("concentrate") || lower.includes("wax") || lower.includes("rosin") || lower.includes("shatter")) {
-    return "We carry high-quality concentrates including live rosin, badder, and shatter. These are high-potency products recommended for experienced consumers.";
+    return "We carry premium concentrates including live rosin, badder, and shatter. These are high-potency products best suited for experienced adult consumers.";
   }
   if (lower.includes("product") || lower.includes("available") || lower.includes("sell") || lower.includes("carry")) {
-    return `We carry flower, edibles, vapes, concentrates, beverages, and accessories. Here's a quick overview of our current inventory:\n\n${productSummary}\n\nVisit our Shop page to see everything with prices and details!`;
+    return `We carry flower, edibles, vapes, concentrates, beverages, and accessories. Here's a quick overview of current inventory:\n\n${productSummary}\n\nYou can browse the full menu on our Shop page and place a delivery order for eligible areas.`;
   }
   if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey") || lower.includes("help")) {
-    return "Hey there! 👋 Welcome to High Society MN — Minnesota's premier cannabis dispensary. I can help you with product info, store hours, ordering, and more. What can I help you with today?";
+    return "Hey there! 👋 Welcome to High Society MN. I can help with product recommendations, delivery info, drops, and general cannabis questions for adults 21+. What can I help you with today?";
   }
-  return `Thanks for your question! I'm here to help with product info, store hours, ordering, and more.\n\nWe carry flower, edibles, vapes, concentrates, beverages, and accessories. You can browse our full selection on the Shop page.\n\nIs there something specific I can help you with?`;
+  return `Thanks for your question! I'm here to help with product info, delivery details, drops, and more.\n\nWe carry flower, edibles, vapes, concentrates, beverages, and accessories, and we deliver Tuesday, Thursday, and Saturday across Saint Paul and the greater Minneapolis–Saint Paul metro area.\n\nIs there something specific I can help you with?`;
 }
 
 export async function POST(req: NextRequest) {
@@ -52,7 +51,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "messages required" }, { status: 400 });
     }
 
-    // Fetch product summary for context
     const products = await db.product.findMany({
       where: { published: true, inStock: true },
       include: { category: true },
@@ -72,16 +70,17 @@ export async function POST(req: NextRequest) {
 Your role:
 - Help customers choose the right cannabis products for their needs
 - Answer questions about strains, effects, dosing, and product types
-- Provide information about store hours, ordering, and pickup
+- Provide information about store hours, ordering, and delivery
 - Promote new drops (every Tuesday, Thursday, Saturday at 10am)
 - Mention the newsletter 10% discount when relevant
 - Always remind customers that products are for adults 21+ only
 - Never provide medical advice; direct medical questions to a healthcare provider
 
 Store info:
-- Location: Minneapolis, MN
 - Hours: Mon–Sat 10am–9pm, Sun 11am–7pm
-- Fulfillment: In-store pickup only (bring valid 21+ ID)
+- Fulfillment: Delivery only on Tuesday, Thursday, and Saturday
+- No in-person pickup
+- Delivery available in Saint Paul and the greater Minneapolis-Saint Paul metro area
 - New drops: Every Tuesday, Thursday & Saturday
 
 Current inventory:
@@ -91,26 +90,32 @@ Be warm, professional, and concise. Use cannabis-friendly language but stay lega
 
     const lastUserMessage = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
 
-    // Use OpenAI if key is configured
-    if (process.env.OPENAI_API_KEY) {
-      const { default: OpenAI } = await import("openai");
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    if (process.env.LLM_BASE_URL) {
+      const model = process.env.LLM_MODEL ?? "llama3.2";
+      const baseUrl = process.env.LLM_BASE_URL.replace(/\/$/, "");
 
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages.slice(-10), // keep last 10 turns for context
-        ],
-        max_tokens: 500,
-        temperature: 0.7,
+      const llmRes = await fetch(`${baseUrl}/v1/chat/completions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...messages.slice(-10),
+          ],
+          max_tokens: 500,
+          temperature: 0.7,
+          stream: false,
+        }),
       });
 
-      const reply = completion.choices[0]?.message?.content ?? "Sorry, I couldn't generate a response.";
-      return NextResponse.json({ reply });
+      if (llmRes.ok) {
+        const data = await llmRes.json() as { choices?: Array<{ message?: { content?: string } }> };
+        const reply = data.choices?.[0]?.message?.content ?? "Sorry, I couldn't generate a response.";
+        return NextResponse.json({ reply });
+      }
     }
 
-    // Fallback rule-based response
     const reply = ruleBasedResponse(lastUserMessage, productSummary);
     return NextResponse.json({ reply });
   } catch (err) {
