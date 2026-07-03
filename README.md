@@ -1,6 +1,6 @@
 # High Society MN - Premium Cannabis Dispensary Web Application
 
-A luxury, full-stack cannabis dispensary web application featuring modern eCommerce, customer accounts, AI-powered product discovery, inventory management, a dual-token point system, loyalty rewards, and an administrative dashboard.
+A luxury, full-stack cannabis dispensary web application built with **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS**, **Prisma v7**, and **Auth.js**.
 
 ## 🎯 Vision
 
@@ -9,7 +9,7 @@ Build a luxury, mobile-first dispensary website that feels like Apple meets Nike
 ## ✨ Core Features (MVP)
 
 ### Customer Experience
-- 🔞 21+ Age Verification
+- 🔞 21+ Age Verification gate
 - 📱 Mobile-First Responsive Design
 - ♿ ADA Accessibility Compliance
 - 🚀 Optimized Performance (Core Web Vitals)
@@ -18,115 +18,150 @@ Build a luxury, mobile-first dispensary website that feels like Apple meets Nike
 
 ### Product Management
 - 📦 Product Catalog (Flower, Edibles, Vapes, Concentrates, Beverages, Accessories)
-- 🔎 Search, Sorting & Basic Filtering
-- 📊 Inventory Management (Add, Update, Organize, Bulk Import)
-- 📥 Bulk Ingestion from highsocietymn.com (with data mapping workflow)
-- 🏪 Store Pickup Functionality
+- 🔎 Search, Sorting & Category Filtering
+- 📊 Inventory Management
 
 ### Shopping & Checkout
 - 🛒 Shopping Cart
-- 💳 Secure Stripe Integration (compliant payments)
+- 💳 Secure Stripe Integration
 - 📦 Order Management System
 - 📋 Order Tracking for Customers
 
 ### Admin Dashboard
-- 📦 Product Management & Bulk Import Tools
-- 📊 Inventory Management & Analytics
+- 📦 Product Management
+- 📊 Inventory & Order Management
 - 👥 Customer Management
-- 📋 Order Management
-- 📈 Basic Analytics & Reporting
-
-## ✨ Nice-to-Have Features
-
-- ⭐ Product Reviews & Ratings
-- 💝 Wishlist Functionality
-- 🎁 Dual-Token Loyalty Rewards System
-- 📚 Educational Blog
-- 👥 Community Forum
-- 🤖 AI Agent for Blog Publishing & Forum Moderation
-- 🤖 AI-Powered Product Recommendations
-- 🌙 Dark Mode Support
-- 📊 Advanced Analytics Dashboard
-
-## 🚀 Future Roadmap
-
-- 🚚 Delivery (where legally available)
-- 🔄 Expanded Inventory Workflows
-- 🤖 Advanced Order Automation
-- 💡 Enhanced Personalization & Merchandising
-- 📱 Mobile App (React Native)
+- 📈 Basic Analytics
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- **Framework**: Next.js 15
-- **UI Library**: React 19
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Component Library**: Custom components with shadcn/ui patterns
-
-### Backend
-- **Runtime**: Node.js (via Vercel)
-- **Database**: PostgreSQL
-- **ORM**: Prisma
-- **Authentication**: Auth.js (NextAuth.js)
-- **File Storage**: Cloudinary
-- **Payments**: Stripe API
-
-### DevOps & Deployment
-- **Deployment**: Vercel
-- **Containerization**: Docker & Docker Compose (for local development)
-- **CI/CD**: GitHub Actions
-- **Code Quality**: ESLint, Prettier
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19 + Tailwind CSS v4 |
+| Language | TypeScript 5 |
+| Database | PostgreSQL |
+| ORM | Prisma v7 + `@prisma/adapter-pg` |
+| Auth | Auth.js v5 (NextAuth) |
+| Payments | Stripe |
+| Icons | Lucide React |
+| Deployment | Vercel |
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ and npm/pnpm
-- Docker & Docker Compose (optional, for containerized development)
-- PostgreSQL 14+ (or use Docker Compose)
+- Node.js 18+
+- PostgreSQL 14+ (or a hosted provider like Neon, Supabase, Railway)
 
-### Local Development
+### 1. Install dependencies
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/cornerstonemarketingus/highsocietyMN.git
-   cd highsocietyMN
-   ```
+```bash
+npm install
+```
 
-2. **Install dependencies**
-   ```bash
-   pnpm install
-   # or
-   npm install
-   ```
+### 2. Set up environment variables
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   ```
+```bash
+cp .env.example .env.local
+```
 
-4. **Set up the database**
-   ```bash
-   # Using Docker Compose
-   docker-compose up -d
-   
-   # Run migrations
-   pnpm prisma migrate dev
-   ```
+Edit `.env.local` with your values:
 
-5. **Seed the database (optional)**
-   ```bash
-   pnpm prisma db seed
-   ```
+```env
+DATABASE_URL="******localhost:5432/highsocietymn"
+NEXTAUTH_SECRET="run: openssl rand -base64 32"
+NEXTAUTH_URL="http://localhost:3000"
+STRIPE_SECRET_KEY="sk_test_..."
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+```
 
-6. **Start the development server**
-   ```bash
-   pnpm dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 3. Set up the database
+
+```bash
+npm run db:push    # Push schema to DB
+npm run db:seed    # Seed categories, products, admin user
+```
+
+Default admin credentials after seed:
+- Email: `admin@highsocietymn.com`
+- Password: `admin1234`
+
+### 4. Run locally
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
-**Built with ❤️ for High Society MN**
+## 🚀 Deploying to Vercel (Live Hosting)
+
+1. **Push this branch to GitHub** (done via PR)
+
+2. **Create a Vercel project** at [vercel.com/new](https://vercel.com/new)
+   - Import the `cornerstonemarketingus/HighsocietyMN` repository
+   - Framework preset: **Next.js** (auto-detected)
+
+3. **Add Environment Variables** in Vercel dashboard → Settings → Environment Variables:
+   ```
+   DATABASE_URL          (your PostgreSQL connection string)
+   NEXTAUTH_SECRET       (openssl rand -base64 32)
+   NEXTAUTH_URL          (https://your-domain.vercel.app)
+   STRIPE_SECRET_KEY
+   STRIPE_WEBHOOK_SECRET
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+   ```
+
+4. **Deploy** — Vercel will run `prisma generate && next build` automatically
+
+5. **Run migrations** (one-time, after first deploy):
+   ```bash
+   DATABASE_URL="..." npx prisma db push
+   DATABASE_URL="..." npx tsx prisma/seed.ts
+   ```
+
+6. **Configure Stripe webhook** in Stripe Dashboard → Webhooks:
+   - Endpoint URL: `https://your-domain.vercel.app/api/stripe/webhook`
+   - Events: `checkout.session.completed`
+
+### Recommended PostgreSQL Providers (free tiers available)
+- **[Neon](https://neon.tech)** — Serverless PostgreSQL, generous free tier
+- **[Supabase](https://supabase.com)** — PostgreSQL with extras
+- **[Railway](https://railway.app)** — Simple, developer-friendly
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── (auth)/login       # Login page
+│   ├── (auth)/register    # Register page
+│   ├── (shop)/products    # Product catalog + detail
+│   ├── (shop)/cart        # Shopping cart
+│   ├── (shop)/checkout    # Checkout flow
+│   ├── admin/             # Admin dashboard
+│   └── api/               # API routes (auth, products, cart, orders, stripe)
+├── components/
+│   ├── layout/            # Header, Footer
+│   ├── products/          # ProductCard
+│   ├── ui/                # Button, Input, Badge
+│   └── AgeVerification.tsx
+├── lib/
+│   ├── auth.ts            # Auth.js config
+│   ├── db.ts              # Prisma client
+│   ├── stripe.ts          # Stripe client
+│   └── utils.ts           # Helpers
+└── types/                 # TypeScript declarations
+prisma/
+├── schema.prisma          # Database schema
+└── seed.ts                # Seed data
+```
+
+---
+
+**Built with ❤️ for High Society MN** · Licensed Minnesota Cannabis Retailer
