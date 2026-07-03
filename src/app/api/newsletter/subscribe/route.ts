@@ -29,13 +29,16 @@ export async function POST(req: NextRequest) {
 
     // Generate unique discount code
     let discountCode = generateDiscountCode();
-    // Ensure uniqueness
+    // Ensure uniqueness (collision is extremely unlikely but handle gracefully)
     let attempt = 0;
     while (attempt < 5) {
       const conflict = await db.newsletterSubscriber.findUnique({ where: { discountCode } });
       if (!conflict) break;
       discountCode = generateDiscountCode();
       attempt++;
+      if (attempt === 5) {
+        return NextResponse.json({ error: "Could not generate unique code, please try again." }, { status: 500 });
+      }
     }
 
     const subscriber = await db.newsletterSubscriber.create({

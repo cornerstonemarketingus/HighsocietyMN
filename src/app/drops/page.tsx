@@ -18,16 +18,15 @@ const DROP_DAYS = ["Tuesday", "Thursday", "Saturday"];
 function getUpcomingDropDates(count = 6): Array<{ date: Date; label: string }> {
   const dropDays = [2, 4, 6]; // Tue, Thu, Sat
   const results: Array<{ date: Date; label: string }> = [];
-  const cursor = new Date();
+  const now = new Date();
 
-  while (results.length < count) {
-    cursor.setDate(cursor.getDate() + 1);
-    if (dropDays.includes(cursor.getDay())) {
-      const d = new Date(cursor);
-      d.setHours(10, 0, 0, 0);
+  for (let i = 1; results.length < count && i <= 30; i++) {
+    const candidate = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+    if (dropDays.includes(candidate.getDay())) {
+      candidate.setHours(10, 0, 0, 0);
       results.push({
-        date: d,
-        label: d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }),
+        date: candidate,
+        label: candidate.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }),
       });
     }
   }

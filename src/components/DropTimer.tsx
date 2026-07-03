@@ -17,20 +17,20 @@ const DROP_HOUR = 10; // 10am local time
 
 function getNextDrop(): Date {
   const now = new Date();
-  const next = new Date(now);
+  const dropDays = DROP_DAYS;
 
   for (let i = 1; i <= 7; i++) {
-    next.setDate(now.getDate() + i);
-    if (DROP_DAYS.includes(next.getDay())) {
-      next.setHours(DROP_HOUR, 0, 0, 0);
-      if (next > now) return next;
+    const candidate = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+    if (dropDays.includes(candidate.getDay())) {
+      candidate.setHours(DROP_HOUR, 0, 0, 0);
+      if (candidate > now) return candidate;
     }
   }
 
   // Fallback: 7 days out
-  next.setDate(now.getDate() + 7);
-  next.setHours(DROP_HOUR, 0, 0, 0);
-  return next;
+  const fallback = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  fallback.setHours(DROP_HOUR, 0, 0, 0);
+  return fallback;
 }
 
 function calcTimeLeft(target: Date): TimeLeft {
