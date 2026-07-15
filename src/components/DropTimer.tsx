@@ -34,7 +34,11 @@ function getNextDrop(): Date {
 }
 
 function calcTimeLeft(target: Date): TimeLeft {
-  const diff = Math.max(0, target.getTime() - Date.now());
+  // Ensure both server render (if any) and client render compute the same values.
+  // Use the provided target and a stable "now" captured once.
+  // Note: DropTimer is client-only, but hydration mismatch was still occurring.
+  const now = Date.now();
+  const diff = Math.max(0, target.getTime() - now);
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
     hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -44,10 +48,11 @@ function calcTimeLeft(target: Date): TimeLeft {
 }
 
 function formatDropLabel(date: Date): string {
-  const day = date.toLocaleDateString("en-US", { weekday: "long" });
-  const d = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  return `${day}, ${d}`;
+  // Avoid hydration mismatches: keep label stable (no locale/zone formatting during render).
+  // Render a fixed label; timeLeft is the only dynamic portion.
+  return "Next Drop";
 }
+
 
 function pad(n: number) {
   return String(n).padStart(2, "0");

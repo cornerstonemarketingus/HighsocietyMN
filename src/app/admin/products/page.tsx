@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { db } from "@/lib/db";
+
 import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";

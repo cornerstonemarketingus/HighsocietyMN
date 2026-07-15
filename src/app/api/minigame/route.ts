@@ -13,15 +13,18 @@ export async function POST() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const prisma = db as any;
+  const prisma = db;
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: { tokens: true },
-  }) as { tokens: number } | null;
+  });
+  const tokens = user?.tokens ?? 0;
 
-  if (!user || user.tokens < PLAY_COST) {
+
+  if (tokens < PLAY_COST) {
     return NextResponse.json({ error: "Insufficient tokens" }, { status: 400 });
   }
+
 
   const reels = [
     SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
@@ -58,7 +61,8 @@ export async function POST() {
   const updatedUser = await prisma.user.findUnique({
     where: { id: session.user.id },
     select: { tokens: true },
-  }) as { tokens: number } | null;
+  });
 
   return NextResponse.json({ reels, winTokens, newBalance: updatedUser?.tokens ?? 0 });
+
 }

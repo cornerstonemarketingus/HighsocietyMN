@@ -8,6 +8,15 @@ interface Message {
   content: string;
 }
 
+function sanitizeAssistantContent(content: string) {
+  // Remove internal tool/status chatter that can appear before the final answer.
+  return content
+    .replace(/\bReceived task\b[\s\S]*?(?=\n|\r|$)/gi, "")
+    .replace(/Configure (OPENAI_API_KEY|ANTHROPIC_API_KEY) for full AI responses\.?/gi, "")
+    .trim();
+}
+
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -51,9 +60,10 @@ export function ChatWidget() {
         ...prev,
         {
           role: "assistant",
-          content: data.reply ?? "Sorry, I couldn't get a response. Please try again!",
+            content: sanitizeAssistantContent(data.reply ?? "Sorry, I couldn't get a response. Please try again!"),
         },
       ]);
+
     } catch {
       setMessages((prev) => [
         ...prev,

@@ -10,8 +10,15 @@ export function AgeVerification() {
 
   useEffect(() => {
     const verified = sessionStorage.getItem(AGE_VERIFIED_KEY);
-    if (!verified) setShow(true);
+    if (!verified) {
+      // Schedule on next tick.
+      const t = setTimeout(() => setShow(true), 0);
+      return () => clearTimeout(t);
+    }
   }, []);
+
+
+
 
   function handleVerify() {
     sessionStorage.setItem(AGE_VERIFIED_KEY, "true");

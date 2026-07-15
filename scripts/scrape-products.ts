@@ -1,379 +1,499 @@
-/**
- * Product scraper for www.highsocietymn.com
- *
- * Usage:
- *   npx tsx scripts/scrape-products.ts
- *
- * Output:
- *   scripts/products.json  — array of scraped products ready for import-products.ts
- *
- * The scraper walks the main menu/shop pages and extracts:
- *   name, slug, price, category, brand, description, THC%, CBD%,
- *   images, strain type, effects, flavors
- *
- * If the site is behind Cloudflare or requires JS rendering, set
- * USE_PUPPETEER=1 in your environment and install puppeteer:
- *   npm install --save-dev puppeteer
- */
+/*
+  Scrape products from https://www.highsocietymn.com/shop
 
-import * as fs from "fs";
-import * as path from "path";
-import * as https from "https";
-import * as http from "http";
-import { load as cheerioLoad } from "cheerio";
+  Usage:
+    DATABASE_URL=... npm run scrape:products
+    tsx scripts/scrape-products.ts --dry-run
+*/
 
-const BASE_URL = "https://www.highsocietymn.com";
-const OUT_FILE = path.join(__dirname, "products.json");
+import "dotenv/config";
+import dotenv from "dotenv";
 
-// ── helpers ────────────────────────────────────────────────────────────────
+dotenv.config({ path: ".env.local" });
 
-function fetchHtml(url: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const client = url.startsWith("https") ? https : http;
-    const req = client.get(
-      url,
-      {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (compatible; HighSocietyMN-scraper/1.0; owner-approved)",
-          Accept: "text/html,application/xhtml+xml",
-          "Accept-Language": "en-US,en;q=0.9",
-        },
-      },
-      (res) => {
-        if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-          // follow single redirect
-          fetchHtml(res.headers.location).then(resolve).catch(reject);
-          return;
-        }
-        const chunks: Buffer[] = [];
-        res.on("data", (c: Buffer) => chunks.push(c));
-        res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-      }
-    );
-    req.on("error", reject);
-    req.setTimeout(15_000, () => { req.destroy(); reject(new Error(`Timeout: ${url}`)); });
-  });
-}
+import * as cheerio from "cheerio";
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
+import fs from "node:fs";
+import path from "node:path";
 
-function parsePrice(text: string): number | null {
-  const m = text.match(/\$?([\d,]+\.?\d*)/);
-  return m ? parseFloat(m[1].replace(",", "")) : null;
-}
-
-function parsePercent(text: string): number | null {
-  const m = text.match(/([\d.]+)\s*%/);
-  return m ? parseFloat(m[1]) : null;
-}
-
-// ── category mapping ────────────────────────────────────────────────────────
-
-const CATEGORY_MAP: Record<string, string> = {
-  flower: "flower",
-  pre: "flower",
-  "pre-roll": "flower",
-  edible: "edibles",
-  edibles: "edibles",
-  gummy: "edibles",
-  chocolate: "edibles",
-  vape: "vapes",
-  vapes: "vapes",
-  cartridge: "vapes",
-  cart: "vapes",
-  concentrate: "concentrates",
-  concentrates: "concentrates",
-  wax: "concentrates",
-  shatter: "concentrates",
-  rosin: "concentrates",
-  resin: "concentrates",
-  beverage: "beverages",
-  beverages: "beverages",
-  drink: "beverages",
-  tincture: "accessories",
-  topical: "accessories",
-  accessory: "accessories",
-  accessories: "accessories",
-};
-
-function mapCategory(raw: string): string {
-  const lower = raw.toLowerCase();
-  for (const [key, value] of Object.entries(CATEGORY_MAP)) {
-    if (lower.includes(key)) return value;
-  }
-  return "accessories";
-}
-
-// ── product type ────────────────────────────────────────────────────────────
-
-interface ScrapedProduct {
+type Category = {
   name: string;
   slug: string;
-  categorySlug: string;
-  brand: string | null;
-  description: string | null;
+};
+
+type ProductSeed = {
+  name: string;
+  slug: string;
+  description?: string | null;
+  brand?: string | null;
+  sku?: string | null;
   price: number;
-  comparePrice: number | null;
-  thcContent: number | null;
-  cbdContent: number | null;
-  weight: number | null;
-  strain: string | null;
+  comparePrice?: number | null;
+  images: string[];
+  thcContent?: number | null;
+  cbdContent?: number | null;
+  weight?: number | null;
+  strain?: string | null;
   effects: string[];
   flavors: string[];
-  images: string[];
+  terpenes: string[];
   inStock: boolean;
+  stockQuantity: number;
   featured: boolean;
+  published: boolean;
+  categoryName: string;
+};
+
+function createPrismaClient() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is required");
+  }
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  return new PrismaClient({ adapter } as ConstructorParameters<typeof PrismaClient>[0]);
 }
 
-// ── page discovery ──────────────────────────────────────────────────────────
+function normalizeSlug(input: string) {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
-async function discoverProductUrls(html: string): Promise<string[]> {
-  const $ = cheerioLoad(html);
-  const urls = new Set<string>();
+function cleanText(s: string) {
+  return s.replace(/\s+/g, " ").trim();
+}
 
-  // Common patterns for cannabis e-commerce (Dutchie embeds, WooCommerce, custom)
-  $("a[href]").each((_, el) => {
-    const href = $(el).attr("href") || "";
-    if (
-      href.match(/\/(product|shop|menu|item|cannabis|flower|edible|vape|concentrate)s?\//i) ||
-      href.match(/\/p\/[^/]+/) ||
-      href.match(/product[_-]?id=/i)
-    ) {
-      const abs = href.startsWith("http") ? href : `${BASE_URL}${href.startsWith("/") ? "" : "/"}${href}`;
-      urls.add(abs);
-    }
+function parseMoney(text: string | undefined | null): number | null {
+  if (!text) return null;
+  const cleaned = text.replace(/[^0-9.]/g, "");
+  if (!cleaned) return null;
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parsePercentToNumber(text: string | undefined | null): number | null {
+  if (!text) return null;
+  const m = text.match(/([0-9]+(?:\.[0-9]+)?)/);
+  if (!m) return null;
+  const n = Number(m[1]);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parseWeight(text: string | undefined | null): number | null {
+  if (!text) return null;
+  const m = text.match(/([0-9]+(?:\.[0-9]+)?)\s*g\b/i);
+  if (!m) return null;
+  const n = Number(m[1]);
+  return Number.isFinite(n) ? n : null;
+}
+
+function uniq(arr: string[]) {
+  return Array.from(new Set(arr.map((s) => s.trim()).filter(Boolean)));
+}
+
+async function fetchHtml(url: string) {
+  const res = await fetch(url, {
+    headers: {
+      "user-agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    },
   });
-
-  return Array.from(urls);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+  }
+  return await res.text();
 }
 
-async function findShopPages(): Promise<string[]> {
-  const pages: string[] = [];
-  // Common shop/menu paths for cannabis dispensary sites
-  const candidates = [
-    "/shop",
-    "/menu",
-    "/products",
-    "/cannabis",
-    "/store",
-    "/order",
-    "/dispensary",
+function discoverCategoryLinks(shopHtml: string, baseUrl: string): { category: Category; url: string }[] {
+  const $ = cheerio.load(shopHtml);
+
+  const keywords = [
+    "Budz",
+    "Pre Rolls",
+    "Vape Carts",
+    "Concentrates",
+    "Edibles",
+    "Deep Dizcountz",
+    "Mystery Items",
   ];
 
-  for (const path of candidates) {
-    try {
-      const html = await fetchHtml(`${BASE_URL}${path}`);
-      if (html.length > 500 && !html.includes("404")) {
-        pages.push(`${BASE_URL}${path}`);
-        console.log(`  Found shop page: ${path}`);
-      }
-    } catch {
-      // not found, continue
-    }
-  }
+  const candidates: { label: string; href: string }[] = [];
 
-  return pages;
-}
+  $("a").each((_, a) => {
+    const href = $(a).attr("href");
+    const text = cleanText($(a).text() ?? "");
+    if (!href || !text) return;
 
-// ── product parser ──────────────────────────────────────────────────────────
+    const hit = keywords.find((k) => text.toLowerCase().includes(k.toLowerCase()));
+    if (!hit) return;
 
-function parseProductPage(html: string, url: string): ScrapedProduct | null {
-  const $ = cheerioLoad(html);
-
-  // Name
-  const name =
-    $("h1.product-title, h1.product_title, h1[itemprop='name'], .product-name h1, h1")
-      .first()
-      .text()
-      .trim() ||
-    $("title").text().replace(/ [-–|].*$/, "").trim();
-
-  if (!name) return null;
-
-  // Price — try multiple selectors
-  const priceText =
-    $(".price .amount, .woocommerce-Price-amount, [itemprop='price'], .product-price, .price")
-      .first()
-      .text()
-      .trim();
-  const price = parsePrice(priceText) ?? 0;
-
-  // Compare price (sale)
-  const comparePriceText = $(".price del .amount, .regular-price").first().text().trim();
-  const comparePrice = comparePriceText ? parsePrice(comparePriceText) : null;
-
-  // Category
-  const categoryRaw =
-    $(".product_meta .posted_in a, .product-category, nav.woocommerce-breadcrumb a").last().text().trim() ||
-    url.split("/").slice(-3, -2)[0] ||
-    "accessories";
-  const categorySlug = mapCategory(categoryRaw);
-
-  // Brand
-  const brand =
-    $(".product_meta .brand a, [itemprop='brand'], .product-brand").first().text().trim() ||
-    null;
-
-  // Description
-  const description =
-    $(".woocommerce-product-details__short-description, .product-description, #tab-description, [itemprop='description']")
-      .first()
-      .text()
-      .replace(/\s+/g, " ")
-      .trim()
-      .substring(0, 1000) || null;
-
-  // Images
-  const images: string[] = [];
-  $("img.wp-post-image, .woocommerce-product-gallery img, .product-image img, [itemprop='image']").each((_, el) => {
-    const src =
-      $(el).attr("data-src") ||
-      $(el).attr("data-large_image") ||
-      $(el).attr("src") ||
-      "";
-    if (src && !src.includes("placeholder") && src.startsWith("http")) {
-      images.push(src);
-    }
+    candidates.push({ label: hit, href });
   });
 
-  // THC / CBD — scan full page text
-  const fullText = $("body").text();
-  const thcMatch = fullText.match(/THC[:\s]*([0-9.]+)\s*%/i);
-  const cbdMatch = fullText.match(/CBD[:\s]*([0-9.]+)\s*%/i);
-  const thcContent = thcMatch ? parseFloat(thcMatch[1]) : null;
-  const cbdContent = cbdMatch ? parseFloat(cbdMatch[1]) : null;
+  const seen = new Set<string>();
+  const out: { category: Category; url: string }[] = [];
 
-  // Strain type
-  let strain: string | null = null;
-  const strainMatch = fullText.match(/\b(sativa|indica|hybrid)\b/i);
-  if (strainMatch) strain = strainMatch[1].toLowerCase();
+  for (const c of candidates) {
+    const abs = new URL(c.href, baseUrl).toString();
+    if (seen.has(abs)) continue;
+    seen.add(abs);
 
-  // Weight (grams)
-  const weightMatch = fullText.match(/([0-9.]+)\s*g(?:ram)?s?\b/i);
-  const weight = weightMatch ? parseFloat(weightMatch[1]) : null;
+    out.push({
+      category: { name: c.label, slug: normalizeSlug(c.label) },
+      url: abs,
+    });
+  }
 
-  // Effects — common cannabis effects words
-  const EFFECT_WORDS = ["Relaxed", "Happy", "Euphoric", "Uplifted", "Energetic", "Creative", "Focused", "Sleepy", "Calm", "Giggly", "Talkative", "Tingly", "Aroused", "Hungry"];
-  const effects = EFFECT_WORDS.filter((e) =>
-    new RegExp(`\\b${e}\\b`, "i").test(fullText)
+  return out;
+}
+
+function extractProductLinksFromCategory(html: string, baseUrl: string): { url: string }[] {
+  const $ = cheerio.load(html);
+
+  const links: string[] = [];
+
+  $("a").each((_, a) => {
+    const href = $(a).attr("href");
+    if (!href) return;
+    const abs = new URL(href, baseUrl).toString();
+
+    // site heuristic
+    if (!/\/product-page\//i.test(abs) && !/\/product\//i.test(abs) && !/\/p\//i.test(abs)) {
+      return;
+    }
+
+    links.push(abs);
+  });
+
+  return Array.from(new Set(links)).map((url) => ({ url }));
+}
+
+function parseImages($: cheerio.CheerioAPI, root: cheerio.Cheerio<any>): string[] {
+  const urls: string[] = [];
+  root.find("img").each((_, img: any) => {
+    const src = $(img).attr("src") || $(img).attr("data-src") || $(img).attr("data-lazy-src");
+    if (!src) return;
+    urls.push(String(src));
+  });
+
+  // keep image-like URLs only
+  const withExt = urls.filter((u) => /\.(jpg|jpeg|png|webp|gif)/i.test(u));
+
+  // absolutize relative images where possible
+  return uniq(
+    withExt.map((u) => {
+      try {
+        return new URL(u, "https://www.highsocietymn.com").toString();
+      } catch {
+        return u;
+      }
+    })
   );
+}
 
-  // Flavors
-  const FLAVOR_WORDS = ["Berry", "Sweet", "Citrus", "Lemon", "Orange", "Mango", "Tropical", "Pine", "Earthy", "Woody", "Mint", "Chocolate", "Vanilla", "Floral", "Fruity", "Spicy", "Diesel", "Skunky", "Grape", "Blueberry", "Strawberry", "Watermelon", "Peach", "Herbal"];
-  const flavors = FLAVOR_WORDS.filter((f) =>
-    new RegExp(`\\b${f}\\b`, "i").test(fullText)
-  );
+function extractProductFromDetailsPage(html: string, baseUrl: string): Omit<ProductSeed, "categoryName" | "featured" | "published" | "inStock" | "stockQuantity"> & { effects: string[]; flavors: string[]; terpenes: string[]; inStock: boolean; stockQuantity: number; } {
+  const $ = cheerio.load(html);
 
-  // Stock
-  const inStock = !$(".out-of-stock, .stock.out-of-stock").length;
+  const canonical = $("link[rel='canonical']").attr("href");
+  const currentUrl = canonical ? new URL(canonical, baseUrl).toString() : "";
+
+  const h1 = cleanText($("h1").first().text() ?? "");
+  const name = h1 || cleanText($("meta[property='og:title']").attr("content") ?? "");
+
+  const slugFromUrl = currentUrl
+    ? normalizeSlug(decodeURIComponent(currentUrl.split("/" ).filter(Boolean).pop() ?? name))
+    : normalizeSlug(name);
+
+  const description =
+    cleanText($("meta[name='description']").attr("content") ?? "") || null;
+
+  // brand (best-effort)
+  let brand: string | null = null;
+  const brandText = $("body").text();
+  const brandMatch = brandText.match(/\bBrand\b\s*:?\s*([^\n\r]{1,80})/i);
+  if (brandMatch) brand = cleanText(brandMatch[1]);
+
+  // price (best-effort)
+  const priceText =
+    cleanText($("[data-price], [class*='price'], [id*='price']").first().text() ?? "") ||
+    cleanText($("meta[property='product:price:amount']").attr("content") ?? "");
+  const price = parseMoney(priceText) ?? 0;
+
+  // compare price
+  let comparePrice: number | null = null;
+  const compareText =
+    cleanText($("[class*='compare'], [class*='strike'], del").first().text() ?? "") ||
+    cleanText($("meta[property='product:price:amount']").attr("content") ?? "");
+  comparePrice = parseMoney(compareText);
+
+  // images
+  const gallery = $(".product-gallery, .gallery, main").first();
+  const images = parseImages($, gallery.length ? gallery : $("body"));
+
+  const bodyText = $("body").text();
+
+  const attrs: Record<string, string> = {};
+  $("table tr").each((_, tr) => {
+    const key = cleanText($(tr).find("th, td").first().text() ?? "");
+    const val = cleanText($(tr).find("td").last().text() ?? "");
+    if (key) attrs[key] = val;
+  });
+
+  const thcText = attrs[Object.keys(attrs).find((k) => /thc/i.test(k)) ?? ""] ?? null;
+  const cbdText = attrs[Object.keys(attrs).find((k) => /cbd/i.test(k)) ?? ""] ?? null;
+  const weightText =
+    attrs[Object.keys(attrs).find((k) => /weight|size|g\b/i.test(k)) ?? ""] ?? null;
+
+  const thc = parsePercentToNumber(thcText || (bodyText.match(/THC\s*:?\s*([0-9]+(?:\.[0-9]+)?)\s*%/i) ?? [])[1] || null);
+  const cbd = parsePercentToNumber(cbdText || (bodyText.match(/CBD\s*:?\s*([0-9]+(?:\.[0-9]+)?)\s*%/i) ?? [])[1] || null);
+
+  const strain =
+    attrs[Object.keys(attrs).find((k) => /strain/i.test(k)) ?? ""] ||
+    (bodyText.match(/Strain\s*:?\s*([^\n\r]+?)(?:\n|$)/i) ?? [])[1] ||
+    null;
+
+  const weight = parseWeight(weightText);
+
+  const effects: string[] = [];
+  $(".effects, .product__effects").find("li, span").each((_, el) => {
+    effects.push(cleanText($(el).text() ?? ""));
+    return;
+  });
+
+  const flavors: string[] = [];
+  $(".flavors, .product__flavors").find("li, span").each((_, el) => {
+    flavors.push(cleanText($(el).text() ?? ""));
+    return;
+  });
+
+  const terpenes: string[] = [];
+  $(".terpenes, .product__terpenes").find("li, span").each((_, el) => {
+    terpenes.push(cleanText($(el).text() ?? ""));
+    return;
+  });
+
+
+  const inStock = !/out\s*of\s*stock|sold\s*out|oos/i.test(bodyText);
+  const stockQuantity = inStock ? 0 : 0; // site parsing for quantity not reliably available
 
   return {
     name,
-    slug: slugify(name),
-    categorySlug,
-    brand,
+    slug: slugFromUrl || normalizeSlug(name || "product"),
     description,
+    brand,
+    sku: null,
     price,
     comparePrice,
-    thcContent,
-    cbdContent,
+    images,
+    thcContent: thc,
+    cbdContent: cbd,
     weight,
-    strain,
-    effects: effects.slice(0, 6),
-    flavors: flavors.slice(0, 6),
-    images: images.slice(0, 4),
+    strain: strain ? cleanText(String(strain)) : null,
+    effects: uniq(effects),
+    flavors: uniq(flavors),
+    terpenes: uniq(terpenes),
     inStock,
-    featured: false,
+    stockQuantity,
   };
 }
 
-// ── main ────────────────────────────────────────────────────────────────────
-
 async function main() {
-  console.log("🔍 Scraping products from www.highsocietymn.com ...\n");
+  const args = process.argv.slice(2);
+  const dryRun = args.includes("--dry-run");
+  const concurrencyIdx = args.indexOf("--concurrency");
+  const concurrency = concurrencyIdx !== -1 ? Number(args[concurrencyIdx + 1] ?? "4") : 4;
 
-  // 1. Fetch homepage
-  let homepageHtml: string;
-  try {
-    homepageHtml = await fetchHtml(BASE_URL);
-    console.log("✓ Homepage fetched");
-  } catch (err) {
-    console.error(`✗ Could not reach ${BASE_URL}:`, (err as Error).message);
-    console.error("\nNote: Run this script from your local machine where the site is reachable.");
-    process.exit(1);
+  const baseUrl = "https://www.highsocietymn.com";
+  const shopUrl = `${baseUrl}/shop`;
+
+  const cacheDir = path.join(process.cwd(), ".cache");
+  if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
+
+  const prisma = dryRun ? null : createPrismaClient();
+
+  if (!dryRun && !process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is required (omit --dry-run to write into DB)");
   }
 
-  // 2. Find shop/menu pages
-  const shopPages = await findShopPages();
-  if (!shopPages.length) {
-    shopPages.push(BASE_URL);
+  console.log(`Fetching shop page: ${shopUrl}`);
+  const shopHtml = await fetchHtml(shopUrl);
+  const categoryLinks = discoverCategoryLinks(shopHtml, baseUrl);
+
+  if (!categoryLinks.length) {
+    console.warn("No category links discovered from shop page.");
+    fs.writeFileSync(path.join(cacheDir, "shop.html"), shopHtml, "utf8");
+    return;
   }
 
-  // 3. Collect product URLs from shop pages
-  const productUrls = new Set<string>();
-  for (const page of shopPages) {
-    const html = page === BASE_URL ? homepageHtml : await fetchHtml(page);
-    const found = await discoverProductUrls(html);
-    found.forEach((u) => productUrls.add(u));
+  console.log("Discovered categories:");
+  for (const c of categoryLinks) console.log(`- ${c.category.name} => ${c.url}`);
+
+  const queue: { url: string; category: Category }[] = [];
+
+  for (const c of categoryLinks) {
+    console.log(`Fetching category page: ${c.url}`);
+    const html = await fetchHtml(c.url);
+    fs.writeFileSync(path.join(cacheDir, `${c.category.slug}-category.html`), html, "utf8");
+
+    const productLinks = extractProductLinksFromCategory(html, baseUrl);
+    console.log(`  found ${productLinks.length} product links`);
+
+    for (const p of productLinks) queue.push({ url: p.url, category: c.category });
   }
 
-  // Also try homepage
-  const homeUrls = await discoverProductUrls(homepageHtml);
-  homeUrls.forEach((u) => productUrls.add(u));
+  const seen = new Set<string>();
+  const deduped = queue.filter((q) => {
+    if (seen.has(q.url)) return false;
+    seen.add(q.url);
+    return true;
+  });
 
-  console.log(`\nFound ${productUrls.size} product URL(s) to scrape.\n`);
+  console.log(`Total unique product URLs: ${deduped.length}`);
 
-  if (productUrls.size === 0) {
-    console.warn("⚠  No product URLs discovered. The site may require JavaScript rendering.");
-    console.warn("   Try setting USE_PUPPETEER=1 and installing puppeteer, or manually add URLs");
-    console.warn("   to the MANUAL_PRODUCT_URLS array at the bottom of this file.\n");
-  }
+  const results: { product: ProductSeed; category: Category }[] = [];
+  let idx = 0;
 
-  // 4. Scrape each product page
-  const products: ScrapedProduct[] = [];
-  const slugsSeen = new Set<string>();
+  const workers = Array.from({ length: concurrency }).map(async () => {
+    while (true) {
+      const myIdx = idx++;
+      if (myIdx >= deduped.length) break;
+      const job = deduped[myIdx];
 
-  for (const url of productUrls) {
-    try {
-      console.log(`  Scraping: ${url}`);
-      const html = await fetchHtml(url);
-      const product = parseProductPage(html, url);
+      try {
+        console.log(`[${myIdx + 1}/${deduped.length}] ${job.url}`);
+        const html = await fetchHtml(job.url);
+        const extracted = extractProductFromDetailsPage(html, baseUrl);
 
-      if (product && product.name && product.price > 0) {
-        // de-duplicate by slug
-        let slug = product.slug;
-        let i = 2;
-        while (slugsSeen.has(slug)) {
-          slug = `${product.slug}-${i++}`;
+        const name = cleanText(String(extracted.name ?? ""));
+        if (!name) {
+          console.warn(`  skip: missing product name`);
+          continue;
         }
-        product.slug = slug;
-        slugsSeen.add(slug);
-        products.push(product);
-        console.log(`    ✓ ${product.name} — $${product.price} (${product.categorySlug})`);
-      } else {
-        console.log(`    ⚠  Skipped (no name or price): ${url}`);
-      }
 
-      // polite delay
-      await new Promise((r) => setTimeout(r, 500));
-    } catch (err) {
-      console.warn(`    ✗ Error scraping ${url}:`, (err as Error).message);
+        const price = Number(extracted.price ?? 0);
+        if (!Number.isFinite(price) || price <= 0) {
+          console.warn(`  skip: missing/invalid price for ${name}`);
+          continue;
+        }
+
+        const product: ProductSeed = {
+          name,
+          slug: String(extracted.slug ?? normalizeSlug(name)),
+          description: extracted.description ? String(extracted.description) : null,
+          brand: extracted.brand ? String(extracted.brand) : null,
+          sku: null,
+          price,
+          comparePrice: extracted.comparePrice != null ? Number(extracted.comparePrice) : null,
+          images: (extracted.images ?? []).slice(0, 8),
+          thcContent: extracted.thcContent ?? null,
+          cbdContent: extracted.cbdContent ?? null,
+          weight: extracted.weight ?? null,
+          strain: extracted.strain ?? null,
+          effects: extracted.effects ?? [],
+          flavors: extracted.flavors ?? [],
+          terpenes: extracted.terpenes ?? [],
+          inStock: Boolean(extracted.inStock),
+          stockQuantity: extracted.stockQuantity ?? 0,
+          featured: false,
+          published: true,
+          categoryName: job.category.name,
+        };
+
+        results.push({ product, category: job.category });
+      } catch (e) {
+        console.error(`  error scraping ${job.url}`, e);
+      }
     }
+  });
+
+  await Promise.all(workers);
+
+  console.log(`Scraped ${results.length} products. ${dryRun ? "(dry-run)" : "Writing to DB..."}`);
+
+  if (dryRun) {
+    const outPath = path.join(cacheDir, `scrape-products-dryrun.json`);
+    fs.writeFileSync(outPath, JSON.stringify(results, null, 2), "utf8");
+    console.log(`Dry-run results written: ${outPath}`);
+    return;
   }
 
-  // 5. Write output
-  fs.writeFileSync(OUT_FILE, JSON.stringify(products, null, 2));
-  console.log(`\n✅ Scraped ${products.length} product(s) → ${OUT_FILE}`);
-  console.log('   Run "npm run import:products" to load them into your database.\n');
+  if (!prisma) throw new Error("prisma is null while writing to DB");
+
+  const categoryBySlug = new Map<string, string>();
+
+  for (const r of results) {
+    const cat = r.category;
+
+    let catId = categoryBySlug.get(cat.slug);
+    if (!catId) {
+      const created = await prisma.category.upsert({
+        where: { slug: cat.slug },
+        update: { name: cat.name, slug: cat.slug },
+        create: { name: cat.name, slug: cat.slug, sortOrder: 0 },
+      });
+      catId = created.id;
+      categoryBySlug.set(cat.slug, catId);
+    }
+
+    await prisma.product.upsert({
+      where: { slug: r.product.slug },
+      update: {
+        name: r.product.name,
+        description: r.product.description ?? null,
+        categoryId: catId,
+        brand: r.product.brand ?? null,
+        sku: r.product.sku ?? null,
+        price: r.product.price,
+        comparePrice: r.product.comparePrice ?? null,
+        images: r.product.images,
+        thcContent: r.product.thcContent ?? null,
+        cbdContent: r.product.cbdContent ?? null,
+        weight: r.product.weight ?? null,
+        strain: r.product.strain ?? null,
+        effects: r.product.effects ?? [],
+        flavors: r.product.flavors ?? [],
+        terpenes: r.product.terpenes ?? [],
+        inStock: r.product.inStock,
+        stockQuantity: r.product.stockQuantity ?? 0,
+        featured: r.product.featured,
+        published: r.product.published,
+      },
+      create: {
+        name: r.product.name,
+        slug: r.product.slug,
+        description: r.product.description ?? null,
+        categoryId: catId,
+        brand: r.product.brand ?? null,
+        sku: r.product.sku ?? null,
+        price: r.product.price,
+        comparePrice: r.product.comparePrice ?? null,
+        images: r.product.images,
+        thcContent: r.product.thcContent ?? null,
+        cbdContent: r.product.cbdContent ?? null,
+        weight: r.product.weight ?? null,
+        strain: r.product.strain ?? null,
+        effects: r.product.effects ?? [],
+        flavors: r.product.flavors ?? [],
+        terpenes: r.product.terpenes ?? [],
+        inStock: r.product.inStock,
+        stockQuantity: r.product.stockQuantity ?? 0,
+        featured: r.product.featured,
+        published: r.product.published,
+      },
+    });
+  }
+
+  await prisma.$disconnect();
+  console.log("Done.");
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((e) => {
+  console.error(e);
   process.exit(1);
 });
+

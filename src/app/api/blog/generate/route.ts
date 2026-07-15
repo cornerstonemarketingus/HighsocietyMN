@@ -30,6 +30,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "LLM not configured. Set LLM_BASE_URL env var." }, { status: 503 });
   }
 
+  // NOTE: This endpoint must use ONLY the internal LLM defined by LLM_BASE_URL.
+  // Do not reference OpenAI/Anthropic env vars or SDKs.
+
+
   const model = process.env.LLM_MODEL ?? "llama3.2";
   const baseUrl = process.env.LLM_BASE_URL.replace(/\/$/, "");
 

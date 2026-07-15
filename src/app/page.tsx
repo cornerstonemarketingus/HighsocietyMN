@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
+import { VaultDoors } from "@/components/VaultDoors";
+
 import {
   ArrowRight,
   MapPin,
@@ -320,8 +322,9 @@ export default function HomePage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center justify-start lg:justify-end">
+              <div className="flex flex-col items-center justify-start gap-4 lg:justify-end">
                 <DropTimer />
+                <VaultDoors />
               </div>
             </div>
           </div>

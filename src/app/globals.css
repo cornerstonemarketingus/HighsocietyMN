@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: #000814;
+  --foreground: #eaf2ff;
+  --accent: #3b82f6; /* blue-500 */
+  --accent-2: #60a5fa; /* blue-400 */
 }
 
 body {
@@ -17,9 +19,10 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 158, 11, 0.3);
+  background: rgba(59, 130, 246, 0.35);
   color: #ffffff;
 }
+
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -76,13 +79,16 @@ body {
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(245, 158, 11, 0.1) 50%, transparent 75%);
+  background: linear-gradient(90deg, transparent 25%, rgba(59, 130, 246, 0.12) 50%, transparent 75%);
+
+
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 50%, #F59E0B 100%);
+  background: linear-gradient(135deg, #3B82F6 0%, #93C5FD 50%, #2563EB 100%);
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

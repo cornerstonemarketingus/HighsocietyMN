@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductCard } from "@/components/products/ProductCard";
 import { db } from "@/lib/db";
+
 
 export const dynamic = "force-dynamic";
 
@@ -92,7 +94,7 @@ export default async function ProductsPage({
         {/* Filters */}
         <div className="flex flex-wrap gap-3 mb-8">
           <div className="flex gap-2 flex-wrap">
-            <a
+            <Link
               href="/products"
               className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                 !params.category
@@ -101,9 +103,10 @@ export default async function ProductsPage({
               }`}
             >
               All
-            </a>
+            </Link>
+
             {categories.map((cat) => (
-              <a
+              <Link
                 key={cat.id}
                 href={`/products?category=${cat.slug}`}
                 className={`px-4 py-2 rounded-full text-sm border transition-colors ${
@@ -113,8 +116,9 @@ export default async function ProductsPage({
                 }`}
               >
                 {cat.name}
-              </a>
+              </Link>
             ))}
+
           </div>
         </div>
 
@@ -123,9 +127,10 @@ export default async function ProductsPage({
           {products.length === 0 ? (
             <div className="text-center py-20 space-y-4">
               <p className="text-gray-400 text-lg">No products found.</p>
-              <a href="/products" className="text-amber-400 hover:underline">
+              <Link href="/products" className="text-amber-400 hover:underline">
                 View all products
-              </a>
+              </Link>
+
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">

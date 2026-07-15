@@ -38,7 +38,16 @@ function generateDiscountCode() {
   return `SPIN-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
 }
 
-async function createUniqueDiscountCode(prisma: any) {
+type PrismaLike = {
+  spinResult: {
+    findUnique: (args: { where: { code: string } }) => Promise<{ code: string | null } | null>;
+  };
+};
+
+async function createUniqueDiscountCode(prisma: PrismaLike) {
+
+
+
   for (let attempt = 0; attempt < 20; attempt += 1) {
     const code = generateDiscountCode();
     const existing = await prisma.spinResult.findUnique({ where: { code } });
@@ -50,6 +59,7 @@ async function createUniqueDiscountCode(prisma: any) {
   return `SPIN-${Date.now().toString(36).slice(-5).toUpperCase()}`;
 }
 
+
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -60,7 +70,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "user_mismatch" }, { status: 403 });
     }
 
-    const prisma = db as any;
+    const prisma = db;
 
     if (userId) {
       const user = await prisma.user.findUnique({
@@ -82,8 +92,9 @@ export async function POST(req: NextRequest) {
       ? await createUniqueDiscountCode(prisma)
       : null;
 
-    const spinResult = await prisma.$transaction(async (tx: any) => {
+    const spinResult = await prisma.$transaction(async (tx) => {
       const createdSpinResult = await tx.spinResult.create({
+
         data: {
           userId,
           prize: selectedPrize.prize,

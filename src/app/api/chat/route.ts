@@ -51,19 +51,29 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "messages required" }, { status: 400 });
     }
 
-    const products = await db.product.findMany({
-      where: { published: true, inStock: true },
-      include: { category: true },
-      take: 30,
-      orderBy: { featured: "desc" },
-    });
+    // Important: never hard-fail the chat endpoint when DB isn't ready.
+    let productSummary = "";
+    try {
+      const products = await db.product.findMany({
+        where: { published: true, inStock: true },
+        include: { category: true },
+        take: 30,
+        orderBy: { featured: "desc" },
+      });
 
-    const productSummary = products
-      .map(
-        (p) =>
-          `• ${p.name} (${p.category.name}) — $${p.price}${p.thcContent ? ` | THC: ${p.thcContent}%` : ""}${p.cbdContent ? ` | CBD: ${p.cbdContent}%` : ""}${p.strain ? ` | ${p.strain}` : ""}`
-      )
-      .join("\n");
+      productSummary = products
+        .map(
+          (p) =>
+            `• ${p.name} (${p.category.name}) — $${p.price}${p.thcContent ? ` | THC: ${p.thcContent}%` : ""}${p.cbdContent ? ` | CBD: ${p.cbdContent}%` : ""}${p.strain ? ` | ${p.strain}` : ""}`
+        )
+        .join("\n");
+    } catch (dbErr) {
+      console.warn(
+        "Chat API DB query failed; continuing without inventory:",
+        dbErr
+      );
+      productSummary = "";
+    }
 
     const systemPrompt = `You are a friendly, knowledgeable budtender assistant for High Society MN, Minnesota's premier cannabis dispensary.
 
@@ -88,7 +98,8 @@ ${productSummary}
 
 Be warm, professional, and concise. Use cannabis-friendly language but stay legal and responsible.`;
 
-    const lastUserMessage = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
+    const lastUserMessage =
+      [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
 
     if (process.env.LLM_BASE_URL) {
       const model = process.env.LLM_MODEL ?? "llama3.2";
@@ -110,8 +121,12 @@ Be warm, professional, and concise. Use cannabis-friendly language but stay lega
       });
 
       if (llmRes.ok) {
-        const data = await llmRes.json() as { choices?: Array<{ message?: { content?: string } }> };
-        const reply = data.choices?.[0]?.message?.content ?? "Sorry, I couldn't generate a response.";
+        const data = (await llmRes.json()) as {
+          choices?: Array<{ message?: { content?: string } }>;
+        };
+        const reply =
+          data.choices?.[0]?.message?.content ??
+          "Sorry, I couldn't generate a response.";
         return NextResponse.json({ reply });
       }
     }
@@ -120,6 +135,10 @@ Be warm, professional, and concise. Use cannabis-friendly language but stay lega
     return NextResponse.json({ reply });
   } catch (err) {
     console.error("Chat API error:", err);
-    return NextResponse.json({ error: "Chat service unavailable" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Chat service unavailable" },
+      { status: 500 }
+    );
   }
 }
+

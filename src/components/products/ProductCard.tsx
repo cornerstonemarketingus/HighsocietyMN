@@ -28,9 +28,10 @@ export function ProductCard({
   thcContent,
   inStock,
 }: ProductCardProps) {
-  const imageUrl =
-    images[0] ??
-    "https://images.unsplash.com/photo-1668001201519-1e5bff88bf01?w=400&q=80";
+  const imageUrl = images[0] ?? "https://images.unsplash.com/photo-1668001201519-1e5bff88bf01?w=400&q=80";
+  if (!imageUrl || typeof imageUrl !== "string") {
+    return null;
+  }
 
   return (
     <div className="group relative rounded-xl border border-white/10 bg-white/5 overflow-hidden hover:border-amber-500/50 transition-all duration-300">

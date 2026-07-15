@@ -1,0 +1,61 @@
+Fetching shop page: https://www.highsocietymn.com/shop
+Discovered categories:
+- Budz => https://www.highsocietymn.com/1-oz-flower
+- Pre Rolls => https://www.highsocietymn.com/pre-rolls
+- Vape Carts => https://www.highsocietymn.com/vape-carts
+- Concentrates => https://www.highsocietymn.com/concentrates
+- Edibles => https://www.highsocietymn.com/edibles
+- Deep Dizcountz => https://www.highsocietymn.com/deep-dizcountz
+- Mystery Items => https://www.highsocietymn.com/mystery-items
+- Edibles => https://www.highsocietymn.com/product-page/good-good-edibles-200mg
+- Edibles => https://www.highsocietymn.com/product-page/hash-rosin-edibles
+Fetching category page: https://www.highsocietymn.com/1-oz-flower
+  found 8 product links
+Fetching category page: https://www.highsocietymn.com/pre-rolls
+  found 2 product links
+Fetching category page: https://www.highsocietymn.com/vape-carts
+  found 4 product links
+Fetching category page: https://www.highsocietymn.com/concentrates
+  found 9 product links
+Fetching category page: https://www.highsocietymn.com/edibles
+  found 2 product links
+Fetching category page: https://www.highsocietymn.com/deep-dizcountz
+  found 6 product links
+Fetching category page: https://www.highsocietymn.com/mystery-items
+  found 2 product links
+Fetching category page: https://www.highsocietymn.com/product-page/good-good-edibles-200mg
+  found 0 product links
+Fetching category page: https://www.highsocietymn.com/product-page/hash-rosin-edibles
+  found 0 product links
+Total unique product URLs: 28
+[1/28] https://www.highsocietymn.com/product-page/grandad-s-stash
+[2/28] https://www.highsocietymn.com/product-page/butter-stuff
+[3/28] https://www.highsocietymn.com/product-page/pick-4
+[4/28] https://www.highsocietymn.com/product-page/dante-s-inferno-1-oz
+[5/28] https://www.highsocietymn.com/product-page/glitter-bomb-1oz
+[6/28] https://www.highsocietymn.com/product-page/hells-og-1oz
+[7/28] https://www.highsocietymn.com/product-page/governmint-oasis-1oz
+[8/28] https://www.highsocietymn.com/product-page/gelonade-1-oz-1
+[9/28] https://www.highsocietymn.com/product-page/stiiizy-infused-pre-rolls-1
+[10/28] https://www.highsocietymn.com/product-page/raw-pre-rolls-with-tube
+[11/28] https://www.highsocietymn.com/product-page/switch-v3-doughnuts
+[12/28] https://www.highsocietymn.com/product-page/sweetcarts
+[13/28] https://www.highsocietymn.com/product-page/luigi-2g-with-05-pre-roll
+[14/28] https://www.highsocietymn.com/product-page/folklore-premium-cartridges-with-no-battery
+[15/28] https://www.highsocietymn.com/product-page/mochi-badder
+[16/28] https://www.highsocietymn.com/product-page/drip-diamonds-3-5g
+[17/28] https://www.highsocietymn.com/product-page/gary-peyton-concentrate
+[18/28] https://www.highsocietymn.com/product-page/frosted-flakes-badder
+[19/28] https://www.highsocietymn.com/product-page/kief-hash
+[20/28] https://www.highsocietymn.com/product-page/runtz-baller-jars
+[21/28] https://www.highsocietymn.com/product-page/persy-diamonds-3-5g
+[22/28] https://www.highsocietymn.com/product-page/bubble-hash-rosin-fresca-leche-1
+[23/28] https://www.highsocietymn.com/product-page/bottom-bear-3
+[24/28] https://www.highsocietymn.com/product-page/good-good-edibles-200mg
+[25/28] https://www.highsocietymn.com/product-page/hash-rosin-edibles
+[26/28] https://www.highsocietymn.com/product-page/smalls
+[27/28] https://www.highsocietymn.com/product-page/shake-1oz
+[28/28] https://www.highsocietymn.com/product-page/mystery-item
+Scraped 28 products. Writing to DB (dry-run)...
+Dry-run results written: C:\Users\jmhl3\highsocietymn\.cache\scrape-products-dryrun.json
+Done.

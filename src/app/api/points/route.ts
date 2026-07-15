@@ -10,11 +10,11 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const prisma = db as any;
-  const user = await prisma.user.findUnique({
+  const user = await db.user.findUnique({
     where: { id: session.user.id },
     select: { points: true, tokens: true },
-  }) as { points: number; tokens: number } | null;
+  });
 
   return NextResponse.json(user ?? { points: 0, tokens: 0 });
+
 }

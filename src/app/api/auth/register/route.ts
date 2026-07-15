@@ -6,6 +6,8 @@ import { z } from "zod";
 const RegisterSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
+  phone: z.string().min(7),
+  ageVerified: z.boolean(),
   password: z.string().min(8),
 });
 
@@ -21,7 +23,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, password } = parsed.data;
+    const { name, email, phone, ageVerified, password } = parsed.data;
 
     const existing = await db.user.findUnique({ where: { email } });
     if (existing) {
@@ -33,7 +35,13 @@ export async function POST(req: NextRequest) {
 
     const hashed = await bcrypt.hash(password, 12);
     const user = await db.user.create({
-      data: { name, email, password: hashed },
+      data: {
+        name,
+        email,
+        phone,
+        ageVerified,
+        password: hashed,
+      },
     });
 
     return NextResponse.json(

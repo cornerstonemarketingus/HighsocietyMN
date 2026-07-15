@@ -68,6 +68,22 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
+      {/* Blog / AI */}
+      <div className="border border-white/10 rounded-xl p-5 bg-white/5 space-y-3">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="text-white font-semibold">AI Blog Generator</h2>
+            <p className="text-gray-400 text-sm mt-1">Generate and publish SEO blog posts with the internal LLM.</p>
+          </div>
+          <a
+            href="/admin/blog"
+            className="px-4 py-2 rounded-lg bg-electricpurple-500 text-black font-bold hover:bg-electricpurple-400 transition-colors text-sm"
+          >
+            Open
+          </a>
+        </div>
+      </div>
+
       {/* Recent orders */}
       <div className="border border-white/10 rounded-xl overflow-hidden">
         <div className="p-5 border-b border-white/10">

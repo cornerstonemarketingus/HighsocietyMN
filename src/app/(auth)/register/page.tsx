@@ -12,6 +12,9 @@ export default function RegisterPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [ageVerified] = useState(false);
+
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +27,7 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, phone, ageVerified, password }),
     });
 
     const data = await res.json();
@@ -75,6 +78,13 @@ export default function RegisterPage() {
               required
             />
             <Input
+              type="tel"
+              placeholder="Phone (for delivery confirmations)"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+            <Input
               type="password"
               placeholder="Password (min 8 characters)"
               value={password}
@@ -84,12 +94,18 @@ export default function RegisterPage() {
             />
           </div>
 
+          <div className="space-y-3 rounded-xl border border-white/10 bg-white/5 p-4">
+            <label className="flex items-start gap-3 text-sm text-gray-300">
+              <input type="checkbox" required className="mt-1" />
+              <span>
+                I confirm I am <span className="text-amber-200 font-semibold">21+</span> and agree to our{" "}
+                <Link href="/terms" className="text-amber-400 hover:underline">Terms of Service</Link>.
+              </span>
+            </label>
+          </div>
+
           <p className="text-xs text-gray-500">
-            By creating an account, you confirm you are 21+ and agree to our{" "}
-            <Link href="/terms" className="text-amber-400 hover:underline">
-              Terms of Service
-            </Link>
-            .
+            Delivery-only windows apply: Tue · Thu · Sat.
           </p>
 
           <Button type="submit" className="w-full" disabled={loading}>
