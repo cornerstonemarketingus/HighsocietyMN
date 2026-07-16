@@ -47,7 +47,7 @@ function calcTimeLeft(target: Date): TimeLeft {
   };
 }
 
-function formatDropLabel(date: Date): string {
+function formatDropLabel(): string {
   // Avoid hydration mismatches: keep label stable (no locale/zone formatting during render).
   // Render a fixed label; timeLeft is the only dynamic portion.
   return "Next Drop";
@@ -60,8 +60,6 @@ function pad(n: number) {
 
 export function DropTimer() {
   const [open, setOpen] = useState(false);
-  // Lazy-initialize so the first render already has correct values (avoids setState in effect)
-  const [nextDrop] = useState<Date>(getNextDrop);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => calcTimeLeft(getNextDrop()));
 
   useEffect(() => {
@@ -72,7 +70,7 @@ export function DropTimer() {
     return () => clearInterval(id);
   }, []);
 
-  const dropLabel = formatDropLabel(nextDrop);
+  const dropLabel = formatDropLabel();
 
   return (
     <div className="relative">

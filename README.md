@@ -95,6 +95,20 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### 5. Run quality checks
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+```
+
+Run the full verification pipeline (lint + typecheck + test + build):
+
+```bash
+npm run verify
+```
+
 ---
 
 ## 🚀 Deploying to Vercel (Live Hosting)

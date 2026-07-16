@@ -1,10 +1,10 @@
-  import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
 import { generateOrderNumber } from "@/lib/utils";
 
-export async function POST(_req: NextRequest) {
+export async function POST() {
 
   const session = await auth();
   if (!session?.user?.id) {

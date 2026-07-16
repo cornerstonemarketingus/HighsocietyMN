@@ -173,9 +173,9 @@ function extractProductLinksFromCategory(html: string, baseUrl: string): { url: 
   return Array.from(new Set(links)).map((url) => ({ url }));
 }
 
-function parseImages($: cheerio.CheerioAPI, root: cheerio.Cheerio<any>): string[] {
+function parseImages($: cheerio.CheerioAPI, root: cheerio.Cheerio<import("domhandler").AnyNode>): string[] {
   const urls: string[] = [];
-  root.find("img").each((_, img: any) => {
+  root.find("img").each((_, img) => {
     const src = $(img).attr("src") || $(img).attr("data-src") || $(img).attr("data-lazy-src");
     if (!src) return;
     urls.push(String(src));

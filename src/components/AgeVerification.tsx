@@ -1,28 +1,54 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import {
+  AGE_GATE_COOKIE_NAME,
+  AGE_GATE_COOKIE_VALUE,
+} from "@/lib/age-gate";
 
-const AGE_VERIFIED_KEY = "hs_age_verified";
+function hasAgeVerificationCookie(): boolean {
+  return document.cookie
+    .split(";")
+    .map((part) => part.trim())
+    .some((part) => part === `${AGE_GATE_COOKIE_NAME}=${AGE_GATE_COOKIE_VALUE}`);
+}
 
 export function AgeVerification() {
   const [show, setShow] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const verified = sessionStorage.getItem(AGE_VERIFIED_KEY);
-    if (!verified) {
+    if (!hasAgeVerificationCookie()) {
       // Schedule on next tick.
       const t = setTimeout(() => setShow(true), 0);
       return () => clearTimeout(t);
     }
   }, []);
 
-
-
-
   function handleVerify() {
-    sessionStorage.setItem(AGE_VERIFIED_KEY, "true");
-    setShow(false);
+    setSubmitting(true);
+
+    void (async () => {
+      try {
+        const res = await fetch("/api/age/verify", { method: "POST" });
+        if (!res.ok) {
+          return;
+        }
+
+        setShow(false);
+
+        const params = new URLSearchParams(window.location.search);
+        const returnTo = params.get("returnTo");
+        if (returnTo && returnTo.startsWith("/")) {
+          router.replace(returnTo);
+        }
+      } finally {
+        setSubmitting(false);
+      }
+    })();
   }
 
   function handleDeny() {
@@ -49,6 +75,10 @@ export function AgeVerification() {
             confirm you are of legal age and agree to our{" "}
             <a href="/terms" className="text-amber-400 hover:underline">
               Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="/privacy" className="text-amber-400 hover:underline">
+              Privacy Policy
             </a>
             .
           </p>
@@ -56,9 +86,10 @@ export function AgeVerification() {
           <div className="flex gap-3 pt-2">
             <Button
               onClick={handleVerify}
+              disabled={submitting}
               className="flex-1 bg-amber-500 text-black hover:bg-amber-400 font-bold py-3 text-base"
             >
-              Yes, I&apos;m 21+
+              {submitting ? "Verifying..." : "Yes, I&apos;m 21+"}
             </Button>
             <Button
               onClick={handleDeny}
