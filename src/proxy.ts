@@ -11,7 +11,11 @@ export default auth((req: NextRequest & { auth: { user?: { role?: string } } | n
   const { pathname } = req.nextUrl;
 
   const ageVerified = req.cookies.get(AGE_GATE_COOKIE_NAME)?.value === AGE_GATE_COOKIE_VALUE;
-  const ageProtectedApi = pathname === "/api/spin" || pathname === "/api/points" || pathname === "/api/minigame";
+  const ageProtectedApi =
+    pathname === "/api/spin" ||
+    pathname === "/api/points" ||
+    pathname === "/api/minigame" ||
+    pathname.startsWith("/api/budseeker/");
 
   if ((isAgeGateProtectedPath(pathname) || ageProtectedApi) && !ageVerified) {
     if (pathname.startsWith("/api/")) {
@@ -51,6 +55,8 @@ export const config = {
     "/checkout/:path*",
     "/orders/:path*",
     "/products/:path*",
+    "/budseeker/:path*",
+    "/weed-seeker/:path*",
     "/drops/:path*",
     "/spin/:path*",
     "/blog/:path*",
@@ -59,5 +65,6 @@ export const config = {
     "/api/spin",
     "/api/points",
     "/api/minigame",
+    "/api/budseeker/:path*",
   ],
 };

@@ -16,6 +16,7 @@ const shopLinks = [
 ];
 
 const communityLinks = [
+  { href: "/budseeker", label: "BudSeeker" },
   { href: "/blog", label: "Blog" },
   { href: "/forum", label: "Forum" },
 ];

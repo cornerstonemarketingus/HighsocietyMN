@@ -4,6 +4,8 @@ export const AGE_GATE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 
 const AGE_GATE_PROTECTED_PREFIXES = [
   "/products",
+  "/budseeker",
+  "/weed-seeker",
   "/drops",
   "/spin",
   "/blog",
