@@ -1,6 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { MapPin, Navigation, Phone, Search, Sparkles, Store } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 
 type BudSeekerCategory = "dispensary" | "head_shop" | "cbd" | "thca" | "accessories";
 
@@ -85,255 +88,160 @@ export default function BudSeekerPage() {
   }
 
   return (
-    <div style={{ padding: 24, maxWidth: 1024, margin: "0 auto" }}>
-      <h1 style={{ margin: "10px 0 6px", fontSize: 36 }}>BudSeeker</h1>
-      <p style={{ opacity: 0.8, marginBottom: 18 }}>
-        Weed Seeker discovery module. GPS/ZIP integration is currently a server-side stub while UI and flow are in
-        place.
-      </p>
-
-      <div
-        style={{
-          border: "1px solid rgba(255,255,255,0.12)",
-          background: "rgba(255,255,255,0.04)",
-          borderRadius: 16,
-          padding: 16,
-          marginBottom: 18,
-        }}
-      >
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
-          <button
-            onClick={() => setMode("gps")}
-            style={{
-              padding: "10px 12px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.14)",
-              background: mode === "gps" ? "rgba(139,213,255,0.25)" : "rgba(0,0,0,0.2)",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            GPS
-          </button>
-          <button
-            onClick={() => setMode("zip")}
-            style={{
-              padding: "10px 12px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.14)",
-              background: mode === "zip" ? "rgba(139,213,255,0.25)" : "rgba(0,0,0,0.2)",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            ZIP
-          </button>
-          <button
-            onClick={() => setMode("city")}
-            style={{
-              padding: "10px 12px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.14)",
-              background: mode === "city" ? "rgba(139,213,255,0.25)" : "rgba(0,0,0,0.2)",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            City + State
-          </button>
+    <div className="space-y-8">
+      <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(130deg,rgba(105,242,255,0.12),rgba(255,255,255,0.04),rgba(8,11,17,0.9))] p-8">
+        <div className="absolute -right-24 -top-20 h-72 w-72 rounded-full bg-[#69f2ff]/20 blur-3xl" />
+        <div className="relative space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.25em] text-[#9af7ff]">
+            <Sparkles className="h-3.5 w-3.5" /> Weed Seeker
+          </div>
+          <h1 className="text-4xl font-semibold text-white sm:text-5xl">Find Nearby Cannabis Businesses</h1>
+          <p className="max-w-3xl text-zinc-300">
+            Discover dispensaries, head shops, and specialty stores through GPS, ZIP, or city-based search. This
+            milestone uses a live UI with stubbed nearby data.
+          </p>
         </div>
+      </section>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          {mode === "gps" ? (
-            <div style={{ gridColumn: "span 2" }}>
-              <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
-                <div
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 999,
-                    background:
-                      gpsStatus === "ready" ? "#35d07f" : gpsStatus === "denied" ? "#ff5a77" : "rgba(255,255,255,0.35)",
-                    boxShadow: "0 0 0 6px rgba(53,208,127,0.12)",
-                  }}
-                />
-                <div>
-                  <div style={{ fontWeight: 700 }}>Location consent</div>
-                  <div style={{ opacity: 0.8, fontSize: 13 }}>
-                    {gpsStatus === "idle"
-                      ? "Click \"Use GPS\" to allow geolocation (opt-in)."
-                      : gpsStatus === "requesting"
-                        ? "Requesting GPS..."
-                        : gpsStatus === "ready"
-                          ? `GPS ready${coords ? ` (${coords.lat.toFixed(3)}, ${coords.lng.toFixed(3)})` : ""}`
-                          : "GPS denied/unavailable. Use ZIP or City."}
-                  </div>
-                </div>
-              </div>
-
+      <section className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+          <div className="mb-4 flex gap-2">
+            {[
+              { key: "gps", label: "GPS" },
+              { key: "zip", label: "ZIP" },
+              { key: "city", label: "City" },
+            ].map((option) => (
               <button
-                onClick={requestGps}
-                style={{
-                  width: "100%",
-                  padding: "12px 12px",
-                  borderRadius: 12,
-                  border: "1px solid rgba(139,213,255,0.28)",
-                  background: "linear-gradient(180deg, rgba(139, 213, 255, 0.26), rgba(139, 213, 255, 0.1))",
-                  color: "white",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                }}
+                key={option.key}
+                onClick={() => setMode(option.key as "gps" | "zip" | "city")}
+                className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+                  mode === option.key
+                    ? "border-[#69f2ff]/50 bg-[#69f2ff]/15 text-[#9af7ff]"
+                    : "border-white/15 bg-white/5 text-zinc-300 hover:border-white/30"
+                }`}
               >
-                Use GPS
+                {option.label}
               </button>
-            </div>
-          ) : mode === "zip" ? (
-            <>
-              <div>
-                <label style={{ display: "block", marginBottom: 6, opacity: 0.8 }}>ZIP code</label>
-                <input
-                  value={zip}
-                  onChange={(e) => setZip(e.target.value)}
-                  style={{ width: "100%", padding: 12, borderRadius: 12, border: "1px solid rgba(255,255,255,0.14)" }}
-                />
-              </div>
-              <div>
-                <label style={{ display: "block", marginBottom: 6, opacity: 0.8 }}>Radius (km)</label>
-                <input
-                  type="number"
-                  value={radiusKm}
-                  onChange={(e) => setRadiusKm(Number(e.target.value || 5))}
-                  min={1}
-                  max={50}
-                  style={{ width: "100%", padding: 12, borderRadius: 12, border: "1px solid rgba(255,255,255,0.14)" }}
-                />
-              </div>
-              <div style={{ gridColumn: "span 2" }}>
-                <button
-                  onClick={() => void fetchNearby()}
-                  style={{
-                    width: "100%",
-                    padding: "12px 12px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(139,213,255,0.28)",
-                    background: "linear-gradient(180deg, rgba(139, 213, 255, 0.26), rgba(139, 213, 255, 0.1))",
-                    color: "white",
-                    cursor: "pointer",
-                    fontWeight: 700,
-                  }}
-                >
-                  Search (stub)
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div>
-                <label style={{ display: "block", marginBottom: 6, opacity: 0.8 }}>City</label>
-                <input
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  style={{ width: "100%", padding: 12, borderRadius: 12, border: "1px solid rgba(255,255,255,0.14)" }}
-                />
-              </div>
-              <div>
-                <label style={{ display: "block", marginBottom: 6, opacity: 0.8 }}>Radius (km)</label>
-                <input
-                  type="number"
-                  value={radiusKm}
-                  onChange={(e) => setRadiusKm(Number(e.target.value || 5))}
-                  min={1}
-                  max={50}
-                  style={{ width: "100%", padding: 12, borderRadius: 12, border: "1px solid rgba(255,255,255,0.14)" }}
-                />
-              </div>
-              <div style={{ gridColumn: "span 2" }}>
-                <button
-                  onClick={() => void fetchNearby()}
-                  style={{
-                    width: "100%",
-                    padding: "12px 12px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(139,213,255,0.28)",
-                    background: "linear-gradient(180deg, rgba(139, 213, 255, 0.26), rgba(139, 213, 255, 0.1))",
-                    color: "white",
-                    cursor: "pointer",
-                    fontWeight: 700,
-                  }}
-                >
-                  Search (stub)
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      <div>
-        <h2 style={{ margin: "0 0 10px", fontSize: 20 }}>Nearby places</h2>
-        {loading ? (
-          <div style={{ opacity: 0.8 }}>Loading...</div>
-        ) : filtered.length === 0 ? (
-          <div style={{ opacity: 0.8 }}>No results.</div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            {filtered.map((p) => (
-              <div
-                key={p.id}
-                style={{
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  background: "rgba(255,255,255,0.04)",
-                  borderRadius: 16,
-                  padding: 14,
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
-                  <div style={{ fontWeight: 800 }}>{p.name}</div>
-                  <div style={{ opacity: 0.75, fontSize: 13 }}>{categoryLabel(p.category)}</div>
-                </div>
-                <div style={{ opacity: 0.8, marginTop: 6, fontSize: 13 }}>{p.address}</div>
-                <div style={{ opacity: 0.8, marginTop: 6, fontSize: 13 }}>
-                  {typeof p.distanceKm === "number" ? `${p.distanceKm.toFixed(1)} km` : ""}
-                  {typeof p.rating === "number" ? ` · ★ ${p.rating.toFixed(1)}` : ""}
-                </div>
-                <div style={{ marginTop: 10, opacity: 0.9, fontSize: 13 }}>
-                  Status: <span style={{ color: p.isOpenNow ? "#35d07f" : "#ff5a77", fontWeight: 800 }}>{p.isOpenNow ? "Open now" : "Closed"}</span>
-                </div>
-                <div style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  {p.website ? (
-                    <a
-                      href={p.website}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        padding: "8px 10px",
-                        borderRadius: 12,
-                        border: "1px solid rgba(139,213,255,0.28)",
-                        background: "rgba(139,213,255,0.10)",
-                      }}
-                    >
-                      Website
-                    </a>
-                  ) : null}
-                  {p.phone ? (
-                    <a
-                      href={`tel:${p.phone.replace(/[^\d+]/g, "")}`}
-                      style={{
-                        padding: "8px 10px",
-                        borderRadius: 12,
-                        border: "1px solid rgba(255,255,255,0.14)",
-                        background: "rgba(255,255,255,0.04)",
-                      }}
-                    >
-                      Call
-                    </a>
-                  ) : null}
-                </div>
-              </div>
             ))}
           </div>
-        )}
-      </div>
+
+          {mode === "gps" ? (
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-white/10 bg-black/30 p-4 text-sm text-zinc-300">
+                <p className="font-medium text-white">Location Access</p>
+                <p className="mt-1">
+                  {gpsStatus === "idle"
+                    ? "Click Use GPS to request location access."
+                    : gpsStatus === "requesting"
+                      ? "Requesting GPS..."
+                      : gpsStatus === "ready"
+                        ? `GPS ready${coords ? ` (${coords.lat.toFixed(3)}, ${coords.lng.toFixed(3)})` : ""}`
+                        : "GPS denied or unavailable. Switch to ZIP or City."}
+                </p>
+              </div>
+              <Button className="w-full" onClick={requestGps}>
+                <Navigation className="mr-2 h-4 w-4" /> Use GPS
+              </Button>
+            </div>
+          ) : mode === "zip" ? (
+            <div className="space-y-4">
+              <Input value={zip} onChange={(e) => setZip(e.target.value)} placeholder="ZIP code" />
+              <Input
+                type="number"
+                value={String(radiusKm)}
+                onChange={(e) => setRadiusKm(Number(e.target.value || 5))}
+                min={1}
+                max={50}
+                placeholder="Radius (km)"
+              />
+              <Button className="w-full" onClick={() => void fetchNearby()}>
+                <Search className="mr-2 h-4 w-4" /> Search Nearby
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <Input value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" />
+              <Input
+                type="number"
+                value={String(radiusKm)}
+                onChange={(e) => setRadiusKm(Number(e.target.value || 5))}
+                min={1}
+                max={50}
+                placeholder="Radius (km)"
+              />
+              <Button className="w-full" onClick={() => void fetchNearby()}>
+                <Search className="mr-2 h-4 w-4" /> Search Nearby
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+          <p className="mb-3 text-sm uppercase tracking-[0.22em] text-zinc-400">Nearby Results</p>
+          {loading ? (
+            <p className="text-zinc-300">Loading results...</p>
+          ) : filtered.length === 0 ? (
+            <p className="text-zinc-400">No results yet. Run a search to view nearby businesses.</p>
+          ) : (
+            <div className="space-y-3">
+              {filtered.map((p) => (
+                <article key={p.id} className="rounded-2xl border border-white/10 bg-black/30 p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="font-semibold text-white">{p.name}</p>
+                      <p className="text-xs text-zinc-400">{categoryLabel(p.category)}</p>
+                    </div>
+                    <span className={`text-xs font-semibold ${p.isOpenNow ? "text-emerald-300" : "text-rose-300"}`}>
+                      {p.isOpenNow ? "Open" : "Closed"}
+                    </span>
+                  </div>
+
+                  <div className="mt-3 space-y-1 text-sm text-zinc-300">
+                    <p className="inline-flex items-center gap-2">
+                      <MapPin className="h-3.5 w-3.5 text-[#69f2ff]" /> {p.address}
+                    </p>
+                    <p>
+                      {typeof p.distanceKm === "number" ? `${p.distanceKm.toFixed(1)} km` : ""}
+                      {typeof p.rating === "number" ? ` · Rating ${p.rating.toFixed(1)}` : ""}
+                    </p>
+                  </div>
+
+                  <div className="mt-3 flex gap-2">
+                    {p.website ? (
+                      <a
+                        href={p.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-lg border border-[#69f2ff]/40 bg-[#69f2ff]/12 px-3 py-1.5 text-xs text-[#9af7ff]"
+                      >
+                        Website
+                      </a>
+                    ) : null}
+                    {p.phone ? (
+                      <a
+                        href={`tel:${p.phone.replace(/[^\d+]/g, "")}`}
+                        className="inline-flex items-center gap-1 rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs text-zinc-200"
+                      >
+                        <Phone className="h-3 w-3" /> Call
+                      </a>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-zinc-300">
+        <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-zinc-400">
+          <Store className="h-3.5 w-3.5" /> Roadmap Note
+        </p>
+        <p className="mt-2">
+          Next milestone upgrades this module from stub data to real listings with persistent favorites, claimed
+          profiles, and map/list synchronization.
+        </p>
+      </section>
     </div>
   );
 }

@@ -8,15 +8,15 @@ export interface ButtonProps
 }
 
 const variantClasses = {
-  default: "bg-blue-500 text-white hover:bg-blue-400 font-semibold",
+  default:
+    "bg-[linear-gradient(145deg,#69f2ff,#c3ff5f)] text-black hover:brightness-105 font-semibold shadow-[0_12px_35px_rgba(105,242,255,0.24)]",
 
-  outline:
-    "border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white",
+  outline: "border border-white/20 text-white bg-white/5 hover:bg-white/10 hover:border-[#69f2ff]/50",
 
-  ghost: "text-blue-400 hover:bg-white/10",
+  ghost: "text-[#69f2ff] hover:bg-white/10",
 
   destructive: "bg-red-600 text-white hover:bg-red-500",
-  link: "text-blue-400 underline-offset-4 hover:underline",
+  link: "text-[#69f2ff] underline-offset-4 hover:underline",
 
 };
 
@@ -42,7 +42,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#69f2ff]/70 disabled:pointer-events-none disabled:opacity-50",
           variantClasses[variant],
           sizeClasses[size],
           className

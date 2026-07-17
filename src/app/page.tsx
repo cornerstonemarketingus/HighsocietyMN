@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
@@ -47,37 +48,43 @@ const categories = [
   {
     name: "Flower",
     slug: "flower",
-    emoji: "🌿",
+    image:
+      "https://images.unsplash.com/photo-1603909223429-69bb7101f420?auto=format&fit=crop&w=1200&q=80",
     description: "Velvet-smooth cultivars selected for aroma, nuance, and elevated evenings.",
   },
   {
     name: "Edibles",
     slug: "edibles",
-    emoji: "🍫",
+    image:
+      "https://images.unsplash.com/photo-1514995669114-c1e9311103f8?auto=format&fit=crop&w=1200&q=80",
     description: "Chef-inspired confections with precise dosing and boutique presentation.",
   },
   {
     name: "Vapes",
     slug: "vapes",
-    emoji: "💨",
+    image:
+      "https://images.unsplash.com/photo-1518183214770-9cffbec72538?auto=format&fit=crop&w=1200&q=80",
     description: "Refined terpene-rich cartridges for clean flavor and effortless luxury.",
   },
   {
     name: "Concentrates",
     slug: "concentrates",
-    emoji: "⚗️",
+    image:
+      "https://images.unsplash.com/photo-1459908676235-d5f02a50184b?auto=format&fit=crop&w=1200&q=80",
     description: "High-potency extracts crafted for enthusiasts who appreciate depth.",
   },
   {
     name: "Beverages",
     slug: "beverages",
-    emoji: "🥂",
+    image:
+      "https://images.unsplash.com/photo-1481671703460-040cb8a2d909?auto=format&fit=crop&w=1200&q=80",
     description: "Sparkling, sip-worthy infusions made for polished social rituals.",
   },
   {
     name: "Accessories",
     slug: "accessories",
-    emoji: "✨",
+    image:
+      "https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?auto=format&fit=crop&w=1200&q=80",
     description: "Elegant essentials that complete a curated and discreet experience.",
   },
 ] as const;
@@ -284,23 +291,26 @@ export default function HomePage() {
               <Link
                 key={category.slug}
                 href={`/products?category=${category.slug}`}
-                className="group relative min-h-40 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/50 hover:bg-white/8 hover:shadow-lg hover:shadow-amber-500/20"
+                className="group relative min-h-56 overflow-hidden rounded-[1.75rem] border border-white/15 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#69f2ff]/60 hover:shadow-lg hover:shadow-[#69f2ff]/20"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,158,11,0.18),transparent_35%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="absolute right-5 top-5 text-xs text-zinc-500">0{index + 1}</div>
-                <div className="relative flex h-full flex-col justify-between gap-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-500/10 text-4xl shadow-[0_0_30px_rgba(245,158,11,0.08)] transition-transform duration-300 group-hover:scale-105">
-                      <span>{category.emoji}</span>
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-amber-300/70 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-amber-200" />
-                  </div>
-                  <div>
+                <Image
+                  src={category.image}
+                  alt={`${category.name} collection`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,11,17,0.18),rgba(8,11,17,0.86))]" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(105,242,255,0.22),transparent_42%)] opacity-80" />
+                <div className="absolute right-5 top-5 rounded-full border border-white/20 bg-black/30 px-2.5 py-1 text-xs text-zinc-300">0{index + 1}</div>
+                <div className="relative flex h-full flex-col justify-end gap-3 p-6">
+                  <div className="flex items-end justify-between gap-4">
                     <h3 className="text-2xl font-semibold text-white">{category.name}</h3>
-                    <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-400">
-                      {category.description}
-                    </p>
+                    <ArrowRight className="h-5 w-5 text-[#69f2ff] transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
+                  <p className="max-w-sm text-sm leading-6 text-zinc-200/90">
+                    {category.description}
+                  </p>
                 </div>
               </Link>
             ))}

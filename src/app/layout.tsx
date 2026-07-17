@@ -1,8 +1,21 @@
 import type { Metadata } from "next";
+import { Manrope, Sora } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { AgeVerification } from "@/components/AgeVerification";
 import { ChatWidget } from "@/components/ChatWidget";
+
+const headingFont = Sora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-heading",
+});
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -33,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${headingFont.variable} ${bodyFont.variable}`}>
       <body className="antialiased bg-black text-white font-sans">
         <SessionProvider>
           <AgeVerification />
