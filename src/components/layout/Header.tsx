@@ -6,6 +6,7 @@ import { ShoppingCart, User, Menu, X, Leaf, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { DropTimer } from "@/components/DropTimer";
+import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
 
 const shopLinks = [
   { href: "/products", label: "All Products" },
@@ -16,8 +17,9 @@ const shopLinks = [
 ];
 
 const communityLinks = [
-  { href: "/blog", label: "Blog" },
-  { href: "/forum", label: "Forum" },
+  { href: "/blog", label: "Journal" },
+  { href: "/forum", label: "Member Lounge" },
+  { href: "/rewards", label: "Rewards" },
 ];
 
 export function Header() {
@@ -26,14 +28,14 @@ export function Header() {
   const [communityOpen, setCommunityOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Leaf className="h-7 w-7 text-amber-500" />
-            <span className="text-xl font-bold text-white">
-              High Society <span className="text-amber-500">MN</span>
+            <Leaf className="h-7 w-7 text-indigo-500" />
+            <span className="text-xl font-bold text-slate-950">
+              High Society <span className="text-indigo-500">MN</span>
             </span>
           </Link>
 
@@ -43,7 +45,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 text-sm text-gray-300 hover:text-amber-400 transition-colors rounded-md hover:bg-white/5"
+                className="px-3 py-2 text-sm text-slate-700 hover:text-indigo-400 transition-colors rounded-md hover:bg-slate-50"
               >
                 {link.label}
               </Link>
@@ -54,7 +56,7 @@ export function Header() {
               <button
                 onMouseEnter={() => setCommunityOpen(true)}
                 onMouseLeave={() => setCommunityOpen(false)}
-                className="flex items-center gap-1 px-3 py-2 text-sm text-gray-300 hover:text-amber-400 transition-colors rounded-md hover:bg-white/5"
+                className="flex items-center gap-1 px-3 py-2 text-sm text-slate-700 hover:text-indigo-400 transition-colors rounded-md hover:bg-slate-50"
               >
                 Community <ChevronDown className="h-3.5 w-3.5" />
               </button>
@@ -64,12 +66,12 @@ export function Header() {
                   onMouseLeave={() => setCommunityOpen(false)}
                   className="absolute left-0 top-full pt-1 w-44 z-50"
                 >
-                  <div className="rounded-xl border border-white/10 bg-zinc-900 shadow-xl overflow-hidden">
+                  <div className="rounded-xl border border-slate-200 bg-white shadow-xl overflow-hidden">
                     {communityLinks.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}
-                        className="block px-4 py-3 text-sm text-gray-300 hover:text-amber-400 hover:bg-white/5 transition-colors"
+                        className="block px-4 py-3 text-sm text-slate-700 hover:text-indigo-400 hover:bg-slate-50 transition-colors"
                         onClick={() => setCommunityOpen(false)}
                       >
                         {link.label}
@@ -82,7 +84,7 @@ export function Header() {
 
             <Link
               href="/drops"
-              className="px-3 py-2 text-sm text-amber-400 hover:text-amber-300 transition-colors rounded-md hover:bg-amber-500/10 font-medium"
+              className="px-3 py-2 text-sm text-indigo-400 hover:text-indigo-300 transition-colors rounded-md hover:bg-indigo-500/10 font-medium"
             >
               ⚡ Drops
             </Link>
@@ -90,6 +92,9 @@ export function Header() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
+            <div className="hidden xl:block">
+              <BudSeekerTrigger compact />
+            </div>
             {/* Drop timer — desktop */}
             <div className="hidden lg:block">
               <DropTimer />
@@ -97,7 +102,7 @@ export function Header() {
 
             <Link
               href="/cart"
-              className="relative p-2 text-gray-300 hover:text-amber-400 transition-colors"
+              className="relative p-2 text-slate-700 hover:text-indigo-400 transition-colors"
               aria-label="Cart"
             >
               <ShoppingCart className="h-5 w-5" />
@@ -112,13 +117,14 @@ export function Header() {
                     </Button>
                   </Link>
                 )}
-                <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="p-2 text-gray-300 hover:text-amber-400 transition-colors"
+                <Link
+                  href="/account"
+                  className="p-2 text-slate-700 hover:text-indigo-400 transition-colors"
                   aria-label="Account"
                 >
                   <User className="h-5 w-5" />
-                </button>
+                </Link>
+                <button onClick={() => signOut({ callbackUrl: "/" })} className="hidden text-xs text-slate-500 sm:block">Sign out</button>
               </div>
             ) : (
               <Link href="/login">
@@ -129,7 +135,7 @@ export function Header() {
             )}
 
             <button
-              className="md:hidden p-2 text-gray-300 hover:text-white"
+              className="md:hidden p-2 text-slate-700 hover:text-slate-950"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -145,24 +151,24 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/10 bg-black">
+        <div className="md:hidden border-t border-slate-200 bg-white">
           <div className="px-4 py-4 space-y-1">
             {shopLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-gray-300 hover:text-amber-400 py-2 text-sm"
+                className="block text-slate-700 hover:text-indigo-400 py-2 text-sm"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="border-t border-white/10 my-2" />
+            <div className="border-t border-slate-200 my-2" />
             {communityLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-gray-300 hover:text-amber-400 py-2 text-sm"
+                className="block text-slate-700 hover:text-indigo-400 py-2 text-sm"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -170,7 +176,7 @@ export function Header() {
             ))}
             <Link
               href="/drops"
-              className="block text-amber-400 hover:text-amber-300 py-2 text-sm font-medium"
+              className="block text-indigo-400 hover:text-indigo-300 py-2 text-sm font-medium"
               onClick={() => setMobileOpen(false)}
             >
               ⚡ Drops
@@ -189,4 +195,3 @@ export function Header() {
     </header>
   );
 }
-

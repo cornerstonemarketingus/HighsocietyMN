@@ -56,6 +56,10 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({})) as { userId?: string };
     const userId = session?.user?.id ?? null;
 
+    if (!userId) {
+      return NextResponse.json({ error: "Sign in to spin and save your reward." }, { status: 401 });
+    }
+
     if (body.userId && userId && body.userId !== userId) {
       return NextResponse.json({ error: "user_mismatch" }, { status: 403 });
     }
@@ -95,6 +99,11 @@ export async function POST(req: NextRequest) {
 
       if (userId) {
         const userData: Record<string, unknown> = { spinUsed: true };
+
+        if (selectedPrize.prizeType === "discount") {
+          userData.activeDiscountPercent = selectedPrize.prizeValue;
+          userData.activeDiscountCode = code;
+        }
 
         if (selectedPrize.prizeType === "points") {
           userData.points = { increment: selectedPrize.prizeValue };

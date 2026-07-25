@@ -43,6 +43,11 @@ model User {
   points        Int       @default(0)
   tokens        Int       @default(0)
   spinUsed      Boolean   @default(false)
+  activeDiscountPercent Int @default(0)
+  activeDiscountCode String?
+  referralCode   String?   @unique
+  referredByCode String?
+  referralCount Int       @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -171,6 +176,8 @@ model Order {
   userId            String
   status            OrderStatus       @default(PENDING)
   fulfillmentMethod FulfillmentMethod @default(DELIVERY)
+  scheduledAt       DateTime?
+  deliveryAddress   String?
   subtotal          Float
   tax               Float
   total             Float

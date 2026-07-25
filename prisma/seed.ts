@@ -12,7 +12,7 @@ const categories = [
   { name: "Accessories", slug: "accessories", description: "Tools & essentials", sortOrder: 6 },
 ];
 
-const products = [
+const products: Array<Record<string, any>> = [
   {
     name: "Blue Dream",
     slug: "blue-dream",
@@ -163,6 +163,26 @@ const products = [
   },
 ];
 
+// Current catalog imported from highsocietymn.com on 2026-07-25.
+products.push(
+  { name: "Premium Hash Bar — 2 Grams", slug: "premium-hash-bar-2g", categorySlug: "concentrates", description: "Two-gram premium hash bar from the current High Society MN menu.", brand: "High Society MN", price: 20, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 25, images: [], featured: true },
+  { name: "Pink Runtz", slug: "pink-runtz", categorySlug: "flower", description: "Premium Pink Runtz flower from the current High Society MN menu.", brand: "High Society MN", price: 155, thcContent: null, cbdContent: null, strain: "hybrid", effects: [], flavors: [], stockQuantity: 20, images: [], featured: true },
+  { name: "Pave", slug: "pave", categorySlug: "flower", description: "Premium Pave flower from the current High Society MN menu.", brand: "High Society MN", price: 155, thcContent: null, cbdContent: null, strain: "hybrid", effects: [], flavors: [], stockQuantity: 20, images: [], featured: true },
+  { name: "Strain Specific Smalls", slug: "strain-specific-smalls", categorySlug: "flower", description: "Value-priced strain-specific small buds. Sale price imported from the live menu.", brand: "High Society MN", price: 110, comparePrice: 155, thcContent: null, cbdContent: null, strain: "hybrid", effects: [], flavors: [], stockQuantity: 30, images: [], featured: true },
+  { name: "Mitten Extracts Gummies", slug: "mitten-extracts-gummies", categorySlug: "edibles", description: "Mitten Extracts gummies from the current High Society MN menu.", brand: "Mitten Extracts", price: 10, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 40, images: [], featured: false },
+  { name: "Midwest Extracts Edibles", slug: "midwest-extracts-edibles", categorySlug: "edibles", description: "Vegan and gluten-free edibles from Midwest Extracts.", brand: "Midwest Extracts", price: 10, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 40, images: [], featured: false },
+  { name: "Juice Box Edibles", slug: "juice-box-edibles", categorySlug: "edibles", description: "Juice Box edibles from the current High Society MN menu.", brand: "Juice Box", price: 10, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 40, images: [], featured: false },
+  { name: "Sweetcarts — Summer Edition", slug: "sweetcarts-summer-edition", categorySlug: "vapes", description: "Limited summer-edition Sweetcarts vape.", brand: "Sweetcarts", price: 20, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 25, images: [], featured: true },
+  { name: "MOB", slug: "mob", categorySlug: "flower", description: "Premium MOB flower from the current High Society MN menu.", brand: "High Society MN", price: 155, thcContent: null, cbdContent: null, strain: "indica", effects: [], flavors: [], stockQuantity: 20, images: [], featured: true },
+  { name: "Infuzed by Society — 5 Pack Infused Joints", slug: "infuzed-by-society-five-pack", categorySlug: "flower", description: "Five-pack of infused joints. Limited quantity.", brand: "Infuzed by Society", price: 45, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 15, images: [], featured: true },
+  { name: "A Couple Random Joints", slug: "couple-random-joints", categorySlug: "flower", description: "A rotating pair of pre-rolls selected by High Society MN.", brand: "High Society MN", price: 15, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 25, images: [], featured: false },
+  { name: "Infuzed by Society — Single Infused Blunt", slug: "infuzed-by-society-single-blunt", categorySlug: "flower", description: "Series one single infused blunt. Limited quantity.", brand: "Infuzed by Society", price: 25, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 15, images: [], featured: true },
+  { name: "THC Drinks — Oliphant Brewing", slug: "thc-drinks-oliphant-brewing", categorySlug: "beverages", description: "THC beverage brewed by Oliphant Brewing.", brand: "Oliphant Brewing", price: 20, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 30, images: [], featured: true },
+  { name: "Stiiizy — 1 oz Live Resin Sugar", slug: "stiiizy-live-resin-sugar-1oz", categorySlug: "concentrates", description: "One ounce of live resin sugar from Stiiizy.", brand: "Stiiizy", price: 125, thcContent: null, cbdContent: null, strain: null, effects: [], flavors: [], stockQuantity: 10, images: [], featured: true },
+  { name: "Applez N Bananaz", slug: "applez-n-bananaz", categorySlug: "flower", description: "Premium Applez N Bananaz flower from the current menu.", brand: "High Society MN", price: 155, thcContent: null, cbdContent: null, strain: "hybrid", effects: [], flavors: [], stockQuantity: 20, images: [], featured: false },
+  { name: "Biscotti", slug: "biscotti", categorySlug: "flower", description: "Potent Biscotti flower from the current High Society MN menu.", brand: "High Society MN", price: 155, thcContent: null, cbdContent: null, strain: "indica", effects: [], flavors: [], stockQuantity: 20, images: [], featured: false },
+);
+
 async function main() {
   console.log("🌱 Seeding database...");
 
@@ -183,8 +203,8 @@ async function main() {
     const { categorySlug, ...productData } = product;
     await db.product.upsert({
       where: { slug: product.slug },
-      update: { ...productData, categoryId: categoryMap[categorySlug] },
-      create: { ...productData, categoryId: categoryMap[categorySlug], inStock: true, published: true },
+      update: { ...productData, categoryId: categoryMap[categorySlug] } as any,
+      create: { ...productData, categoryId: categoryMap[categorySlug], inStock: true, published: true } as any,
     });
     console.log(`✓ Product: ${product.name}`);
   }

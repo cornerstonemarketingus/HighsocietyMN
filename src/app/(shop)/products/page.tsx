@@ -74,17 +74,17 @@ export default async function ProductsPage({
   ]);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <Header />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">
+          <h1 className="text-3xl font-bold text-slate-950">
             {params.category
               ? categories.find((c) => c.slug === params.category)?.name ??
                 "Products"
               : "All Products"}
           </h1>
-          <p className="text-gray-400 mt-1">
+          <p className="text-slate-600 mt-1">
             {products.length} product{products.length !== 1 ? "s" : ""} available
           </p>
         </div>
@@ -96,8 +96,8 @@ export default async function ProductsPage({
               href="/products"
               className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                 !params.category
-                  ? "bg-amber-500 text-black border-amber-500 font-medium"
-                  : "border-white/20 text-gray-300 hover:border-amber-500/50"
+                  ? "bg-indigo-500 text-black border-indigo-500 font-medium"
+                  : "border-slate-300 text-slate-700 hover:border-indigo-500/50"
               }`}
             >
               All
@@ -108,8 +108,8 @@ export default async function ProductsPage({
                 href={`/products?category=${cat.slug}`}
                 className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                   params.category === cat.slug
-                    ? "bg-amber-500 text-black border-amber-500 font-medium"
-                    : "border-white/20 text-gray-300 hover:border-amber-500/50"
+                    ? "bg-indigo-500 text-black border-indigo-500 font-medium"
+                    : "border-slate-300 text-slate-700 hover:border-indigo-500/50"
                 }`}
               >
                 {cat.name}
@@ -119,11 +119,11 @@ export default async function ProductsPage({
         </div>
 
         {/* Grid */}
-        <Suspense fallback={<div className="text-gray-400">Loading...</div>}>
+        <Suspense fallback={<div className="text-slate-600">Loading...</div>}>
           {products.length === 0 ? (
             <div className="text-center py-20 space-y-4">
-              <p className="text-gray-400 text-lg">No products found.</p>
-              <a href="/products" className="text-amber-400 hover:underline">
+              <p className="text-slate-600 text-lg">No products found.</p>
+              <a href="/products" className="text-indigo-400 hover:underline">
                 View all products
               </a>
             </div>

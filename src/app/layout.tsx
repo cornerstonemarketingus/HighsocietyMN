@@ -33,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="antialiased bg-black text-white font-sans">
+    <html lang="en">
+      <body className="antialiased bg-slate-50 text-slate-950 font-sans">
         <SessionProvider>
           <AgeVerification />
           {children}

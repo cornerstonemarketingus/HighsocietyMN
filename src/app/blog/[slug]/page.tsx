@@ -38,13 +38,13 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <Header />
       <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         {/* Back */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-400 transition-colors text-sm mb-8"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-indigo-400 transition-colors text-sm mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Blog
         </Link>
@@ -59,8 +59,8 @@ export default async function BlogPostPage({
           />
         )}
         {!post.image && (
-          <div className="w-full h-40 rounded-2xl mb-8 bg-gradient-to-br from-amber-900/30 to-black/60 flex items-center justify-center">
-            <BookOpen className="h-14 w-14 text-amber-800" />
+          <div className="w-full h-40 rounded-2xl mb-8 bg-gradient-to-br from-indigo-900/30 to-black/60 flex items-center justify-center">
+            <BookOpen className="h-14 w-14 text-indigo-800" />
           </div>
         )}
 
@@ -76,26 +76,26 @@ export default async function BlogPostPage({
           )}
           <div>
             {post.author.name && (
-              <p className="text-sm text-white font-medium">{post.author.name}</p>
+              <p className="text-sm text-slate-950 font-medium">{post.author.name}</p>
             )}
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-slate-500">
               {post.publishedAt ? formatDate(post.publishedAt) : formatDate(post.createdAt)}
             </p>
           </div>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold text-slate-950 mb-4 leading-tight">
           {post.title}
         </h1>
 
         {post.excerpt && (
-          <p className="text-gray-400 text-lg mb-8 border-l-2 border-amber-500 pl-4">
+          <p className="text-slate-600 text-lg mb-8 border-l-2 border-indigo-500 pl-4">
             {post.excerpt}
           </p>
         )}
 
         {/* Content */}
-        <div className="prose prose-invert prose-amber max-w-none text-gray-300 leading-relaxed whitespace-pre-wrap">
+        <div className="prose prose-indigo max-w-none text-slate-700 leading-relaxed whitespace-pre-wrap">
           {post.content}
         </div>
       </main>

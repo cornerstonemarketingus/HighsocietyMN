@@ -1,71 +1,76 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
-export const dynamic = "force-dynamic";
+type CartItem = { id: string; quantity: number; product: { name: string; price: number } };
 
 export default function CheckoutPage() {
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [method, setMethod] = useState<"DELIVERY" | "PICKUP">("DELIVERY");
+  const [scheduledAt, setScheduledAt] = useState("");
+  const [address, setAddress] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/cart").then((r) => r.ok ? r.json() : { items: [] }).then((data) => setItems(data.items ?? []));
+  }, []);
+  const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [items]);
+
+  async function checkout() {
+    setLoading(true);
+    setError("");
+    const response = await fetch("/api/stripe/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fulfillmentMethod: method, scheduledAt, deliveryAddress: address }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (response.ok && data.url) window.location.href = data.url;
+    else setError(data.error || "Checkout could not be started.");
+    setLoading(false);
+  }
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-slate-50">
       <Header />
-      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-white mb-8">Checkout</h1>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-6">
-            <div className="border border-white/10 rounded-xl p-6 space-y-4">
-              <h2 className="text-white font-semibold text-lg">
-                Contact Information
-              </h2>
-              <div className="space-y-3">
-                <Input type="text" placeholder="Full Name" />
-                <Input type="email" placeholder="Email Address" />
-                <Input type="tel" placeholder="Phone Number" />
+      <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+        <h1 className="mb-8 text-4xl font-semibold text-slate-950">Schedule and checkout</h1>
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div>
+              <h2 className="text-lg font-semibold">Fulfillment</h2>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                {(["DELIVERY", "PICKUP"] as const).map((option) => (
+                  <button key={option} onClick={() => setMethod(option)}
+                    className={`rounded-xl border p-4 text-left ${method === option ? "border-indigo-600 bg-indigo-50 text-indigo-800" : "border-slate-200"}`}>
+                    <span className="font-semibold">{option === "DELIVERY" ? "Delivery" : "Pickup"}</span>
+                  </button>
+                ))}
               </div>
             </div>
-
-            <div className="border border-white/10 rounded-xl p-6 space-y-4">
-              <h2 className="text-white font-semibold text-lg">
-                Fulfillment Method
-              </h2>
-              <div className="border border-amber-500/50 rounded-lg p-4 bg-amber-500/5">
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 rounded-full bg-amber-500 flex-shrink-0" />
-                  <div>
-                    <p className="text-white font-medium">Store Pickup</p>
-                    <p className="text-gray-400 text-sm">
-                      Ready within 1–2 hours. Must show valid ID (21+).
-                    </p>
-                  </div>
-                </div>
-              </div>
+            {method === "DELIVERY" && <Input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Delivery address" />}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">Preferred date and time</label>
+              <Input type="datetime-local" value={scheduledAt} onChange={(e) => setScheduledAt(e.target.value)} />
             </div>
+            <p className="text-sm text-slate-500">Delivery windows follow current High Society MN availability. The team will confirm your selected time.</p>
           </div>
-
-          <div className="border border-white/10 rounded-xl p-6 space-y-4 h-fit">
-            <h2 className="text-white font-semibold text-lg">Order Summary</h2>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between text-gray-400">
-                <span>Subtotal</span>
-                <span>$0.00</span>
-              </div>
-              <div className="flex justify-between text-gray-400">
-                <span>Tax (8.875%)</span>
-                <span>$0.00</span>
-              </div>
-              <div className="border-t border-white/10 pt-2 flex justify-between text-white font-bold text-base">
-                <span>Total</span>
-                <span>$0.00</span>
-              </div>
+          <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-semibold">Order summary</h2>
+            <div className="mt-4 space-y-3">
+              {items.map((item) => <div key={item.id} className="flex justify-between text-sm"><span>{item.quantity} × {item.product.name}</span><span>${(item.quantity * item.product.price).toFixed(2)}</span></div>)}
             </div>
-            <Button size="lg" className="w-full" disabled>
-              Proceed to Payment
+            <div className="mt-5 border-t border-slate-200 pt-4"><div className="flex justify-between font-semibold"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div><p className="mt-2 text-xs text-slate-500">Any wheel discount is applied securely before Stripe payment.</p></div>
+            {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+            <Button className="mt-5 w-full" size="lg" onClick={checkout} disabled={loading || items.length === 0 || !scheduledAt || (method === "DELIVERY" && !address)}>
+              {loading ? "Opening payment…" : "Continue to secure payment"}
             </Button>
-            <p className="text-xs text-gray-500 text-center">
-              Secure checkout powered by Stripe
-            </p>
-          </div>
+          </aside>
         </div>
       </main>
       <Footer />

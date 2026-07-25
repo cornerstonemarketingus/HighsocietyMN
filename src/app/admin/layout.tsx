@@ -14,15 +14,15 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-black flex">
+    <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-white/10 bg-black shrink-0 hidden md:flex flex-col">
-        <div className="p-6 border-b border-white/10">
+      <aside className="w-64 border-r border-slate-200 bg-white shrink-0 hidden md:flex flex-col">
+        <div className="p-6 border-b border-slate-200">
           <Link href="/" className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-amber-500" />
+            <Leaf className="h-6 w-6 text-indigo-500" />
             <div>
-              <p className="text-white font-bold text-sm">High Society MN</p>
-              <p className="text-gray-500 text-xs">Admin Dashboard</p>
+              <p className="text-slate-950 font-bold text-sm">High Society MN</p>
+              <p className="text-slate-500 text-xs">Admin Dashboard</p>
             </div>
           </Link>
         </div>
@@ -31,15 +31,15 @@ export default function AdminLayout({
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:text-amber-400 hover:bg-white/5 transition-colors text-sm"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 hover:text-indigo-400 hover:bg-slate-50 transition-colors text-sm"
             >
               <Icon className="h-4 w-4" />
               {label}
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t border-white/10">
-          <Link href="/" className="text-xs text-gray-500 hover:text-amber-400">
+        <div className="p-4 border-t border-slate-200">
+          <Link href="/" className="text-xs text-slate-500 hover:text-indigo-400">
             ← Back to Store
           </Link>
         </div>

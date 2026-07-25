@@ -7,6 +7,7 @@ const RegisterSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(8),
+  referralCode: z.string().trim().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, email, password } = parsed.data;
+    const { name, email, password, referralCode } = parsed.data;
 
     const existing = await db.user.findUnique({ where: { email } });
     if (existing) {
@@ -32,8 +33,24 @@ export async function POST(req: NextRequest) {
     }
 
     const hashed = await bcrypt.hash(password, 12);
-    const user = await db.user.create({
-      data: { name, email, password: hashed },
+    const ownReferralCode = `HS-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    const user = await db.$transaction(async (tx) => {
+      const created = await tx.user.create({
+        data: {
+          name,
+          email,
+          password: hashed,
+          referralCode: ownReferralCode,
+          referredByCode: referralCode || null,
+        },
+      });
+      if (referralCode) {
+        await tx.user.updateMany({
+          where: { referralCode },
+          data: { referralCount: { increment: 1 }, points: { increment: 250 } },
+        });
+      }
+      return created;
     });
 
     return NextResponse.json(

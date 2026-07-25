@@ -11,9 +11,18 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const body = await req.json().catch(() => ({})) as {
+      fulfillmentMethod?: "PICKUP" | "DELIVERY";
+      scheduledAt?: string;
+      deliveryAddress?: string;
+    };
     const cartItems = await db.cartItem.findMany({
       where: { userId: session.user.id },
       include: { product: true },
+    });
+    const user = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { activeDiscountPercent: true },
     });
 
     if (cartItems.length === 0) {
@@ -24,17 +33,22 @@ export async function POST(req: NextRequest) {
       (acc, item) => acc + item.product.price * item.quantity,
       0
     );
-    const tax = subtotal * 0.08875;
-    const total = subtotal + tax;
+    const discountPercent = Math.max(0, Math.min(user?.activeDiscountPercent ?? 0, 100));
+    const discountedSubtotal = subtotal * (1 - discountPercent / 100);
+    const tax = discountedSubtotal * 0.08875;
+    const total = discountedSubtotal + tax;
 
     // Create pending order
     const order = await db.order.create({
       data: {
         orderNumber: generateOrderNumber(),
         userId: session.user.id,
-        subtotal,
+        subtotal: discountedSubtotal,
         tax,
         total,
+        fulfillmentMethod: body.fulfillmentMethod ?? "DELIVERY",
+        scheduledAt: body.scheduledAt ? new Date(body.scheduledAt) : null,
+        deliveryAddress: body.fulfillmentMethod === "PICKUP" ? null : body.deliveryAddress || null,
         items: {
           create: cartItems.map((item) => ({
             productId: item.productId,
@@ -56,11 +70,11 @@ export async function POST(req: NextRequest) {
             name: item.product.name,
             images: item.product.images.slice(0, 1),
           },
-          unit_amount: Math.round(item.product.price * 100),
+          unit_amount: Math.round(item.product.price * (1 - discountPercent / 100) * 100),
         },
         quantity: item.quantity,
       })),
-      metadata: { orderId: order.id },
+      metadata: { orderId: order.id, discountPercent: String(discountPercent) },
       success_url: `${process.env.NEXTAUTH_URL}/orders/${order.id}?success=true`,
       cancel_url: `${process.env.NEXTAUTH_URL}/cart`,
     });

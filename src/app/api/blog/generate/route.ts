@@ -19,11 +19,14 @@ const TOPICS = [
 
 export async function POST(req: NextRequest) {
   const session = await auth();
-  if (!session?.user?.id || session.user.role !== "ADMIN") {
+  const cronAuthorized =
+    Boolean(process.env.CRON_SECRET) &&
+    req.headers.get("authorization") === `Bearer ${process.env.CRON_SECRET}`;
+  if ((!session?.user?.id || session.user.role !== "ADMIN") && !cronAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json() as { topic?: string };
+  const body = await req.json().catch(() => ({})) as { topic?: string };
   const topic = body.topic ?? TOPICS[Math.floor(Math.random() * TOPICS.length)];
 
   if (!process.env.LLM_BASE_URL) {
@@ -79,17 +82,29 @@ Format: Return JSON with fields: title (string), excerpt (string, 1-2 sentences)
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
+  const authorId = session?.user?.id ?? (await db.user.findFirst({
+    where: { role: "ADMIN" },
+    select: { id: true },
+  }))?.id;
+  if (!authorId) {
+    return NextResponse.json({ error: "Create an admin user before generating posts." }, { status: 503 });
+  }
+
   const post = await db.blogPost.create({
     data: {
       title: parsed.title ?? topic,
       slug: `${slug}-${Date.now()}`,
       excerpt: parsed.excerpt ?? "",
       content: parsed.content ?? rawContent,
-      authorId: session.user.id,
+      authorId,
       published: true,
       publishedAt: new Date(),
     },
   });
 
   return NextResponse.json(post);
+}
+
+export async function GET(req: NextRequest) {
+  return POST(req);
 }

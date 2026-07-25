@@ -40,16 +40,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 justify-center">
-            <Leaf className="h-8 w-8 text-amber-500" />
-            <span className="text-2xl font-bold text-white">
-              High Society <span className="text-amber-500">MN</span>
+            <Leaf className="h-8 w-8 text-indigo-500" />
+            <span className="text-2xl font-bold text-slate-950">
+              High Society <span className="text-indigo-500">MN</span>
             </span>
           </Link>
-          <p className="text-gray-400">Create your account</p>
+          <p className="text-slate-600">Create your account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -84,9 +84,9 @@ export default function RegisterPage() {
             />
           </div>
 
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             By creating an account, you confirm you are 21+ and agree to our{" "}
-            <Link href="/terms" className="text-amber-400 hover:underline">
+            <Link href="/terms" className="text-indigo-400 hover:underline">
               Terms of Service
             </Link>
             .
@@ -97,9 +97,9 @@ export default function RegisterPage() {
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-400">
+        <p className="text-center text-sm text-slate-600">
           Already have an account?{" "}
-          <Link href="/login" className="text-amber-400 hover:underline">
+          <Link href="/login" className="text-indigo-400 hover:underline">
             Sign in
           </Link>
         </p>

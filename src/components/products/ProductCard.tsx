@@ -33,9 +33,9 @@ export function ProductCard({
     "https://images.unsplash.com/photo-1668001201519-1e5bff88bf01?w=400&q=80";
 
   return (
-    <div className="group relative rounded-xl border border-white/10 bg-white/5 overflow-hidden hover:border-amber-500/50 transition-all duration-300">
+    <div className="group relative rounded-xl border border-slate-200 bg-slate-50 overflow-hidden hover:border-indigo-500/50 transition-all duration-300">
       <Link href={`/products/${slug}`} className="block">
-        <div className="relative aspect-square overflow-hidden bg-black/40">
+        <div className="relative aspect-square overflow-hidden bg-indigo-50/90">
           <Image
             src={imageUrl}
             alt={name}
@@ -44,7 +44,7 @@ export function ProductCard({
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
           {!inStock && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+            <div className="absolute inset-0 bg-white/95 flex items-center justify-center">
               <Badge variant="danger">Out of Stock</Badge>
             </div>
           )}
@@ -55,21 +55,21 @@ export function ProductCard({
           )}
         </div>
         <div className="p-4 space-y-2">
-          <p className="text-xs text-amber-500 uppercase tracking-wider">
+          <p className="text-xs text-indigo-500 uppercase tracking-wider">
             {category.name}
           </p>
-          <h3 className="text-white font-medium text-sm leading-tight line-clamp-2">
+          <h3 className="text-slate-950 font-medium text-sm leading-tight line-clamp-2">
             {name}
           </h3>
           {thcContent !== null && thcContent !== undefined && (
-            <p className="text-xs text-gray-400">THC: {thcContent}%</p>
+            <p className="text-xs text-slate-600">THC: {thcContent}%</p>
           )}
           <div className="flex items-center gap-2">
-            <span className="text-amber-400 font-bold">
+            <span className="text-indigo-400 font-bold">
               {formatPrice(price)}
             </span>
             {comparePrice && comparePrice > price && (
-              <span className="text-gray-500 text-sm line-through">
+              <span className="text-slate-500 text-sm line-through">
                 {formatPrice(comparePrice)}
               </span>
             )}

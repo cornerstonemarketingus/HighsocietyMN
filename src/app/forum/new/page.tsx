@@ -53,11 +53,11 @@ export default function NewThreadPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-white">
         <Header />
         <div className="flex items-center justify-center min-h-[60vh] text-center px-4">
           <div className="space-y-4">
-            <p className="text-white text-lg">Sign in to start a discussion.</p>
+            <p className="text-slate-950 text-lg">Sign in to start a discussion.</p>
             <Link href="/login">
               <Button>Sign In</Button>
             </Link>
@@ -69,17 +69,17 @@ export default function NewThreadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       <Header />
       <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
         <Link
           href="/forum"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-400 text-sm mb-8"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-indigo-400 text-sm mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Forum
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-8">Start a New Thread</h1>
+        <h1 className="text-3xl font-bold text-slate-950 mb-8">Start a New Thread</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {error && (
@@ -89,14 +89,14 @@ export default function NewThreadPage() {
           )}
 
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Category</label>
+            <label className="text-sm text-slate-600">Category</label>
             <select
               value={categorySlug}
               onChange={(e) => setCategorySlug(e.target.value)}
-              className="w-full rounded-md border border-white/20 bg-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-950 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               {CATEGORIES.map((cat) => (
-                <option key={cat.slug} value={cat.slug} className="bg-zinc-900">
+                <option key={cat.slug} value={cat.slug} className="bg-white">
                   {cat.label}
                 </option>
               ))}
@@ -104,7 +104,7 @@ export default function NewThreadPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Thread Title</label>
+            <label className="text-sm text-slate-600">Thread Title</label>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -115,7 +115,7 @@ export default function NewThreadPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-gray-400">Your Message</label>
+            <label className="text-sm text-slate-600">Your Message</label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -123,9 +123,9 @@ export default function NewThreadPage() {
               required
               rows={8}
               maxLength={5000}
-              className="w-full rounded-md border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+              className="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-950 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
             />
-            <p className="text-xs text-gray-600 text-right">{content.length}/5000</p>
+            <p className="text-xs text-slate-500 text-right">{content.length}/5000</p>
           </div>
 
           <Button type="submit" disabled={loading} className="w-full">

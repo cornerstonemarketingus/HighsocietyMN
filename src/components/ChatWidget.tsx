@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2, Leaf } from "lucide-react";
+import { Search, X, Send, Loader2, Leaf, Sparkles } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -14,7 +14,7 @@ export function ChatWidget() {
     {
       role: "assistant",
       content:
-        "Hey! 👋 I'm your High Society MN budtender. Ask me anything about our products, strains, dosing, store hours, or today's drops!",
+        "Welcome to Bud Seeker. Tell me the kind of experience you want, and I’ll help narrow down the right products from today’s High Society MN menu.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -24,6 +24,19 @@ export function ChatWidget() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    const openBudSeeker = () => setOpen(true);
+    window.addEventListener("bud-seeker:open", openBudSeeker);
+    return () => window.removeEventListener("bud-seeker:open", openBudSeeker);
+  }, []);
+
+  const quickPrompts = [
+    "Help me unwind",
+    "Something social",
+    "Low-dose options",
+    "What’s new?",
+  ];
 
   async function sendMessage(e: React.FormEvent) {
     e.preventDefault();
@@ -47,6 +60,7 @@ export function ChatWidget() {
         }),
       });
       const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok) throw new Error(data.error || "Bud Seeker is unavailable.");
       setMessages((prev) => [
         ...prev,
         {
@@ -54,12 +68,12 @@ export function ChatWidget() {
           content: data.reply ?? "Sorry, I couldn't get a response. Please try again!",
         },
       ]);
-    } catch {
+    } catch (error) {
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Connection error — please try again in a moment.",
+          content: error instanceof Error ? error.message : "Connection error — please try again in a moment.",
         },
       ]);
     } finally {
@@ -72,23 +86,23 @@ export function ChatWidget() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-black shadow-lg hover:bg-amber-400 transition-all hover:scale-105"
-        aria-label={open ? "Close chat" : "Open chat"}
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-500 text-black shadow-lg hover:bg-indigo-400 transition-all hover:scale-105"
+        aria-label={open ? "Close Bud Seeker" : "Open Bud Seeker"}
       >
-        {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+        {open ? <X className="h-6 w-6" /> : <Search className="h-6 w-6" />}
       </button>
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex flex-col w-80 sm:w-96 rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl overflow-hidden">
+        <div className="fixed bottom-24 right-6 z-50 flex flex-col w-80 sm:w-96 rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="flex items-center gap-3 border-b border-white/10 bg-black/60 px-4 py-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500">
-              <Leaf className="h-4 w-4 text-black" />
+          <div className="flex items-center gap-3 border-b border-slate-200 bg-white/95 px-4 py-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-500">
+              <Sparkles className="h-4 w-4 text-black" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-white">HS Budtender</p>
-              <p className="text-xs text-green-400">● Online now</p>
+              <p className="text-sm font-semibold text-slate-950">Bud Seeker</p>
+              <p className="text-xs text-indigo-300">Personal product finder</p>
             </div>
           </div>
 
@@ -102,8 +116,8 @@ export function ChatWidget() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-amber-500 text-black rounded-br-sm"
-                      : "bg-white/10 text-white rounded-bl-sm"
+                      ? "bg-indigo-500 text-black rounded-br-sm"
+                      : "bg-indigo-50 text-slate-950 rounded-bl-sm"
                   }`}
                 >
                   {msg.content}
@@ -112,7 +126,7 @@ export function ChatWidget() {
             ))}
             {loading && (
               <div className="flex justify-start">
-                <div className="bg-white/10 text-white rounded-2xl rounded-bl-sm px-4 py-2.5">
+                <div className="bg-indigo-50 text-slate-950 rounded-2xl rounded-bl-sm px-4 py-2.5">
                   <Loader2 className="h-4 w-4 animate-spin" />
                 </div>
               </div>
@@ -120,28 +134,50 @@ export function ChatWidget() {
             <div ref={bottomRef} />
           </div>
 
+          {messages.length === 1 && (
+            <div className="border-t border-slate-200 px-4 py-3">
+              <p className="mb-2 text-xs uppercase tracking-wider text-slate-500">
+                Start with a vibe
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {quickPrompts.map((prompt) => (
+                  <button
+                    key={prompt}
+                    type="button"
+                    onClick={() => setInput(prompt)}
+                    className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-xs text-indigo-200 transition-colors hover:bg-indigo-500/20"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Input */}
           <form
             onSubmit={sendMessage}
-            className="flex items-center gap-2 border-t border-white/10 bg-black/40 px-3 py-3"
+            className="flex items-center gap-2 border-t border-slate-200 bg-indigo-50/90 px-3 py-3"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about products, drops, hours…"
-              className="flex-1 rounded-xl bg-white/10 px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              placeholder="What kind of experience are you seeking?"
+              className="flex-1 rounded-xl bg-indigo-50 px-4 py-2 text-sm text-slate-950 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
               disabled={loading}
               autoFocus
             />
             <button
               type="submit"
               disabled={!input.trim() || loading}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500 text-black disabled:opacity-40 hover:bg-amber-400 transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500 text-black disabled:opacity-40 hover:bg-indigo-400 transition-colors"
             >
               <Send className="h-4 w-4" />
             </button>
           </form>
-          <p className="text-center text-xs text-gray-600 pb-2">21+ only · Not medical advice</p>
+          <p className="flex items-center justify-center gap-1 text-center text-xs text-slate-500 pb-2">
+            <Leaf className="h-3 w-3" /> 21+ only · Not medical advice
+          </p>
         </div>
       )}
     </>

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 body {
@@ -17,7 +17,7 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 158, 11, 0.3);
+  background: rgba(79, 70, 229, 0.3);
   color: #ffffff;
 }
 
@@ -26,16 +26,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111;
+  background: #eef2ff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #818cf8;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #4f46e5;
 }
 
 @keyframes float {
@@ -76,13 +76,13 @@ body {
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(245, 158, 11, 0.1) 50%, transparent 75%);
+  background: linear-gradient(90deg, transparent 25%, rgba(79, 70, 229, 0.1) 50%, transparent 75%);
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #F59E0B 0%, #FCD34D 50%, #F59E0B 100%);
+  background: linear-gradient(135deg, #4F46E5 0%, #818CF8 50%, #4F46E5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

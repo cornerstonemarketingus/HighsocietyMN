@@ -33,45 +33,45 @@ export default async function AdminOrdersPage() {
   return (
     <div className="p-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Orders</h1>
-        <p className="text-gray-400 mt-1">{orders.length} total orders</p>
+        <h1 className="text-2xl font-bold text-slate-950">Orders</h1>
+        <p className="text-slate-600 mt-1">{orders.length} total orders</p>
       </div>
 
-      <div className="border border-white/10 rounded-xl overflow-hidden">
+      <div className="border border-slate-200 rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-white/10 bg-white/5">
-              <th className="text-left p-4 text-gray-400 font-medium">Order</th>
-              <th className="text-left p-4 text-gray-400 font-medium hidden sm:table-cell">Customer</th>
-              <th className="text-left p-4 text-gray-400 font-medium">Total</th>
-              <th className="text-left p-4 text-gray-400 font-medium hidden md:table-cell">Date</th>
-              <th className="text-left p-4 text-gray-400 font-medium">Status</th>
+            <tr className="border-b border-slate-200 bg-slate-50">
+              <th className="text-left p-4 text-slate-600 font-medium">Order</th>
+              <th className="text-left p-4 text-slate-600 font-medium hidden sm:table-cell">Customer</th>
+              <th className="text-left p-4 text-slate-600 font-medium">Total</th>
+              <th className="text-left p-4 text-slate-600 font-medium hidden md:table-cell">Date</th>
+              <th className="text-left p-4 text-slate-600 font-medium">Status</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/10">
             {orders.length === 0 ? (
               <tr>
-                <td colSpan={5} className="p-8 text-center text-gray-500">
+                <td colSpan={5} className="p-8 text-center text-slate-500">
                   No orders yet.
                 </td>
               </tr>
             ) : (
               orders.map((order) => (
-                <tr key={order.id} className="hover:bg-white/5 transition-colors">
+                <tr key={order.id} className="hover:bg-slate-50 transition-colors">
                   <td className="p-4">
-                    <p className="text-white font-medium font-mono text-xs">
+                    <p className="text-slate-950 font-medium font-mono text-xs">
                       {order.orderNumber}
                     </p>
-                    <p className="text-gray-500 text-xs">{order.items.length} item(s)</p>
+                    <p className="text-slate-500 text-xs">{order.items.length} item(s)</p>
                   </td>
                   <td className="p-4 hidden sm:table-cell">
-                    <p className="text-gray-300">{order.user?.name ?? "—"}</p>
-                    <p className="text-gray-500 text-xs">{order.user?.email}</p>
+                    <p className="text-slate-700">{order.user?.name ?? "—"}</p>
+                    <p className="text-slate-500 text-xs">{order.user?.email}</p>
                   </td>
-                  <td className="p-4 text-amber-400 font-medium">
+                  <td className="p-4 text-indigo-400 font-medium">
                     {formatPrice(order.total)}
                   </td>
-                  <td className="p-4 hidden md:table-cell text-gray-400">
+                  <td className="p-4 hidden md:table-cell text-slate-600">
                     {formatDate(order.createdAt)}
                   </td>
                   <td className="p-4">
