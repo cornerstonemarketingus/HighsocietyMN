@@ -30,7 +30,11 @@ export default function LoginPage() {
       setError("Invalid email or password.");
       setLoading(false);
     } else {
-      router.push("/");
+      const callbackUrl =
+        typeof window !== "undefined"
+          ? new URLSearchParams(window.location.search).get("callbackUrl")
+          : null;
+      router.push(callbackUrl?.startsWith("/") ? callbackUrl : "/");
       router.refresh();
     }
   }
@@ -101,6 +105,9 @@ export default function LoginPage() {
             Create one
           </Link>
         </p>
+        <Link href="/admin" className="block text-center text-xs font-medium text-indigo-600 hover:underline">
+          Store administrator? Open the dashboard
+        </Link>
       </div>
     </div>
   );

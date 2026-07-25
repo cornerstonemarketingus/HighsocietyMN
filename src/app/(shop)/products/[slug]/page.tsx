@@ -34,7 +34,7 @@ export default async function ProductDetailPage({
 
   const imageUrl =
     product.images[0] ??
-    "https://images.unsplash.com/photo-1668001201519-1e5bff88bf01?w=800&q=80";
+    "/categories/flower.webp";
 
   return (
     <div className="min-h-screen bg-white">
@@ -56,6 +56,7 @@ export default async function ProductDetailPage({
                 alt={product.name}
                 fill
                 priority
+                unoptimized={imageUrl.startsWith("data:")}
                 className="object-cover"
               />
             </div>
@@ -66,7 +67,7 @@ export default async function ProductDetailPage({
                     key={i}
                     className="relative w-20 h-20 rounded-lg overflow-hidden bg-slate-50 border border-slate-200"
                   >
-                    <Image src={img} alt={`${product.name} ${i + 2}`} fill className="object-cover" />
+                    <Image src={img} alt={`${product.name} ${i + 2}`} fill unoptimized={img.startsWith("data:")} className="object-cover" />
                   </div>
                 ))}
               </div>
