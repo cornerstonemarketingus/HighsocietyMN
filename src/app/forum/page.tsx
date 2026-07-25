@@ -49,7 +49,7 @@ export default async function ForumPage() {
           </div>
           <Link
             href="/forum/new"
-            className="hidden sm:flex items-center gap-2 rounded-xl bg-indigo-500 text-black px-5 py-2.5 text-sm font-semibold hover:bg-indigo-400 transition-colors"
+            className="hidden sm:flex items-center gap-2 rounded-xl bg-indigo-600 text-white px-5 py-2.5 text-sm font-semibold hover:bg-indigo-400 transition-colors"
           >
             <PlusCircle className="h-4 w-4" /> New Thread
           </Link>
@@ -88,7 +88,7 @@ export default async function ForumPage() {
               <p className="text-slate-600">Be the first to start a conversation!</p>
               <Link
                 href="/forum/new"
-                className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 text-black px-6 py-2.5 text-sm font-semibold hover:bg-indigo-400 transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 text-white px-6 py-2.5 text-sm font-semibold hover:bg-indigo-400 transition-colors"
               >
                 <PlusCircle className="h-4 w-4" /> Start a Thread
               </Link>

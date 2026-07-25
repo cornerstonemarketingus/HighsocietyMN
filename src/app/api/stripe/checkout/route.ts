@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
       fulfillmentMethod?: "PICKUP" | "DELIVERY";
       scheduledAt?: string;
       deliveryAddress?: string;
+      discountCode?: string;
     };
     const cartItems = await db.cartItem.findMany({
       where: { userId: session.user.id },
@@ -33,7 +34,11 @@ export async function POST(req: NextRequest) {
       (acc, item) => acc + item.product.price * item.quantity,
       0
     );
-    const discountPercent = Math.max(0, Math.min(user?.activeDiscountPercent ?? 0, 100));
+    const spinReward = body.discountCode ? await db.spinResult.findFirst({
+      where: { code: body.discountCode, used: false, prizeType: "discount" },
+      select: { id: true, prizeValue: true },
+    }) : null;
+    const discountPercent = Math.max(0, Math.min(spinReward?.prizeValue ?? user?.activeDiscountPercent ?? 0, 100));
     const discountedSubtotal = subtotal * (1 - discountPercent / 100);
     const tax = discountedSubtotal * 0.08875;
     const total = discountedSubtotal + tax;
@@ -78,6 +83,7 @@ export async function POST(req: NextRequest) {
       success_url: `${process.env.NEXTAUTH_URL}/orders/${order.id}?success=true`,
       cancel_url: `${process.env.NEXTAUTH_URL}/cart`,
     });
+    if (spinReward) await db.spinResult.update({ where: { id: spinReward.id }, data: { used: true } });
 
     return NextResponse.json({ url: stripeSession.url });
   } catch (err) {

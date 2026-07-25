@@ -210,7 +210,10 @@ async function main() {
   }
 
   // Create admin user
-  const adminPassword = await bcrypt.hash("admin1234", 12);
+  const adminPassword = await bcrypt.hash(
+    process.env.ADMIN_SEED_PASSWORD ?? crypto.randomUUID(),
+    12,
+  );
   await db.user.upsert({
     where: { email: "admin@highsocietymn.com" },
     update: {},
@@ -221,7 +224,7 @@ async function main() {
       role: "ADMIN",
     },
   });
-  console.log("✓ Admin user: admin@highsocietymn.com / admin1234");
+  console.log("✓ System admin user ensured");
 
   // Create forum categories
   const forumCategories = [

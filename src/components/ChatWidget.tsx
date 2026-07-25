@@ -86,7 +86,7 @@ export function ChatWidget() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-500 text-black shadow-lg hover:bg-indigo-400 transition-all hover:scale-105"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-400 transition-all hover:scale-105"
         aria-label={open ? "Close Bud Seeker" : "Open Bud Seeker"}
       >
         {open ? <X className="h-6 w-6" /> : <Search className="h-6 w-6" />}
@@ -98,11 +98,11 @@ export function ChatWidget() {
           {/* Header */}
           <div className="flex items-center gap-3 border-b border-slate-200 bg-white/95 px-4 py-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-500">
-              <Sparkles className="h-4 w-4 text-black" />
+              <Sparkles className="h-4 w-4 text-white" />
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-950">Bud Seeker</p>
-              <p className="text-xs text-indigo-300">Personal product finder</p>
+              <p className="text-xs text-indigo-600">Personal product finder</p>
             </div>
           </div>
 
@@ -116,7 +116,7 @@ export function ChatWidget() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-indigo-500 text-black rounded-br-sm"
+                      ? "bg-indigo-600 text-white rounded-br-sm"
                       : "bg-indigo-50 text-slate-950 rounded-bl-sm"
                   }`}
                 >
@@ -145,7 +145,7 @@ export function ChatWidget() {
                     key={prompt}
                     type="button"
                     onClick={() => setInput(prompt)}
-                    className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-xs text-indigo-200 transition-colors hover:bg-indigo-500/20"
+                    className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-xs text-indigo-700 transition-colors hover:bg-indigo-500/20"
                   >
                     {prompt}
                   </button>
@@ -170,7 +170,7 @@ export function ChatWidget() {
             <button
               type="submit"
               disabled={!input.trim() || loading}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500 text-black disabled:opacity-40 hover:bg-indigo-400 transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white disabled:opacity-40 hover:bg-indigo-400 transition-colors"
             >
               <Send className="h-4 w-4" />
             </button>

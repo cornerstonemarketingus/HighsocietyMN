@@ -255,6 +255,7 @@ model TokenTransaction {
 model SpinResult {
   id         String   @id @default(cuid())
   userId     String?
+  email      String?
   prize      String
   prizeType  String
   prizeValue Float    @default(0)
@@ -265,6 +266,7 @@ model SpinResult {
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@map("spin_results")
+  @@index([email])
 }
 
 model BlogPost {

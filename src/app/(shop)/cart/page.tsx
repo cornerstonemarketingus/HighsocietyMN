@@ -27,7 +27,7 @@ export default function CartPage() {
         <h1 className="text-4xl font-semibold">Your bag</h1>
         {loading ? <p className="mt-8 text-slate-500">Loading…</p> : items.length === 0 ? (
           <div className="mt-8 rounded-3xl border border-slate-200 bg-white py-20 text-center shadow-sm">
-            <ShoppingBag className="mx-auto h-14 w-14 text-indigo-300" />
+            <ShoppingBag className="mx-auto h-14 w-14 text-indigo-600" />
             <p className="mt-5 text-lg text-slate-600">Your bag is empty.</p>
             <Link href="/products"><Button className="mt-5">Browse products</Button></Link>
           </div>

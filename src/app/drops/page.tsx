@@ -98,7 +98,7 @@ export default async function DropsPage() {
                   {drop.description && (
                     <p className="text-slate-600 text-sm">{drop.description}</p>
                   )}
-                  <p className="text-indigo-300 text-sm font-medium">
+                  <p className="text-indigo-600 text-sm font-medium">
                     {new Date(drop.dropDate).toLocaleDateString("en-US", {
                       weekday: "long",
                       month: "long",
@@ -153,7 +153,7 @@ export default async function DropsPage() {
           </p>
           <Link
             href="/#newsletter"
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 text-black px-8 py-3 font-semibold hover:bg-indigo-400 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 text-white px-8 py-3 font-semibold hover:bg-indigo-400 transition-colors"
           >
             Get Drop Alerts
           </Link>

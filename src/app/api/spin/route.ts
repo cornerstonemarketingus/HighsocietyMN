@@ -20,18 +20,18 @@ const PRIZES: Prize[] = [
   { prize: "Better luck next time", prizeType: "none", prizeValue: 0, weight: 15 },
 ];
 
-function pickPrize() {
-  const totalWeight = PRIZES.reduce((sum, prize) => sum + prize.weight, 0);
+function pickPrize(prizes = PRIZES) {
+  const totalWeight = prizes.reduce((sum, prize) => sum + prize.weight, 0);
   let roll = Math.random() * totalWeight;
 
-  for (const prize of PRIZES) {
+  for (const prize of prizes) {
     roll -= prize.weight;
     if (roll < 0) {
       return prize;
     }
   }
 
-  return PRIZES[PRIZES.length - 1];
+  return prizes[prizes.length - 1];
 }
 
 function generateDiscountCode() {
@@ -53,11 +53,22 @@ async function createUniqueDiscountCode(prisma: any) {
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
-    const body = await req.json().catch(() => ({})) as { userId?: string };
+    const body = await req.json().catch(() => ({})) as { userId?: string; email?: string };
     const userId = session?.user?.id ?? null;
+    const email = body.email?.trim().toLowerCase() || null;
 
     if (!userId) {
-      return NextResponse.json({ error: "Sign in to spin and save your reward." }, { status: 401 });
+      if (!email) {
+        return NextResponse.json({ error: "Join the email list before spinning." }, { status: 401 });
+      }
+      const subscriber = await db.newsletterSubscriber.findUnique({ where: { email } });
+      if (!subscriber) {
+        return NextResponse.json({ error: "Join the email list before spinning." }, { status: 401 });
+      }
+      const existingGuestSpin = await db.spinResult.findFirst({ where: { email } });
+      if (existingGuestSpin) {
+        return NextResponse.json({ error: "already_used" }, { status: 400 });
+      }
     }
 
     if (body.userId && userId && body.userId !== userId) {
@@ -81,7 +92,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const selectedPrize = pickPrize();
+    const selectedPrize = pickPrize(userId ? PRIZES : PRIZES.filter((prize) => prize.prizeType === "discount"));
     const code = selectedPrize.prizeType === "discount"
       ? await createUniqueDiscountCode(prisma)
       : null;
@@ -90,6 +101,7 @@ export async function POST(req: NextRequest) {
       const createdSpinResult = await tx.spinResult.create({
         data: {
           userId,
+          email,
           prize: selectedPrize.prize,
           prizeType: selectedPrize.prizeType,
           prizeValue: selectedPrize.prizeValue,

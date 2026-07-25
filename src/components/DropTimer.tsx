@@ -78,7 +78,7 @@ export function DropTimer() {
       >
         <Zap className="h-3.5 w-3.5 text-indigo-400" />
         <span className="hidden sm:inline">Next Drop:</span>
-        <span className="font-mono tabular-nums text-indigo-300">
+        <span className="font-mono tabular-nums text-indigo-600">
           {timeLeft.days > 0 && `${timeLeft.days}d `}
           {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
         </span>
@@ -96,7 +96,7 @@ export function DropTimer() {
               <Zap className="h-5 w-5 text-indigo-400" />
               <h3 className="text-slate-950 font-semibold text-sm">Next Drop</h3>
             </div>
-            <p className="text-indigo-300 text-xs mb-3">{dropLabel} @ 10:00 AM</p>
+            <p className="text-indigo-600 text-xs mb-3">{dropLabel} @ 10:00 AM</p>
             <div className="grid grid-cols-4 gap-2">
               {[
                 { label: "Days", value: timeLeft.days },
@@ -119,7 +119,7 @@ export function DropTimer() {
             <Link
               href="/drops"
               onClick={() => setOpen(false)}
-              className="block w-full text-center rounded-lg bg-indigo-500 text-black text-sm font-semibold py-2 hover:bg-indigo-400 transition-colors"
+              className="block w-full text-center rounded-lg bg-indigo-600 text-white text-sm font-semibold py-2 hover:bg-indigo-400 transition-colors"
             >
               See Upcoming Drops →
             </Link>

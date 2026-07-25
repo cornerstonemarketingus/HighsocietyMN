@@ -15,9 +15,11 @@ export default function CheckoutPage() {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [discountCode, setDiscountCode] = useState("");
 
   useEffect(() => {
     fetch("/api/cart").then((r) => r.ok ? r.json() : { items: [] }).then((data) => setItems(data.items ?? []));
+    setDiscountCode(localStorage.getItem("hs_spin_code") ?? "");
   }, []);
   const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [items]);
 
@@ -27,7 +29,7 @@ export default function CheckoutPage() {
     const response = await fetch("/api/stripe/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fulfillmentMethod: method, scheduledAt, deliveryAddress: address }),
+      body: JSON.stringify({ fulfillmentMethod: method, scheduledAt, deliveryAddress: address, discountCode }),
     });
     const data = await response.json().catch(() => ({}));
     if (response.ok && data.url) window.location.href = data.url;
@@ -66,6 +68,7 @@ export default function CheckoutPage() {
               {items.map((item) => <div key={item.id} className="flex justify-between text-sm"><span>{item.quantity} × {item.product.name}</span><span>${(item.quantity * item.product.price).toFixed(2)}</span></div>)}
             </div>
             <div className="mt-5 border-t border-slate-200 pt-4"><div className="flex justify-between font-semibold"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div><p className="mt-2 text-xs text-slate-500">Any wheel discount is applied securely before Stripe payment.</p></div>
+            {discountCode && <p className="mt-3 rounded-lg bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700">Wheel reward: {discountCode}</p>}
             {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
             <Button className="mt-5 w-full" size="lg" onClick={checkout} disabled={loading || items.length === 0 || !scheduledAt || (method === "DELIVERY" && !address)}>
               {loading ? "Opening payment…" : "Continue to secure payment"}

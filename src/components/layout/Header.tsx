@@ -84,7 +84,7 @@ export function Header() {
 
             <Link
               href="/drops"
-              className="px-3 py-2 text-sm text-indigo-400 hover:text-indigo-300 transition-colors rounded-md hover:bg-indigo-500/10 font-medium"
+              className="px-3 py-2 text-sm text-indigo-400 hover:text-indigo-600 transition-colors rounded-md hover:bg-indigo-500/10 font-medium"
             >
               ⚡ Drops
             </Link>
@@ -176,7 +176,7 @@ export function Header() {
             ))}
             <Link
               href="/drops"
-              className="block text-indigo-400 hover:text-indigo-300 py-2 text-sm font-medium"
+              className="block text-indigo-400 hover:text-indigo-600 py-2 text-sm font-medium"
               onClick={() => setMobileOpen(false)}
             >
               ⚡ Drops

@@ -10,7 +10,7 @@ type SpinPrize = {
   code: string | null;
 };
 
-export function SpinWheel() {
+export function SpinWheel({ email }: { email?: string } = {}) {
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [prize, setPrize] = useState<SpinPrize | null>(null);
@@ -26,7 +26,7 @@ export function SpinWheel() {
       const response = await fetch("/api/spin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: "{}",
+        body: JSON.stringify({ email }),
       });
       const data = await response.json().catch(() => ({}));
 
@@ -47,6 +47,7 @@ export function SpinWheel() {
       setRotation((current) => current + 1440 + (360 - (prizeIndex * 60 + 30)));
       await new Promise((resolve) => window.setTimeout(resolve, 3200));
       setPrize(data.prize);
+      if (data.prize.code) localStorage.setItem("hs_spin_code", data.prize.code);
     } catch (spinError) {
       setError(spinError instanceof Error ? spinError.message : "The wheel could not spin.");
     } finally {
@@ -58,9 +59,9 @@ export function SpinWheel() {
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8" aria-labelledby="spin-wheel-title">
       <div className="grid gap-8 overflow-hidden rounded-[2rem] border border-indigo-200 bg-white p-5 shadow-sm sm:p-8 lg:grid-cols-2 lg:items-center lg:p-12">
         <div className="space-y-5">
-          <p className="text-sm uppercase tracking-[0.35em] text-indigo-300/70">Member Rewards</p>
+          <p className="text-sm uppercase tracking-[0.35em] text-indigo-600/70">Member Rewards</p>
           <h2 id="spin-wheel-title" className="text-4xl font-semibold sm:text-5xl">
-            Spin for a <span className="text-indigo-300">High Society reward.</span>
+            Spin for a <span className="text-indigo-600">High Society reward.</span>
           </h2>
           <p className="max-w-xl text-lg leading-8 text-slate-700">
             Try your luck for discounts, delivery rewards, points, and tokens. Signed-in members get one spin.
@@ -69,7 +70,7 @@ export function SpinWheel() {
             type="button"
             onClick={spin}
             disabled={spinning}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-indigo-400 px-7 font-semibold text-black transition hover:bg-indigo-300 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-indigo-600 px-7 font-semibold text-white transition hover:bg-indigo-300 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {spinning ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
             {spinning ? "Spinning…" : "Spin the wheel"}
@@ -104,7 +105,7 @@ export function SpinWheel() {
                 {label}
               </span>
             ))}
-            <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-indigo-200 bg-white text-indigo-300">
+            <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-indigo-200 bg-white text-indigo-600">
               <Gift className="h-8 w-8" />
             </div>
           </div>

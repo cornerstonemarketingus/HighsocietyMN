@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
 import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
-import { SpinWheel } from "@/components/SpinWheel";
+import { VaultDrop } from "@/components/VaultDrop";
 import {
   ArrowRight,
   MapPin,
@@ -149,11 +149,11 @@ export default function HomePage() {
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
           <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl gap-16 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-24">
             <div className="max-w-3xl space-y-8">
-              <Badge className="w-fit border-indigo-400/30 bg-indigo-500/10 px-4 py-2 text-sm text-indigo-200 shadow-[0_0_30px_rgba(79,70,229,0.12)]">
+              <Badge className="w-fit border-indigo-400/30 bg-indigo-500/10 px-4 py-2 text-sm text-indigo-700 shadow-[0_0_30px_rgba(79,70,229,0.12)]">
                 🌿 Saint Paul & Minneapolis Delivery
               </Badge>
               <div className="space-y-6">
-                <p className="text-sm uppercase tracking-[0.4em] text-indigo-300/80">
+                <p className="text-sm uppercase tracking-[0.4em] text-indigo-600/80">
                   Premium Cannabis Boutique
                 </p>
                 <h1 className="text-5xl font-semibold leading-none sm:text-6xl lg:text-7xl">
@@ -171,7 +171,7 @@ export default function HomePage() {
                 <Link href="/products">
                   <Button
                     size="lg"
-                    className="group gap-2 rounded-full border border-indigo-300/20 bg-indigo-400 px-8 text-base text-black shadow-[0_18px_50px_rgba(79,70,229,0.22)] transition-transform hover:-translate-y-0.5"
+                    className="group gap-2 rounded-full border border-indigo-300/20 bg-indigo-600 px-8 text-base text-white shadow-[0_18px_50px_rgba(79,70,229,0.22)] transition-transform hover:-translate-y-0.5"
                   >
                     Shop the Collection
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -203,45 +203,22 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(79,70,229,0.18),transparent_42%,rgba(255,255,255,0.04))]" />
                 <div className="relative space-y-6">
                   <div className="flex items-center justify-between text-sm text-slate-700">
-                    <span className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-indigo-200">
+                    <span className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-indigo-700">
                       Curated for connoisseurs
                     </span>
-                    <Sparkles className="h-5 w-5 text-indigo-300 animate-float" />
+                    <Sparkles className="h-5 w-5 text-indigo-600 animate-float" />
                   </div>
 
-                  <div className="mx-auto flex h-72 w-72 items-center justify-center rounded-full border border-indigo-300/20 bg-[radial-gradient(circle,rgba(99,102,241,0.22),rgba(79,70,229,0.08)_40%,transparent_68%)]">
-                    <div className="animate-float rounded-full border border-slate-200 bg-white p-8 shadow-[0_0_50px_rgba(79,70,229,0.2)] backdrop-blur-xl">
-                      <svg
-                        viewBox="0 0 160 160"
-                        className="h-40 w-40 text-indigo-300 drop-shadow-[0_0_30px_rgba(79,70,229,0.45)]"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M80 18C72 40 71 60 80 82C89 60 88 40 80 18ZM56 31C52 54 56 72 72 90C74 66 68 48 56 31ZM104 31C92 48 86 66 88 90C104 72 108 54 104 31ZM34 54C36 78 48 93 70 102C60 80 48 64 34 54ZM126 54C112 64 100 80 90 102C112 93 124 78 126 54ZM59 99C59 119 66 134 80 144C94 134 101 119 101 99C92 106 85 110 80 112C75 110 68 106 59 99Z"
-                          stroke="currentColor"
-                          strokeWidth="5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M80 78V140"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
+                  <VaultDrop />
 
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                      <p className="text-xs uppercase tracking-[0.3em] text-indigo-300/70">Next service window</p>
+                      <p className="text-xs uppercase tracking-[0.3em] text-indigo-600/70">Next service window</p>
                       <p className="mt-2 text-lg font-medium text-slate-950">Tue · Thu · Sat</p>
                       <p className="text-sm text-slate-500">Fresh drops delivered at 10am.</p>
                     </div>
                     <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                      <p className="text-xs uppercase tracking-[0.3em] text-indigo-300/70">Metro coverage</p>
+                      <p className="text-xs uppercase tracking-[0.3em] text-indigo-600/70">Metro coverage</p>
                       <p className="mt-2 text-lg font-medium text-slate-950">Saint Paul + Minneapolis</p>
                       <p className="text-sm text-slate-500">Boutique service with discreet arrival.</p>
                     </div>
@@ -255,7 +232,7 @@ export default function HomePage() {
         <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <Badge className="w-fit border-slate-200 bg-slate-50 px-4 py-1.5 text-indigo-200">Shop by Category</Badge>
+              <Badge className="w-fit border-slate-200 bg-slate-50 px-4 py-1.5 text-indigo-700">Shop by Category</Badge>
               <h2 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
                 <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">
                   Build your ritual
@@ -266,7 +243,7 @@ export default function HomePage() {
                 Explore standout formats crafted for every mood, from intimate evenings to social pours.
               </p>
             </div>
-            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-indigo-300 transition-colors hover:text-indigo-200">
+            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700">
               View all categories <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -285,7 +262,7 @@ export default function HomePage() {
                     <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10 text-4xl shadow-[0_0_30px_rgba(79,70,229,0.08)] transition-transform duration-300 group-hover:scale-105">
                       <span>{category.emoji}</span>
                     </div>
-                    <ArrowRight className="h-5 w-5 text-indigo-300/70 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-indigo-200" />
+                    <ArrowRight className="h-5 w-5 text-indigo-600/70 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-indigo-700" />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-slate-950">{category.name}</h3>
@@ -303,11 +280,11 @@ export default function HomePage() {
           <div className="overflow-hidden rounded-[1.75rem] border border-indigo-400/30 bg-[linear-gradient(135deg,rgba(79,70,229,0.18),rgba(255,255,255,0.03),rgba(0,0,0,0.7))] p-[1px] shadow-[0_10px_40px_rgba(79,70,229,0.12)]">
             <div className="flex flex-col gap-6 rounded-[1.7rem] bg-white/95 px-6 py-6 backdrop-blur-xl sm:px-8 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-300">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-600">
                   <Zap className="h-7 w-7" />
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm uppercase tracking-[0.35em] text-indigo-300/70">Drop Timer</p>
+                  <p className="text-sm uppercase tracking-[0.35em] text-indigo-600/70">Drop Timer</p>
                   <h3 className="text-2xl font-semibold text-slate-950">New drops delivered Tue · Thu · Sat @ 10am</h3>
                   <p className="text-sm text-slate-500">
                     Count down to the next release and secure the week&apos;s most coveted menu additions.
@@ -321,8 +298,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <SpinWheel />
-
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {trustItems.map((item) => (
@@ -331,7 +306,7 @@ export default function HomePage() {
                 className="min-w-[240px] flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 backdrop-blur-sm"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-300">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -347,7 +322,7 @@ export default function HomePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid gap-8 rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(79,70,229,0.08),rgba(0,0,0,0.85))] p-8 backdrop-blur-sm lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
             <div className="space-y-5">
-              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-200">Featured Collection</Badge>
+              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Featured Collection</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 Discover this week&apos;s <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">premium selection</span>
               </h2>
@@ -363,7 +338,7 @@ export default function HomePage() {
                   "Delivery tailored to Saint Paul & Minneapolis metro",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 text-slate-700">
-                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-indigo-300" />
+                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-indigo-600" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -380,7 +355,7 @@ export default function HomePage() {
 
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-8 space-y-3">
-            <Badge className="w-fit border-slate-200 bg-slate-50 px-4 py-1.5 text-indigo-200">Community</Badge>
+            <Badge className="w-fit border-slate-200 bg-slate-50 px-4 py-1.5 text-indigo-700">Community</Badge>
             <h2 className="text-4xl font-semibold sm:text-5xl">
               Beyond the menu, <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">join the culture.</span>
             </h2>
@@ -393,15 +368,15 @@ export default function HomePage() {
                 className="group rounded-[1.75rem] border border-slate-200 bg-slate-50 p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-lg hover:shadow-indigo-500/20"
               >
                 <div className="flex h-full flex-col gap-6">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-300">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-600">
                     <card.icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-3">
-                    <p className="text-sm uppercase tracking-[0.3em] text-indigo-300/70">{card.eyebrow}</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-indigo-600/70">{card.eyebrow}</p>
                     <h3 className="text-3xl font-semibold text-slate-950">{card.title}</h3>
                     <p className="text-base leading-7 text-slate-500">{card.description}</p>
                   </div>
-                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-indigo-200 transition-colors group-hover:text-indigo-100">
+                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-indigo-700 transition-colors group-hover:text-indigo-100">
                     {card.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
@@ -413,15 +388,15 @@ export default function HomePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 backdrop-blur-sm lg:p-10">
             <div className="space-y-4">
-              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-200">Delivery Coverage</Badge>
+              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Delivery Coverage</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 Delivery Area: <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">Saint Paul & Minneapolis Metro</span>
               </h2>
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-700">
                 <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2">
-                  <MapPin className="h-4 w-4 text-indigo-300" /> Saint Paul, Minneapolis & nearby metro neighborhoods
+                  <MapPin className="h-4 w-4 text-indigo-600" /> Saint Paul, Minneapolis & nearby metro neighborhoods
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-500/10 px-4 py-2 text-indigo-200">
+                <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-500/10 px-4 py-2 text-indigo-700">
                   🚗 Delivery available Tue · Thu · Sat
                 </span>
               </div>
@@ -442,7 +417,7 @@ export default function HomePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
           <div className="grid gap-8 rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(79,70,229,0.12),rgba(255,255,255,0.04),rgba(0,0,0,0.9))] p-8 backdrop-blur-sm lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
             <div className="space-y-5">
-              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-200">Rewards & Updates</Badge>
+              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Rewards & Updates</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 Join our <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">rewards program</span>
               </h2>

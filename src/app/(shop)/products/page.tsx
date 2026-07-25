@@ -96,7 +96,7 @@ export default async function ProductsPage({
               href="/products"
               className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                 !params.category
-                  ? "bg-indigo-500 text-black border-indigo-500 font-medium"
+                  ? "bg-indigo-600 text-white border-indigo-500 font-medium"
                   : "border-slate-300 text-slate-700 hover:border-indigo-500/50"
               }`}
             >
@@ -108,7 +108,7 @@ export default async function ProductsPage({
                 href={`/products?category=${cat.slug}`}
                 className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                   params.category === cat.slug
-                    ? "bg-indigo-500 text-black border-indigo-500 font-medium"
+                    ? "bg-indigo-600 text-white border-indigo-500 font-medium"
                     : "border-slate-300 text-slate-700 hover:border-indigo-500/50"
                 }`}
               >

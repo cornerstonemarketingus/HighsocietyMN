@@ -86,7 +86,7 @@ export function NewsletterSignup() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-xl bg-indigo-500 text-black px-5 py-2.5 text-sm font-semibold hover:bg-indigo-400 transition-colors disabled:opacity-50 flex items-center gap-2"
+          className="rounded-xl bg-indigo-600 text-white px-5 py-2.5 text-sm font-semibold hover:bg-indigo-400 transition-colors disabled:opacity-50 flex items-center gap-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Subscribe"}
         </button>
