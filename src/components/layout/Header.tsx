@@ -29,24 +29,25 @@ export function Header() {
   const [communityOpen, setCommunityOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-indigo-100 bg-white shadow-[0_8px_30px_rgba(30,41,59,0.06)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-[4.75rem] items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="High Society MN home">
             <BrandMark />
-            <span className="text-xl font-bold text-slate-950">
-              High Society <span className="text-indigo-500">MN</span>
+            <span className="leading-none">
+              <span className="block text-lg font-semibold tracking-[0.02em] text-slate-950">High Society</span>
+              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-indigo-600">Minnesota</span>
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden items-center gap-0.5 rounded-full border border-slate-200 bg-slate-50 p-1 md:flex">
             {shopLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 text-sm text-slate-700 hover:text-indigo-400 transition-colors rounded-md hover:bg-slate-50"
+                className="rounded-full px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-indigo-700 hover:shadow-sm"
               >
                 {link.label}
               </Link>
@@ -57,7 +58,7 @@ export function Header() {
               <button
                 onMouseEnter={() => setCommunityOpen(true)}
                 onMouseLeave={() => setCommunityOpen(false)}
-                className="flex items-center gap-1 px-3 py-2 text-sm text-slate-700 hover:text-indigo-400 transition-colors rounded-md hover:bg-slate-50"
+                className="flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-indigo-700 hover:shadow-sm"
               >
                 Community <ChevronDown className="h-3.5 w-3.5" />
               </button>
@@ -85,7 +86,7 @@ export function Header() {
 
             <Link
               href="/drops"
-              className="px-3 py-2 text-sm text-indigo-400 hover:text-indigo-600 transition-colors rounded-md hover:bg-indigo-500/10 font-medium"
+              className="rounded-full px-3 py-2 text-sm font-semibold text-indigo-700 transition-colors hover:bg-white hover:shadow-sm"
             >
               ⚡ Drops
             </Link>
@@ -97,7 +98,7 @@ export function Header() {
               <BudSeekerTrigger compact />
             </div>
             {/* Drop timer — desktop */}
-            <div className="hidden lg:block">
+            <div className="hidden 2xl:block">
               <DropTimer />
             </div>
 

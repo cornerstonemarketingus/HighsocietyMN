@@ -156,8 +156,11 @@ export default function HomePage() {
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
           <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl gap-16 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-24">
             <div className="max-w-3xl space-y-8">
-              <Badge className="w-fit border-indigo-400/30 bg-indigo-500/10 px-4 py-2 text-sm text-indigo-700 shadow-[0_0_30px_rgba(79,70,229,0.12)]">
-                🌿 Saint Paul & Minneapolis Delivery
+              <Badge className="w-fit gap-2 border-indigo-200 bg-white px-2.5 py-2 pr-4 text-sm font-semibold text-indigo-800 shadow-[0_10px_30px_rgba(79,70,229,0.10)]">
+                <span className="relative h-7 w-7 overflow-hidden rounded-full ring-2 ring-indigo-100">
+                  <Image src="/categories/flower.webp" alt="" fill sizes="28px" className="object-cover" />
+                </span>
+                Saint Paul & Minneapolis Delivery
               </Badge>
               <div className="space-y-6">
                 <p className="text-sm uppercase tracking-[0.4em] text-indigo-600/80">
@@ -165,7 +168,7 @@ export default function HomePage() {
                 </p>
                 <h1 className="text-5xl font-semibold leading-none sm:text-6xl lg:text-7xl">
                   <span className="block text-slate-950">Luxury cannabis,</span>
-                  <span className="block bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-indigo-700 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
                     delivered with intention.
                   </span>
                 </h1>
@@ -185,6 +188,13 @@ export default function HomePage() {
                   </Button>
                 </Link>
                 <BudSeekerTrigger />
+              </div>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                <span>21+ verified</span>
+                <span className="h-1 w-1 rounded-full bg-indigo-300" />
+                <span>Private service</span>
+                <span className="h-1 w-1 rounded-full bg-indigo-300" />
+                <span>Twin Cities local</span>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3">
