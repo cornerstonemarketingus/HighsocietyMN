@@ -333,8 +333,8 @@ export default function HomePage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-8 rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(79,70,229,0.08),rgba(0,0,0,0.85))] p-8 backdrop-blur-sm lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
-            <div className="space-y-5">
+          <div className="grid gap-8 rounded-[2rem] border border-indigo-100 bg-[linear-gradient(135deg,rgba(255,255,255,1),rgba(238,242,255,0.92),rgba(224,231,255,0.72))] p-8 shadow-[0_24px_70px_-48px_rgba(79,70,229,0.45)] lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
+            <div className="min-w-0 space-y-5">
               <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Featured Collection</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 Discover this week&apos;s <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">premium selection</span>
@@ -358,7 +358,7 @@ export default function HomePage() {
               </div>
               <Link href="/products" className="mt-6 inline-flex">
                 <Button size="lg" className="group gap-2 rounded-full px-7">
-                  Shop /products
+                  Shop the collection
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
@@ -428,8 +428,8 @@ export default function HomePage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
-          <div className="grid gap-8 rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(79,70,229,0.12),rgba(255,255,255,0.04),rgba(0,0,0,0.9))] p-8 backdrop-blur-sm lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
-            <div className="space-y-5">
+          <div className="grid gap-8 rounded-[2rem] border border-indigo-100 bg-[linear-gradient(135deg,rgba(238,242,255,0.96),rgba(255,255,255,1),rgba(224,231,255,0.74))] p-8 shadow-[0_24px_70px_-48px_rgba(79,70,229,0.45)] lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
+            <div className="min-w-0 space-y-5">
               <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Rewards & Updates</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 Join our <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">rewards program</span>
@@ -450,7 +450,7 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            <div className="rounded-[1.75rem] border border-slate-200 bg-white p-2">
+            <div className="min-w-0 rounded-[1.75rem] border border-slate-200 bg-white p-2">
               <NewsletterSignup />
             </div>
           </div>
