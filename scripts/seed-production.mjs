@@ -84,6 +84,24 @@ for (let index = 0; index < forumCategories.length; index += 1) {
   );
 }
 
+const generalCategory = await client.query(`SELECT "id" FROM "forum_categories" WHERE "slug"='general'`);
+const welcomeThreadId = crypto.randomUUID();
+await client.query(
+  `INSERT INTO "forum_threads" ("id","title","slug","categoryId","authorId","pinned","updatedAt")
+   VALUES ($1,'Welcome to the Member Lounge','welcome-to-the-member-lounge',$2,$3,true,NOW())
+   ON CONFLICT ("slug") DO NOTHING`,
+  [welcomeThreadId, generalCategory.rows[0].id, authorId],
+);
+const welcomeThread = await client.query(`SELECT "id" FROM "forum_threads" WHERE "slug"='welcome-to-the-member-lounge'`);
+const existingWelcomePost = await client.query(`SELECT "id" FROM "forum_posts" WHERE "threadId"=$1 LIMIT 1`, [welcomeThread.rows[0].id]);
+if (existingWelcomePost.rowCount === 0) {
+  await client.query(
+    `INSERT INTO "forum_posts" ("id","threadId","authorId","content","updatedAt")
+     VALUES ($1,$2,$3,$4,NOW())`,
+    [crypto.randomUUID(), welcomeThread.rows[0].id, authorId, "Welcome to the High Society Member Lounge. Introduce yourself, share responsible-use tips, review recent drops, and help us build a thoughtful Minnesota cannabis community for adults 21+."],
+  );
+}
+
 await client.query(
   `INSERT INTO "blog_posts" ("id","title","slug","excerpt","content","authorId","published","publishedAt","updatedAt")
    VALUES ($1,$2,$3,$4,$5,$6,true,NOW(),NOW())
