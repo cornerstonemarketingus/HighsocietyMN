@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
+import { SpinWheel } from "@/components/SpinWheel";
 import {
   ArrowRight,
   MapPin,
@@ -326,6 +327,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <SpinWheel />
 
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
