@@ -29,12 +29,12 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({})) as { topic?: string };
   const topic = body.topic ?? TOPICS[Math.floor(Math.random() * TOPICS.length)];
 
-  if (!process.env.LLM_BASE_URL) {
-    return NextResponse.json({ error: "LLM not configured. Set LLM_BASE_URL env var." }, { status: 503 });
+  const baseUrl = (process.env.OLLAMA_BASE_URL || (process.env.OLLAMA_API_KEY ? "https://ollama.com" : "")).replace(/\/$/, "");
+  if (!baseUrl) {
+    return NextResponse.json({ error: "Ollama not configured. Set OLLAMA_BASE_URL or OLLAMA_API_KEY." }, { status: 503 });
   }
 
-  const model = process.env.LLM_MODEL ?? "llama3.2";
-  const baseUrl = process.env.LLM_BASE_URL.replace(/\/$/, "");
+  const model = process.env.OLLAMA_MODEL ?? "gemma4:31b";
 
   const prompt = `Write an engaging, SEO-optimized blog post for a high-end cannabis dispensary in Minnesota called "High Society MN" about the topic: "${topic}".
 
@@ -50,14 +50,15 @@ The post should be:
 
 Format: Return JSON with fields: title (string), excerpt (string, 1-2 sentences), content (string, full HTML content with <h2> tags for sections, <p> tags for paragraphs).`;
 
-  const llmRes = await fetch(`${baseUrl}/v1/chat/completions`, {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (process.env.OLLAMA_API_KEY) headers.Authorization = `Bearer ${process.env.OLLAMA_API_KEY}`;
+  const llmRes = await fetch(`${baseUrl}/api/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({
       model,
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 1500,
-      temperature: 0.8,
+      options: { num_predict: 1500, temperature: 0.8 },
       stream: false,
     }),
   });
@@ -66,8 +67,8 @@ Format: Return JSON with fields: title (string), excerpt (string, 1-2 sentences)
     return NextResponse.json({ error: "LLM request failed" }, { status: 502 });
   }
 
-  const data = await llmRes.json() as { choices?: Array<{ message?: { content?: string } }> };
-  const rawContent = data.choices?.[0]?.message?.content ?? "";
+  const data = await llmRes.json() as { message?: { content?: string } };
+  const rawContent = data.message?.content ?? "";
 
   let parsed: { title?: string; excerpt?: string; content?: string } = {};
   try {

@@ -50,26 +50,25 @@ ${productSummary}
 
 Be warm, professional, and concise. Use cannabis-friendly language but stay legal and responsible.`;
 
-    if (!process.env.LLM_BASE_URL) {
+    const baseUrl = (process.env.OLLAMA_BASE_URL || (process.env.OLLAMA_API_KEY ? "https://ollama.com" : "")).replace(/\/$/, "");
+    if (!baseUrl) {
       return NextResponse.json(
-        { error: "Bud Seeker is not configured. Set LLM_BASE_URL in Vercel." },
+        { error: "Ollama guidance is not configured yet. Nearby dispensary search is still available." },
         { status: 503 },
       );
     }
 
-    const model = process.env.LLM_MODEL ?? "llama3.2";
-    const baseUrl = process.env.LLM_BASE_URL.replace(/\/$/, "");
+    const model = process.env.OLLAMA_MODEL ?? "gemma4:31b";
     const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (process.env.LLM_API_KEY) headers.Authorization = `Bearer ${process.env.LLM_API_KEY}`;
+    if (process.env.OLLAMA_API_KEY) headers.Authorization = `Bearer ${process.env.OLLAMA_API_KEY}`;
 
-    const llmRes = await fetch(`${baseUrl}/v1/chat/completions`, {
+    const llmRes = await fetch(`${baseUrl}/api/chat`, {
       method: "POST",
       headers,
       body: JSON.stringify({
         model,
         messages: [{ role: "system", content: systemPrompt }, ...messages.slice(-10)],
-        max_tokens: 500,
-        temperature: 0.7,
+        options: { temperature: 0.7, num_predict: 500 },
         stream: false,
       }),
       signal: AbortSignal.timeout(20000),
@@ -80,8 +79,8 @@ Be warm, professional, and concise. Use cannabis-friendly language but stay lega
       return NextResponse.json({ error: "Bud Seeker model is temporarily unavailable." }, { status: 502 });
     }
 
-    const data = await llmRes.json() as { choices?: Array<{ message?: { content?: string } }> };
-    const reply = data.choices?.[0]?.message?.content?.trim();
+    const data = await llmRes.json() as { message?: { content?: string } };
+    const reply = data.message?.content?.trim();
     if (!reply) {
       return NextResponse.json({ error: "Bud Seeker returned an empty response." }, { status: 502 });
     }

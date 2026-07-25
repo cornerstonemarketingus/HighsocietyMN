@@ -30,13 +30,15 @@ function formatRemaining(ms: number) {
 
 export function VaultDrop() {
   const [now, setNow] = useState(() => new Date());
+  const [manualOpen, setManualOpen] = useState<boolean | null>(null);
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(timer);
   }, []);
 
   const { latest, next } = schedule(now);
-  const open = Boolean(latest && now.getTime() - latest.getTime() < OPEN_WINDOW_MS);
+  const automaticallyOpen = Boolean(latest && now.getTime() - latest.getTime() < OPEN_WINDOW_MS);
+  const open = manualOpen ?? automaticallyOpen;
 
   return (
     <div className="mx-auto w-full max-w-sm">
@@ -62,7 +64,12 @@ export function VaultDrop() {
           </div>
         )}
       </div>
-      <p className="mt-3 text-center text-sm text-slate-500">Doors open automatically at 10am every Tuesday, Thursday, and Saturday.</p>
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <p className="text-sm text-slate-500">Doors open automatically at drop time.</p>
+        <button type="button" onClick={() => setManualOpen(!open)} className="shrink-0 rounded-lg border border-indigo-200 bg-white px-3 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-50">
+          {open ? "Close vault" : "Open vault"}
+        </button>
+      </div>
     </div>
   );
 }

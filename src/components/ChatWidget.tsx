@@ -1,81 +1,89 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Search, X, Send, Loader2, Leaf, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ExternalLink, Leaf, Loader2, MapPin, Navigation, Search, Send, Sparkles, X } from "lucide-react";
 
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
+type Message = { role: "user" | "assistant"; content: string };
+type Place = {
+  id: string;
+  name: string;
+  address: string;
+  distanceMiles: number;
+  openingHours: string | null;
+  website: string | null;
+  phone: string | null;
+  latitude: number;
+  longitude: number;
+};
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content:
-        "Welcome to Bud Seeker. Tell me the kind of experience you want, and I’ll help narrow down the right products from today’s High Society MN menu.",
-    },
-  ]);
+  const [tab, setTab] = useState<"nearby" | "guide">("nearby");
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [locationState, setLocationState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [locationError, setLocationError] = useState("");
+  const [messages, setMessages] = useState<Message[]>([{
+    role: "assistant",
+    content: "Tell me the experience, format, and strength you prefer. Ollama will compare your request with today’s High Society menu.",
+  }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  useEffect(() => {
-    const openBudSeeker = () => setOpen(true);
-    window.addEventListener("bud-seeker:open", openBudSeeker);
-    return () => window.removeEventListener("bud-seeker:open", openBudSeeker);
+    const handler = () => { setOpen(true); setTab("nearby"); };
+    window.addEventListener("bud-seeker:open", handler);
+    return () => window.removeEventListener("bud-seeker:open", handler);
   }, []);
+  useEffect(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
 
-  const quickPrompts = [
-    "Help me unwind",
-    "Something social",
-    "Low-dose options",
-    "What’s new?",
-  ];
+  function findNearby() {
+    if (!navigator.geolocation) {
+      setLocationState("error");
+      setLocationError("Location services are not available in this browser.");
+      return;
+    }
+    setLocationState("loading");
+    setLocationError("");
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      try {
+        const response = await fetch(`/api/dispensaries?lat=${coords.latitude}&lon=${coords.longitude}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Search failed.");
+        setPlaces(data.places ?? []);
+        setLocationState("done");
+      } catch (error) {
+        setLocationState("error");
+        setLocationError(error instanceof Error ? error.message : "Search failed.");
+      }
+    }, () => {
+      setLocationState("error");
+      setLocationError("Allow location access to find nearby dispensaries.");
+    }, { enableHighAccuracy: false, timeout: 12000, maximumAge: 300000 });
+  }
 
-  async function sendMessage(e: React.FormEvent) {
-    e.preventDefault();
+  async function sendMessage(event: React.FormEvent) {
+    event.preventDefault();
     const text = input.trim();
     if (!text || loading) return;
-
-    const userMsg: Message = { role: "user", content: text };
-    setMessages((prev) => [...prev, userMsg]);
+    const userMessage: Message = { role: "user", content: text };
+    setMessages((current) => [...current, userMessage]);
     setInput("");
     setLoading(true);
-
     try {
-      const res = await fetch("/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [...messages, userMsg].map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-        }),
+        body: JSON.stringify({ messages: [...messages, userMessage] }),
       });
-      const data = await res.json() as { reply?: string; error?: string };
-      if (!res.ok) throw new Error(data.error || "Bud Seeker is unavailable.");
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: data.reply ?? "Sorry, I couldn't get a response. Please try again!",
-        },
-      ]);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Ollama guidance is unavailable.");
+      setMessages((current) => [...current, { role: "assistant", content: data.reply }]);
     } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: error instanceof Error ? error.message : "Connection error — please try again in a moment.",
-        },
-      ]);
+      setMessages((current) => [...current, {
+        role: "assistant",
+        content: error instanceof Error ? error.message : "Ollama guidance is unavailable.",
+      }]);
     } finally {
       setLoading(false);
     }
@@ -83,102 +91,55 @@ export function ChatWidget() {
 
   return (
     <>
-      {/* Floating button */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-400 transition-all hover:scale-105"
-        aria-label={open ? "Close Bud Seeker" : "Open Bud Seeker"}
-      >
+      <button onClick={() => setOpen((current) => !current)}
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-700 text-white shadow-xl transition hover:scale-105 hover:bg-indigo-800"
+        aria-label={open ? "Close Bud Seeker" : "Open Bud Seeker"}>
         {open ? <X className="h-6 w-6" /> : <Search className="h-6 w-6" />}
       </button>
 
-      {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex flex-col w-80 sm:w-96 rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
-          {/* Header */}
-          <div className="flex items-center gap-3 border-b border-slate-200 bg-white/95 px-4 py-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-500">
-              <Sparkles className="h-4 w-4 text-white" />
+        <section className="fixed inset-x-3 bottom-20 z-50 flex max-h-[78vh] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-950 shadow-2xl sm:left-auto sm:right-5 sm:w-[440px]">
+          <header className="border-b border-slate-200 bg-white px-5 py-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-700 text-white"><Sparkles className="h-5 w-5" /></div>
+              <div><h2 className="font-semibold">Bud Seeker</h2><p className="text-xs text-slate-500">Nearby dispensaries + private product guide</p></div>
             </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-950">Bud Seeker</p>
-              <p className="text-xs text-indigo-600">Personal product finder</p>
+            <div className="mt-4 grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+              <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Nearby</button>
+              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Ollama guide</button>
             </div>
-          </div>
+          </header>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-96">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed ${
-                    msg.role === "user"
-                      ? "bg-indigo-600 text-white rounded-br-sm"
-                      : "bg-indigo-50 text-slate-950 rounded-bl-sm"
-                  }`}
-                >
-                  {msg.content}
-                </div>
-              </div>
-            ))}
-            {loading && (
-              <div className="flex justify-start">
-                <div className="bg-indigo-50 text-slate-950 rounded-2xl rounded-bl-sm px-4 py-2.5">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                </div>
-              </div>
-            )}
-            <div ref={bottomRef} />
-          </div>
-
-          {messages.length === 1 && (
-            <div className="border-t border-slate-200 px-4 py-3">
-              <p className="mb-2 text-xs uppercase tracking-wider text-slate-500">
-                Start with a vibe
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {quickPrompts.map((prompt) => (
-                  <button
-                    key={prompt}
-                    type="button"
-                    onClick={() => setInput(prompt)}
-                    className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-xs text-indigo-700 transition-colors hover:bg-indigo-500/20"
-                  >
-                    {prompt}
-                  </button>
-                ))}
-              </div>
+          {tab === "nearby" ? (
+            <div className="overflow-y-auto p-5">
+              {locationState === "idle" && <div className="py-8 text-center"><MapPin className="mx-auto h-12 w-12 text-indigo-600" /><h3 className="mt-4 text-xl font-semibold">Find dispensaries near you</h3><p className="mx-auto mt-2 max-w-sm text-sm text-slate-600">Use your location to view cannabis dispensaries ordered by distance.</p><button onClick={findNearby} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-5 py-3 font-semibold text-white hover:bg-indigo-800"><Navigation className="h-4 w-4" />Use my location</button></div>}
+              {locationState === "loading" && <div className="flex items-center justify-center gap-3 py-16 text-slate-600"><Loader2 className="h-5 w-5 animate-spin" />Searching nearby…</div>}
+              {locationState === "error" && <div className="py-10 text-center"><p className="text-sm text-red-600">{locationError}</p><button onClick={findNearby} className="mt-4 rounded-lg border border-indigo-200 px-4 py-2 text-sm font-medium text-indigo-700">Try again</button></div>}
+              {locationState === "done" && <div className="space-y-3">
+                {places.length === 0 && <p className="py-10 text-center text-sm text-slate-500">No mapped cannabis dispensaries were found within 50 miles.</p>}
+                {places.map((place) => <article key={place.id} className="rounded-2xl border border-slate-200 p-4">
+                  <div className="flex items-start justify-between gap-3"><div><h3 className="font-semibold">{place.name}</h3><p className="mt-1 text-sm text-slate-500">{place.address}</p></div><span className="shrink-0 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700">{place.distanceMiles} mi</span></div>
+                  {place.openingHours && <p className="mt-2 text-xs text-slate-500">{place.openingHours}</p>}
+                  <div className="mt-3 flex gap-2"><a target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/directions?to=${place.latitude},${place.longitude}`} className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-700 px-3 py-2 text-xs font-semibold text-white">Directions <Navigation className="h-3.5 w-3.5" /></a>{place.website && <a target="_blank" rel="noreferrer" href={place.website} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold">Website <ExternalLink className="h-3.5 w-3.5" /></a>}</div>
+                </article>)}
+                <p className="pt-2 text-center text-[11px] text-slate-400">Location data © OpenStreetMap contributors. Verify licensing and availability directly with each retailer.</p>
+              </div>}
             </div>
+          ) : (
+            <>
+              <div className="flex-1 space-y-3 overflow-y-auto p-5">
+                {messages.map((message, index) => <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}><div className={`max-w-[88%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${message.role === "user" ? "bg-indigo-700 text-white" : "bg-slate-100 text-slate-800"}`}>{message.content}</div></div>)}
+                {loading && <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />}
+                <div ref={bottomRef} />
+              </div>
+              <form onSubmit={sendMessage} className="flex gap-2 border-t border-slate-200 bg-white p-3">
+                <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="What are you looking for?" className="h-11 flex-1 rounded-xl border border-slate-300 bg-white px-4 text-sm outline-none focus:border-indigo-500" />
+                <button disabled={!input.trim() || loading} className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-700 text-white disabled:opacity-40"><Send className="h-4 w-4" /></button>
+              </form>
+              <p className="flex items-center justify-center gap-1 pb-2 text-[11px] text-slate-500"><Leaf className="h-3 w-3" />Adults 21+ · Not medical advice</p>
+            </>
           )}
-
-          {/* Input */}
-          <form
-            onSubmit={sendMessage}
-            className="flex items-center gap-2 border-t border-slate-200 bg-indigo-50/90 px-3 py-3"
-          >
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="What kind of experience are you seeking?"
-              className="flex-1 rounded-xl bg-indigo-50 px-4 py-2 text-sm text-slate-950 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-              disabled={loading}
-              autoFocus
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || loading}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white disabled:opacity-40 hover:bg-indigo-400 transition-colors"
-            >
-              <Send className="h-4 w-4" />
-            </button>
-          </form>
-          <p className="flex items-center justify-center gap-1 text-center text-xs text-slate-500 pb-2">
-            <Leaf className="h-3 w-3" /> 21+ only · Not medical advice
-          </p>
-        </div>
+        </section>
       )}
     </>
   );
