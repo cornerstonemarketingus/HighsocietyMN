@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Leaf, MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Mail } from "lucide-react";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { BrandMark } from "@/components/BrandMark";
 
 export function Footer() {
   return (
@@ -13,7 +14,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Leaf className="h-6 w-6 text-indigo-500" />
+              <BrandMark className="h-8 w-8" />
               <span className="text-lg font-bold text-slate-950">
                 High Society <span className="text-indigo-500">MN</span>
               </span>
@@ -106,15 +107,6 @@ export function Footer() {
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-indigo-500" />
-                <a
-                  href="tel:+16125550000"
-                  className="text-sm text-slate-600 transition-colors hover:text-indigo-400"
-                >
-                  (612) 555-0000
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-indigo-500" />
                 <a
                   href="mailto:hello@highsocietymn.com"
@@ -136,7 +128,7 @@ export function Footer() {
             ⚠️ Cannabis products are for adults 21+ only. Valid ID required at delivery. Not for resale. Keep out of reach of children. Use responsibly.
           </p>
           <p className="text-center text-xs text-slate-500">
-            © {new Date().getFullYear()} High Society MN. All rights reserved. Licensed Minnesota Cannabis Retailer.
+            © {new Date().getFullYear()} High Society MN. All rights reserved. Products and services are offered only where authorized by applicable Minnesota law.
           </p>
         </div>
       </div>

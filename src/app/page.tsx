@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -47,37 +48,43 @@ const categories = [
   {
     name: "Flower",
     slug: "flower",
-    emoji: "🌿",
+    image: "/categories/flower.webp",
+    imageAlt: "Pink Runtz flower from the High Society MN catalog",
     description: "Velvet-smooth cultivars selected for aroma, nuance, and elevated evenings.",
   },
   {
     name: "Edibles",
     slug: "edibles",
-    emoji: "🍫",
+    image: "/categories/edibles.webp",
+    imageAlt: "Mitten Extracts gummies from the High Society MN catalog",
     description: "Chef-inspired confections with precise dosing and boutique presentation.",
   },
   {
     name: "Vapes",
     slug: "vapes",
-    emoji: "💨",
+    image: "/categories/vapes.webp",
+    imageAlt: "Sweetcarts vape from the High Society MN catalog",
     description: "Refined terpene-rich cartridges for clean flavor and effortless luxury.",
   },
   {
     name: "Concentrates",
     slug: "concentrates",
-    emoji: "⚗️",
+    image: "/categories/concentrates.webp",
+    imageAlt: "Premium hash bar from the High Society MN catalog",
     description: "High-potency extracts crafted for enthusiasts who appreciate depth.",
   },
   {
     name: "Beverages",
     slug: "beverages",
-    emoji: "🥂",
+    image: "/categories/beverages.webp",
+    imageAlt: "Oliphant Brewing THC beverage from the High Society MN catalog",
     description: "Sparkling, sip-worthy infusions made for polished social rituals.",
   },
   {
     name: "Accessories",
     slug: "accessories",
-    emoji: "✨",
+    image: "/categories/accessories.webp",
+    imageAlt: "Infuzed by Society product from the High Society MN catalog",
     description: "Elegant essentials that complete a curated and discreet experience.",
   },
 ] as const;
@@ -253,20 +260,18 @@ export default function HomePage() {
               <Link
                 key={category.slug}
                 href={`/products?category=${category.slug}`}
-                className="group relative min-h-40 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-50 p-7 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/50 hover:bg-slate-100 hover:shadow-lg hover:shadow-indigo-500/20"
+                className="group relative min-h-72 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-indigo-950 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/50 hover:shadow-xl hover:shadow-indigo-500/20"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,70,229,0.18),transparent_35%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="absolute right-5 top-5 text-xs text-slate-500">0{index + 1}</div>
-                <div className="relative flex h-full flex-col justify-between gap-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-indigo-400/20 bg-indigo-500/10 text-4xl shadow-[0_0_30px_rgba(79,70,229,0.08)] transition-transform duration-300 group-hover:scale-105">
-                      <span>{category.emoji}</span>
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-indigo-600/70 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-indigo-700" />
+                <Image src={category.image} alt={category.imageAlt} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/50 to-black/10" />
+                <div className="absolute right-5 top-5 rounded-full border border-white/30 bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-900">0{index + 1}</div>
+                <div className="relative flex min-h-72 flex-col justify-end p-7">
+                  <div className="mb-5 flex items-center justify-end">
+                    <ArrowRight className="h-5 w-5 text-white transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-semibold text-slate-950">{category.name}</h3>
-                    <p className="mt-3 max-w-sm text-sm leading-6 text-slate-500">
+                    <h3 className="text-2xl font-semibold text-white">{category.name}</h3>
+                    <p className="mt-3 max-w-sm text-sm leading-6 text-indigo-50">
                       {category.description}
                     </p>
                   </div>

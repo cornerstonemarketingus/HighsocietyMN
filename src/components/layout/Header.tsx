@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { ShoppingCart, User, Menu, X, Leaf, ChevronDown } from "lucide-react";
+import { ShoppingCart, User, Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { DropTimer } from "@/components/DropTimer";
 import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
+import { BrandMark } from "@/components/BrandMark";
 
 const shopLinks = [
   { href: "/products", label: "All Products" },
@@ -33,7 +34,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Leaf className="h-7 w-7 text-indigo-500" />
+            <BrandMark />
             <span className="text-xl font-bold text-slate-950">
               High Society <span className="text-indigo-500">MN</span>
             </span>
