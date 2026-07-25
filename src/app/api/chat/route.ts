@@ -5,12 +5,17 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json() as {
+    const { messages, email } = await req.json() as {
       messages: Array<{ role: "user" | "assistant" | "system"; content: string }>;
+      email?: string;
     };
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json({ error: "messages required" }, { status: 400 });
+    }
+    const normalizedEmail = email?.trim().toLowerCase();
+    if (!normalizedEmail || !await db.newsletterSubscriber.findUnique({ where: { email: normalizedEmail }, select: { id: true } })) {
+      return NextResponse.json({ error: "Email signup is required to use Bud Seeker." }, { status: 403 });
     }
 
     const products = await db.product.findMany({

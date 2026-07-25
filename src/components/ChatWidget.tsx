@@ -16,6 +16,8 @@ type Place = {
   longitude: number;
 };
 
+const BUD_SEEKER_EMAIL_KEY = "hs_budseeker_email";
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<"nearby" | "guide">("nearby");
@@ -24,12 +26,19 @@ export function ChatWidget() {
   const [locationError, setLocationError] = useState("");
   const [messages, setMessages] = useState<Message[]>([{
     role: "assistant",
-    content: "Tell me the experience, format, and strength you prefer. Ollama will compare your request with today’s High Society menu.",
+    content: "Tell me the experience, format, and strength you prefer. Your private guide will compare your request with today’s High Society menu.",
   }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [memberEmail, setMemberEmail] = useState("");
+  const [gateEmail, setGateEmail] = useState("");
+  const [gateError, setGateError] = useState("");
+  const [joining, setJoining] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setMemberEmail(localStorage.getItem(BUD_SEEKER_EMAIL_KEY) || "");
+  }, []);
   useEffect(() => {
     const handler = () => { setOpen(true); setTab("nearby"); };
     window.addEventListener("bud-seeker:open", handler);
@@ -47,7 +56,7 @@ export function ChatWidget() {
     setLocationError("");
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       try {
-        const response = await fetch(`/api/dispensaries?lat=${coords.latitude}&lon=${coords.longitude}`);
+        const response = await fetch(`/api/dispensaries?lat=${coords.latitude}&lon=${coords.longitude}&email=${encodeURIComponent(memberEmail)}`);
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Search failed.");
         setPlaces(data.places ?? []);
@@ -74,18 +83,38 @@ export function ChatWidget() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMessage] }),
+        body: JSON.stringify({ messages: [...messages, userMessage], email: memberEmail }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Ollama guidance is unavailable.");
+      if (!response.ok) throw new Error(data.error || "Guide is unavailable.");
       setMessages((current) => [...current, { role: "assistant", content: data.reply }]);
     } catch (error) {
       setMessages((current) => [...current, {
         role: "assistant",
-        content: error instanceof Error ? error.message : "Ollama guidance is unavailable.",
+        content: error instanceof Error ? error.message : "Guide is unavailable.",
       }]);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function joinBudSeeker(event: React.FormEvent) {
+    event.preventDefault();
+    setGateError("");
+    setJoining(true);
+    try {
+      const normalizedEmail = gateEmail.trim().toLowerCase();
+      const response = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) return setGateError(data.error || "Signup failed.");
+      localStorage.setItem(BUD_SEEKER_EMAIL_KEY, normalizedEmail);
+      setMemberEmail(normalizedEmail);
+    } finally {
+      setJoining(false);
     }
   }
 
@@ -104,13 +133,26 @@ export function ChatWidget() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-700 text-white"><Sparkles className="h-5 w-5" /></div>
               <div><h2 className="font-semibold">Bud Seeker</h2><p className="text-xs text-slate-500">Nearby dispensaries + private product guide</p></div>
             </div>
-            <div className="mt-4 grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+            {memberEmail && <div className="mt-4 grid grid-cols-2 rounded-xl bg-slate-100 p-1">
               <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Nearby</button>
-              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Ollama guide</button>
-            </div>
+              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Guide</button>
+            </div>}
           </header>
 
-          {tab === "nearby" ? (
+          {!memberEmail ? (
+            <form onSubmit={joinBudSeeker} className="p-6">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Members only</p>
+              <h3 className="mt-3 text-2xl font-semibold">Unlock Bud Seeker.</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">Join the private list to search nearby dispensaries and use your personal product guide.</p>
+              <label htmlFor="bud-seeker-email" className="mt-5 block text-sm font-medium text-slate-700">Email address</label>
+              <input id="bud-seeker-email" type="email" required value={gateEmail} onChange={(event) => setGateEmail(event.target.value)}
+                className="mt-2 h-11 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm outline-none focus:border-indigo-500"
+                placeholder="you@example.com" />
+              {gateError && <p className="mt-3 text-sm text-red-600">{gateError}</p>}
+              <button disabled={joining} className="mt-4 h-11 w-full rounded-xl bg-indigo-700 font-semibold text-white disabled:opacity-50">{joining ? "Joining…" : "Join and continue"}</button>
+              <p className="mt-3 text-center text-[11px] text-slate-500">Adults 21+ · Unsubscribe anytime</p>
+            </form>
+          ) : tab === "nearby" ? (
             <div className="overflow-y-auto p-5">
               {locationState === "idle" && <div className="py-8 text-center"><MapPin className="mx-auto h-12 w-12 text-indigo-600" /><h3 className="mt-4 text-xl font-semibold">Find dispensaries near you</h3><p className="mx-auto mt-2 max-w-sm text-sm text-slate-600">Use your location to view cannabis dispensaries ordered by distance.</p><button onClick={findNearby} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-5 py-3 font-semibold text-white hover:bg-indigo-800"><Navigation className="h-4 w-4" />Use my location</button></div>}
               {locationState === "loading" && <div className="flex items-center justify-center gap-3 py-16 text-slate-600"><Loader2 className="h-5 w-5 animate-spin" />Searching nearby…</div>}

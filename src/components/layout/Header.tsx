@@ -84,6 +84,8 @@ export function Header() {
               )}
             </div>
 
+            <BudSeekerTrigger compact />
+
             <Link
               href="/drops"
               className="rounded-full px-3 py-2 text-sm font-semibold text-indigo-700 transition-colors hover:bg-white hover:shadow-sm"
@@ -94,9 +96,6 @@ export function Header() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            <div className="hidden xl:block">
-              <BudSeekerTrigger compact />
-            </div>
             {/* Drop timer — desktop */}
             <div className="hidden 2xl:block">
               <DropTimer />
@@ -176,6 +175,9 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <div className="py-2">
+              <BudSeekerTrigger compact />
+            </div>
             <Link
               href="/drops"
               className="block text-indigo-400 hover:text-indigo-600 py-2 text-sm font-medium"

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,11 @@ type OverpassElement = {
   center?: { lat: number; lon: number };
   tags?: Record<string, string>;
 };
+
+const TWIN_CITIES_FALLBACK = [
+  { id: "fallback-in-dispensary", name: "In-Dispensary", address: "250 2nd Avenue South, Minneapolis, MN", openingHours: null, website: null, phone: null, latitude: 44.9802029, longitude: -93.2661756 },
+  { id: "fallback-wildflower", name: "Wildflower", address: "212 North 2nd Street, Minneapolis, MN", openingHours: null, website: "https://wildflower.cc", phone: "+1 612 482 4842", latitude: 44.9850299, longitude: -93.2705535 },
+] as const;
 
 function distanceMiles(lat1: number, lon1: number, lat2: number, lon2: number) {
   const radius = 3958.8;
@@ -23,15 +29,19 @@ function distanceMiles(lat1: number, lon1: number, lat2: number, lon2: number) {
 export async function GET(req: NextRequest) {
   const lat = Number(req.nextUrl.searchParams.get("lat"));
   const lon = Number(req.nextUrl.searchParams.get("lon"));
+  const email = req.nextUrl.searchParams.get("email")?.trim().toLowerCase();
   if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
     return NextResponse.json({ error: "Valid coordinates are required." }, { status: 400 });
+  }
+  if (!email || !await db.newsletterSubscriber.findUnique({ where: { email }, select: { id: true } })) {
+    return NextResponse.json({ error: "Email signup is required to use Bud Seeker." }, { status: 403 });
   }
 
   const query = `[out:json][timeout:20];
     (
-      node["shop"="cannabis"](around:80000,${lat},${lon});
-      way["shop"="cannabis"](around:80000,${lat},${lon});
-      relation["shop"="cannabis"](around:80000,${lat},${lon});
+      node["shop"="cannabis"](around:50000,${lat},${lon});
+      way["shop"="cannabis"](around:50000,${lat},${lon});
+      relation["shop"="cannabis"](around:50000,${lat},${lon});
     );
     out center tags;`;
 
@@ -39,6 +49,7 @@ export async function GET(req: NextRequest) {
     const endpoints = [
       "https://overpass.kumi.systems/api/interpreter",
       "https://overpass-api.de/api/interpreter",
+      "https://overpass.nchc.org.tw/api/interpreter",
     ];
     let response: Response | null = null;
     for (const endpoint of endpoints) {
@@ -87,6 +98,17 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ places, source: "OpenStreetMap contributors" });
   } catch (error) {
     console.error("Dispensary lookup failed:", error);
-    return NextResponse.json({ error: "Nearby dispensaries are temporarily unavailable." }, { status: 502 });
+    const nearTwinCities = distanceMiles(lat, lon, 44.9778, -93.265) <= 100;
+    const places = nearTwinCities
+      ? TWIN_CITIES_FALLBACK.map((place) => ({
+          ...place,
+          distanceMiles: Number(distanceMiles(lat, lon, place.latitude, place.longitude).toFixed(1)),
+        })).sort((a, b) => a.distanceMiles - b.distanceMiles)
+      : [];
+    return NextResponse.json({
+      places,
+      source: nearTwinCities ? "OpenStreetMap fallback directory" : "Search service temporarily limited",
+      limited: true,
+    });
   }
 }

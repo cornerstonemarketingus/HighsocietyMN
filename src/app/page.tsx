@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
-import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
 import { VaultDrop } from "@/components/VaultDrop";
 import {
   ArrowRight,
@@ -183,11 +182,10 @@ export default function HomePage() {
                     size="lg"
                     className="group gap-2 rounded-full border border-indigo-300/20 bg-indigo-600 px-8 text-base text-white shadow-[0_18px_50px_rgba(79,70,229,0.22)] transition-transform hover:-translate-y-0.5"
                   >
-                    Shop the Collection
+                    Shop our collection
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
-                <BudSeekerTrigger />
               </div>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
                 <span>21+ verified</span>
