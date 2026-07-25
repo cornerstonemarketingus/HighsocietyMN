@@ -36,14 +36,30 @@ export async function GET(req: NextRequest) {
     out center tags;`;
 
   try {
-    const response = await fetch("https://overpass-api.de/api/interpreter", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ data: query }),
-      signal: AbortSignal.timeout(25000),
-      next: { revalidate: 1800 },
-    });
-    if (!response.ok) throw new Error(`Overpass returned ${response.status}`);
+    const endpoints = [
+      "https://overpass.kumi.systems/api/interpreter",
+      "https://overpass-api.de/api/interpreter",
+    ];
+    let response: Response | null = null;
+    for (const endpoint of endpoints) {
+      const attempt = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          "User-Agent": "HighSocietyMN-BudSeeker/1.0 (highsociety-mn.vercel.app)",
+        },
+        body: `data=${encodeURIComponent(query)}`,
+        signal: AbortSignal.timeout(25000),
+        next: { revalidate: 1800 },
+      }).catch(() => null);
+      if (attempt?.ok) {
+        response = attempt;
+        break;
+      }
+      console.warn("Overpass endpoint rejected lookup:", endpoint, attempt?.status);
+    }
+    if (!response) throw new Error("All Overpass endpoints rejected the request");
     const data = await response.json() as { elements?: OverpassElement[] };
     const places = (data.elements ?? []).flatMap((element) => {
       const placeLat = element.lat ?? element.center?.lat;
