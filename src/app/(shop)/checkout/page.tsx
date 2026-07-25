@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
-type CartItem = { id: string; quantity: number; product: { name: string; price: number } };
+type CartItem = { id: string; quantity: number; variantLabel?: string | null; unitPrice?: number | null; product: { name: string; price: number } };
 
 export default function CheckoutPage() {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -21,7 +21,7 @@ export default function CheckoutPage() {
     fetch("/api/cart").then((r) => r.ok ? r.json() : { items: [] }).then((data) => setItems(data.items ?? []));
     setDiscountCode(localStorage.getItem("hs_spin_code") ?? "");
   }, []);
-  const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [items]);
+  const subtotal = useMemo(() => items.reduce((sum, item) => sum + (item.unitPrice ?? item.product.price) * item.quantity, 0), [items]);
 
   async function checkout() {
     setLoading(true);
@@ -65,7 +65,7 @@ export default function CheckoutPage() {
           <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-semibold">Order summary</h2>
             <div className="mt-4 space-y-3">
-              {items.map((item) => <div key={item.id} className="flex justify-between text-sm"><span>{item.quantity} × {item.product.name}</span><span>${(item.quantity * item.product.price).toFixed(2)}</span></div>)}
+              {items.map((item) => <div key={item.id} className="flex justify-between gap-4 text-sm"><span>{item.quantity} × {item.product.name}{item.variantLabel ? ` — ${item.variantLabel}` : ""}</span><span>${(item.quantity * (item.unitPrice ?? item.product.price)).toFixed(2)}</span></div>)}
             </div>
             <div className="mt-5 border-t border-slate-200 pt-4"><div className="flex justify-between font-semibold"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div><p className="mt-2 text-xs text-slate-500">Any wheel discount is applied securely before Stripe payment.</p></div>
             {discountCode && <p className="mt-3 rounded-lg bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700">Wheel reward: {discountCode}</p>}

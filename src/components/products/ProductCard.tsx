@@ -15,6 +15,7 @@ interface ProductCardProps {
   thcContent?: number | null;
   inStock: boolean;
   featured?: boolean;
+  variants?: unknown;
 }
 
 export function ProductCard({
@@ -26,10 +27,21 @@ export function ProductCard({
   category,
   thcContent,
   inStock,
+  variants,
 }: ProductCardProps) {
   const imageUrl =
     images[0] ??
     "/categories/flower.webp";
+  const variantPrices = Array.isArray(variants)
+    ? variants
+        .map((variant) =>
+          typeof variant === "object" && variant !== null && "price" in variant
+            ? Number(variant.price)
+            : Number.NaN,
+        )
+        .filter(Number.isFinite)
+    : [];
+  const displayPrice = variantPrices.length ? Math.min(price, ...variantPrices) : price;
 
   return (
     <article className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white shadow-[0_14px_45px_-32px_rgba(15,23,42,0.45)] transition-all duration-500 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-[0_24px_60px_-30px_rgba(79,70,229,0.35)]">
@@ -65,7 +77,7 @@ export function ProductCard({
           <div className="flex items-end justify-between gap-3">
             <div className="flex items-center gap-2">
               <span className="text-lg font-bold tracking-tight text-slate-950">
-              {formatPrice(price)}
+              {variantPrices.length ? "From " : ""}{formatPrice(displayPrice)}
               </span>
               {comparePrice && comparePrice > price && (
                 <span className="text-xs text-slate-400 line-through">

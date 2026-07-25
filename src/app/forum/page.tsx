@@ -13,7 +13,12 @@ export const metadata: Metadata = {
   description: "Connect with Minnesota cannabis enthusiasts. Share strains, tips, and experiences.",
 };
 
-export default async function ForumPage() {
+export default async function ForumPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category: selectedCategory } = await searchParams;
   const [categories, recentThreads] = await Promise.all([
     db.forumCategory.findMany({
       orderBy: { sortOrder: "asc" },
@@ -22,6 +27,7 @@ export default async function ForumPage() {
       },
     }),
     db.forumThread.findMany({
+      where: selectedCategory ? { category: { slug: selectedCategory } } : undefined,
       take: 15,
       orderBy: [{ pinned: "desc" }, { updatedAt: "desc" }],
       include: {
@@ -31,6 +37,7 @@ export default async function ForumPage() {
       },
     }),
   ]);
+  const activeCategory = categories.find((category) => category.slug === selectedCategory);
 
   return (
     <div className="min-h-screen bg-white">
@@ -62,7 +69,11 @@ export default async function ForumPage() {
               <Link
                 key={cat.id}
                 href={`/forum?category=${cat.slug}`}
-                className="group rounded-xl border border-slate-200 bg-slate-50 p-5 hover:border-indigo-500/40 transition-all"
+                className={`group rounded-xl border p-5 transition-all ${
+                  activeCategory?.id === cat.id
+                    ? "border-indigo-500 bg-indigo-50 shadow-sm"
+                    : "border-slate-200 bg-slate-50 hover:border-indigo-500/40"
+                }`}
               >
                 <h3 className="text-slate-950 font-semibold group-hover:text-indigo-400 transition-colors">
                   {cat.name}
@@ -79,8 +90,20 @@ export default async function ForumPage() {
         {/* Threads */}
         <div className="space-y-2">
           <h2 className="text-lg font-semibold text-slate-950 mb-4">
-            {recentThreads.length > 0 ? "Recent Discussions" : "No threads yet"}
+            {activeCategory
+              ? `${activeCategory.name} discussions`
+              : recentThreads.length > 0
+                ? "Recent Discussions"
+                : "No threads yet"}
           </h2>
+          {activeCategory && (
+            <div className="mb-5 flex items-center justify-between rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-3">
+              <p className="text-sm text-indigo-950">
+                Showing {recentThreads.length} thread{recentThreads.length === 1 ? "" : "s"} in {activeCategory.name}
+              </p>
+              <Link href="/forum" className="text-sm font-semibold text-indigo-700 hover:underline">View all</Link>
+            </div>
+          )}
 
           {recentThreads.length === 0 && (
             <div className="text-center py-20 space-y-4">

@@ -131,6 +131,8 @@ model Product {
   price         Float
   comparePrice  Float?
   images        String[]
+  variants      Json?
+  requiredFields Json?
   thcContent    Float?
   cbdContent    Float?
   weight        Float?
@@ -160,13 +162,17 @@ model CartItem {
   userId    String
   productId String
   quantity  Int      @default(1)
+  variantId String   @default("")
+  variantLabel String?
+  unitPrice Float?
+  customization Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, productId])
+  @@unique([userId, productId, variantId])
   @@map("cart_items")
 }
 
@@ -201,6 +207,8 @@ model OrderItem {
   quantity  Int
   price     Float
   name      String
+  variantLabel String?
+  customization Json?
 
   order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id])

@@ -69,7 +69,7 @@ export default async function DropsPage() {
           {DROP_DAYS.map((day) => (
             <div
               key={day}
-              className="rounded-2xl border border-indigo-500/30 bg-gradient-to-b from-indigo-900/20 to-black/60 p-6 text-center"
+              className="rounded-2xl border border-indigo-200 bg-gradient-to-b from-indigo-50 to-white p-6 text-center shadow-sm"
             >
               <Zap className="h-8 w-8 text-indigo-500 mx-auto mb-2" />
               <p className="text-slate-950 font-bold text-lg">{day}</p>
@@ -145,7 +145,7 @@ export default async function DropsPage() {
         </section>
 
         {/* CTA */}
-        <div className="mt-16 rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-900/20 to-black p-10 text-center space-y-5">
+        <div className="mt-16 space-y-5 rounded-[2rem] border border-indigo-200 bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-10 text-center shadow-[0_24px_70px_-48px_rgba(79,70,229,.45)]">
           <Package className="h-12 w-12 text-indigo-500 mx-auto" />
           <h2 className="text-2xl font-bold text-slate-950">Never Miss a Drop</h2>
           <p className="text-slate-600 max-w-md mx-auto">

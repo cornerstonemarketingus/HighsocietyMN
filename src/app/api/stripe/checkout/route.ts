@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
 
     const subtotal = cartItems.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
+      (acc, item) => acc + (item.unitPrice ?? item.product.price) * item.quantity,
       0
     );
     const spinReward = body.discountCode ? await db.spinResult.findFirst({
@@ -58,8 +58,10 @@ export async function POST(req: NextRequest) {
           create: cartItems.map((item) => ({
             productId: item.productId,
             quantity: item.quantity,
-            price: item.product.price,
+            price: item.unitPrice ?? item.product.price,
             name: item.product.name,
+            variantLabel: item.variantLabel,
+            customization: item.customization ?? undefined,
           })),
         },
       },
@@ -72,10 +74,12 @@ export async function POST(req: NextRequest) {
         price_data: {
           currency: "usd",
           product_data: {
-            name: item.product.name,
+            name: item.variantLabel
+              ? `${item.product.name} — ${item.variantLabel}`
+              : item.product.name,
             images: item.product.images.slice(0, 1),
           },
-          unit_amount: Math.round(item.product.price * (1 - discountPercent / 100) * 100),
+          unit_amount: Math.round((item.unitPrice ?? item.product.price) * (1 - discountPercent / 100) * 100),
         },
         quantity: item.quantity,
       })),

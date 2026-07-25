@@ -7,14 +7,14 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { ShoppingBag, Trash2 } from "lucide-react";
 
-type CartItem = { id: string; quantity: number; product: { name: string; price: number; images: string[] } };
+type CartItem = { id: string; quantity: number; variantLabel?: string | null; unitPrice?: number | null; customization?: Record<string, string> | null; product: { name: string; price: number; images: string[] } };
 
 export default function CartPage() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const load = () => fetch("/api/cart").then((r) => r.ok ? r.json() : { items: [] }).then((data) => { setItems(data.items ?? []); setLoading(false); });
   useEffect(() => { load(); }, []);
-  const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [items]);
+  const subtotal = useMemo(() => items.reduce((sum, item) => sum + (item.unitPrice ?? item.product.price) * item.quantity, 0), [items]);
   async function remove(itemId: string) {
     await fetch("/api/cart", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ itemId }) });
     await load();
@@ -35,8 +35,8 @@ export default function CartPage() {
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_340px]">
             <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-6 shadow-sm">
               {items.map((item) => <div key={item.id} className="flex items-center justify-between gap-4 py-6">
-                <div><h2 className="font-semibold">{item.product.name}</h2><p className="text-sm text-slate-500">Quantity {item.quantity}</p></div>
-                <div className="flex items-center gap-4"><p className="font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p><button onClick={() => remove(item.id)} aria-label={`Remove ${item.product.name}`} className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button></div>
+                <div><h2 className="font-semibold">{item.product.name}</h2>{item.variantLabel && <p className="text-sm font-medium text-indigo-700">{item.variantLabel}</p>}<p className="text-sm text-slate-500">Quantity {item.quantity}</p>{item.customization && Object.entries(item.customization).map(([label, value]) => value && <p key={label} className="mt-1 text-xs text-slate-500">{label}: {value}</p>)}</div>
+                <div className="flex items-center gap-4"><p className="font-semibold">${((item.unitPrice ?? item.product.price) * item.quantity).toFixed(2)}</p><button onClick={() => remove(item.id)} aria-label={`Remove ${item.product.name}`} className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button></div>
               </div>)}
             </div>
             <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

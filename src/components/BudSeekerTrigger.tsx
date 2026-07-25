@@ -1,6 +1,7 @@
 "use client";
 
-import { Search, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 
 interface BudSeekerTriggerProps {
   compact?: boolean;
@@ -22,7 +23,7 @@ export function BudSeekerTrigger({ compact = false }: BudSeekerTriggerProps) {
       }
       aria-label="Open Bud Seeker"
     >
-      {compact ? <Search className="h-4 w-4" /> : <Sparkles className="h-5 w-5" />}
+      {compact ? <BrandMark className="h-5 w-5 text-indigo-700" /> : <Sparkles className="h-5 w-5" />}
       Bud Seeker
     </button>
   );

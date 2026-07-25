@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { AddToCartButton } from "@/components/AddToCartButton";
+import { AddToCartButton, type ProductVariant, type RequiredProductField } from "@/components/AddToCartButton";
 import { Badge } from "@/components/ui/Badge";
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/utils";
@@ -35,6 +35,12 @@ export default async function ProductDetailPage({
   const imageUrl =
     product.images[0] ??
     "/categories/flower.webp";
+  const variants = Array.isArray(product.variants)
+    ? (product.variants as unknown as ProductVariant[])
+    : [];
+  const requiredFields = Array.isArray(product.requiredFields)
+    ? (product.requiredFields as unknown as RequiredProductField[])
+    : [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -87,8 +93,9 @@ export default async function ProductDetailPage({
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-indigo-400">
-                {formatPrice(product.price)}
+              <span className="text-3xl font-bold text-indigo-700">
+                {variants.length > 1 ? "From " : ""}
+                {formatPrice(Math.min(product.price, ...variants.map((variant) => variant.price)))}
               </span>
               {product.comparePrice && product.comparePrice > product.price && (
                 <span className="text-xl text-slate-500 line-through">
@@ -161,7 +168,7 @@ export default async function ProductDetailPage({
               </div>
             )}
 
-            <AddToCartButton productId={product.id} disabled={!product.inStock} />
+            <AddToCartButton productId={product.id} disabled={!product.inStock} variants={variants} requiredFields={requiredFields} />
 
             <div className="border border-slate-200 rounded-xl p-4 space-y-2">
               <p className="text-sm text-slate-600 flex items-center gap-2">

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Building2, ExternalLink, Leaf, ListFilter, Loader2, LocateFixed, Map, MapPin, Navigation, Search, Send, Sparkles, X } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 
 type Message = { role: "user" | "assistant"; content: string };
 type Place = {
@@ -158,7 +159,7 @@ export function ChatWidget() {
       <button onClick={() => setOpen((current) => !current)}
         className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-700 text-white shadow-xl transition hover:scale-105 hover:bg-indigo-800"
         aria-label={open ? "Close Bud Seeker" : "Open Bud Seeker"}>
-        {open ? <X className="h-6 w-6" /> : <Search className="h-6 w-6" />}
+        {open ? <X className="h-6 w-6" /> : <BrandMark className="h-8 w-8 text-white" />}
       </button>
 
       {open && (
@@ -166,7 +167,7 @@ export function ChatWidget() {
           <header className="border-b border-slate-200 bg-white px-5 py-4">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-700 text-white"><Sparkles className="h-5 w-5" /></div>
+                <BrandMark className="h-10 w-10 text-indigo-700" />
                 <div><h2 className="font-semibold">Bud Seeker</h2><p className="text-xs text-slate-500">Discover nearby dispensaries and explore the High Society menu</p></div>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-full p-2 text-slate-500 hover:bg-slate-100 sm:hidden" aria-label="Close"><X className="h-5 w-5" /></button>
