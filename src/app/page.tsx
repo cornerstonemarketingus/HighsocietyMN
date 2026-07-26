@@ -264,7 +264,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {categories.map((category, index) => (
+            {categories.map((category) => (
               <Link
                 key={category.slug}
                 href={`/products?category=${category.slug}`}
@@ -272,7 +272,6 @@ export default function HomePage() {
               >
                 <Image src={category.image} alt={category.imageAlt} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/50 to-black/10" />
-                <div className="absolute right-5 top-5 rounded-full border border-white/30 bg-white/90 px-3 py-1 text-xs font-semibold text-indigo-900">0{index + 1}</div>
                 <div className="relative flex min-h-72 flex-col justify-end p-7">
                   <div className="mb-5 flex items-center justify-end">
                     <ArrowRight className="h-5 w-5 text-white transition-transform duration-300 group-hover:translate-x-1" />
@@ -457,7 +456,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer hideNewsletter />
     </div>
   );
 }
