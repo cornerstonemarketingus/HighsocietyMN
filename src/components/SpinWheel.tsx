@@ -77,12 +77,17 @@ export function SpinWheel({ email }: { email?: string } = {}) {
           </button>
           <div aria-live="polite" className="min-h-16">
             {prize && (
-              <div className="rounded-2xl border border-indigo-400/30 bg-indigo-500/10 p-4 text-indigo-100">
-                <p className="font-semibold">You won: {prize.prize}</p>
-                {prize.code && <p className="mt-1 text-sm">Code: <strong>{prize.code}</strong></p>}
+              <div className="rounded-2xl border-2 border-indigo-500 bg-white p-5 text-slate-950 shadow-[0_16px_45px_-24px_rgba(79,70,229,.65)]">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-700">Your reward</p>
+                <p className="mt-2 text-xl font-bold leading-tight text-slate-950">You won: {prize.prize}</p>
+                {prize.code && (
+                  <p className="mt-3 inline-flex rounded-full bg-indigo-700 px-4 py-2 text-sm font-semibold text-white">
+                    Code: <strong className="ml-1.5 tracking-wide">{prize.code}</strong>
+                  </p>
+                )}
               </div>
             )}
-            {error && <p className="rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">{error}</p>}
+            {error && <p className="rounded-2xl border border-red-200 bg-red-50 p-4 font-medium text-red-800">{error}</p>}
           </div>
         </div>
 
