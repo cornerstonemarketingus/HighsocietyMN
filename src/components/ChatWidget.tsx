@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Building2, ExternalLink, Leaf, ListFilter, Loader2, LocateFixed, Map, MapPin, Navigation, Search, Send, Sparkles, X } from "lucide-react";
 
@@ -21,6 +22,7 @@ type Coordinates = { latitude: number; longitude: number };
 const BUD_SEEKER_EMAIL_KEY = "hs_budseeker_email";
 
 export function ChatWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<"nearby" | "guide">("guide");
   const [places, setPlaces] = useState<Place[]>([]);
@@ -158,6 +160,8 @@ export function ChatWidget() {
       setJoining(false);
     }
   }
+
+  if (pathname === "/games") return null;
 
   return (
     <>

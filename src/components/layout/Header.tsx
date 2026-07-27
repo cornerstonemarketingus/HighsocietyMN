@@ -14,7 +14,7 @@ const navLinks = [
   { href: "/drops", label: "Drops" },
   { href: "/forum", label: "Lounge" },
   { href: "/blog", label: "Journal" },
-  { href: "/rewards", label: "Rewards" },
+  { href: "/games", label: "Games" },
 ];
 
 export function Header() {
