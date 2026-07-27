@@ -67,6 +67,22 @@ body {
   }
 }
 
+@keyframes guide-idle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  45% {
+    transform: translateY(-2px) scale(1.015);
+  }
+  55% {
+    transform: translateY(-2px) scale(1.015);
+  }
+}
+
+.animate-guide-idle {
+  animation: guide-idle 4.5s ease-in-out infinite;
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -82,8 +98,14 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #4F46E5 0%, #818CF8 50%, #4F46E5 100%);
+  background: linear-gradient(135deg, #1D4ED8 0%, #60A5FA 50%, #2563EB 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-guide-idle {
+    animation: none;
+  }
 }

@@ -19,7 +19,6 @@ import {
   MessageSquare,
   BookOpen,
   Crown,
-  Sparkles,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -49,70 +48,70 @@ const categories = [
     slug: "flower",
     image: "/categories/flower.webp",
     imageAlt: "Pink Runtz flower from the High Society MN catalog",
-    description: "Velvet-smooth cultivars selected for aroma, nuance, and elevated evenings.",
+    description: "Aroma-forward cultivars, selected for freshness, structure, and character.",
   },
   {
     name: "Edibles",
     slug: "edibles",
     image: "/categories/edibles.webp",
     imageAlt: "Mitten Extracts gummies from the High Society MN catalog",
-    description: "Chef-inspired confections with precise dosing and boutique presentation.",
+    description: "Measured formats with clear details and an easy, consistent experience.",
   },
   {
     name: "Vapes",
     slug: "vapes",
     image: "/categories/vapes.webp",
     imageAlt: "Sweetcarts vape from the High Society MN catalog",
-    description: "Refined terpene-rich cartridges for clean flavor and effortless luxury.",
+    description: "Portable formats chosen for flavor, hardware quality, and simplicity.",
   },
   {
     name: "Concentrates",
     slug: "concentrates",
     image: "/categories/concentrates.webp",
     imageAlt: "Premium hash bar from the High Society MN catalog",
-    description: "High-potency extracts crafted for enthusiasts who appreciate depth.",
+    description: "High-potency extracts for experienced customers seeking depth and clarity.",
   },
   {
     name: "Beverages",
     slug: "beverages",
     image: "/categories/beverages.webp",
     imageAlt: "Oliphant Brewing THC beverage from the High Society MN catalog",
-    description: "Sparkling, sip-worthy infusions made for polished social rituals.",
+    description: "Bright, social formats with straightforward serving information.",
   },
   {
     name: "Accessories",
     slug: "accessories",
     image: "/categories/accessories.webp",
     imageAlt: "Infuzed by Society product from the High Society MN catalog",
-    description: "Elegant essentials that complete a curated and discreet experience.",
+    description: "Useful essentials selected to keep every part of the ritual considered.",
   },
 ] as const;
 
 const trustItems = [
-  { icon: Shield, title: "Lab Tested", detail: "Verified purity" },
-  { icon: Crown, title: "Premium Quality", detail: "Curated selection" },
-  { icon: Truck, title: "Fast Delivery", detail: "Tue · Thu · Sat" },
-  { icon: Package, title: "Discreet Packaging", detail: "Private arrival" },
+  { icon: Shield, title: "Product standards", detail: "Clear, verified details" },
+  { icon: Crown, title: "Focused menu", detail: "Selected, never crowded" },
+  { icon: Truck, title: "Scheduled service", detail: "Tue · Thu · Sat" },
+  { icon: Package, title: "Discreet handoff", detail: "Private by design" },
 ] as const;
 
 const communityCards = [
   {
     href: "/blog",
     icon: BookOpen,
-    eyebrow: "Editorial",
-    title: "Read the journal",
+    eyebrow: "The Journal",
+    title: "Know what you’re choosing.",
     description:
-      "Explore refined guides, terpene spotlights, and product stories tailored to Minnesota connoisseurs.",
-    cta: "Explore the blog",
+      "Clear guides, product context, and responsible-use education—written for real decisions.",
+    cta: "Read the journal",
   },
   {
     href: "/forum",
     icon: MessageSquare,
-    eyebrow: "Community",
-    title: "Join the conversation",
+    eyebrow: "Member Lounge",
+    title: "Pull up a seat.",
     description:
-      "Connect with a thoughtful local circle sharing recommendations, rituals, and elevated experiences.",
-    cta: "Visit the forum",
+      "Trade recommendations, talk new drops, and connect with the local community.",
+    cta: "Enter the lounge",
   },
 ] as const;
 
@@ -149,96 +148,33 @@ export default function HomePage() {
       />
 
       <main>
-        <section className="relative isolate overflow-hidden border-b border-slate-200">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.18),transparent_32%),radial-gradient(circle_at_80%_20%,rgba(99,102,241,0.12),transparent_24%),linear-gradient(135deg,#eef2ff_0%,#f8fafc_42%,#f8fafc_100%)]" />
-          <div className="absolute inset-0 animate-shimmer opacity-60" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
-          <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl gap-16 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-24">
-            <div className="max-w-3xl space-y-8">
-              <Badge className="w-fit gap-2 border-indigo-200 bg-white px-2.5 py-2 pr-4 text-sm font-semibold text-indigo-800 shadow-[0_10px_30px_rgba(79,70,229,0.10)]">
-                <span className="relative h-7 w-7 overflow-hidden rounded-full ring-2 ring-indigo-100">
-                  <Image src="/categories/flower.webp" alt="" fill sizes="28px" className="object-cover" />
-                </span>
-                Saint Paul & Minneapolis Delivery
-              </Badge>
-              <div className="space-y-6">
-                <p className="text-sm uppercase tracking-[0.4em] text-indigo-600/80">
-                  Premium Cannabis Boutique
-                </p>
-                <h1 className="text-5xl font-semibold leading-none sm:text-6xl lg:text-7xl">
-                  <span className="block text-slate-950">Luxury cannabis,</span>
-                  <span className="block bg-gradient-to-r from-indigo-700 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
-                    delivered with intention.
-                  </span>
-                </h1>
-                <p className="max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
-                  Discover a polished collection of flower, edibles, vapes, and concentrates curated for elevated routines across Saint Paul and Minneapolis.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-4">
+        <section className="relative isolate min-h-[calc(100svh-4.75rem)] overflow-hidden bg-[#050b1f] text-white">
+          <Image src="/brand/hero-cobalt-cannabis.webp" alt="Premium cannabis flower revealed behind the High Society vault" fill priority sizes="100vw" className="object-cover object-[68%_center] sm:object-center" />
+          <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(3,7,24,.96)_0%,rgba(3,7,24,.82)_40%,rgba(3,7,24,.16)_76%)]" />
+          <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,transparent_55%,rgba(3,7,24,.9)_100%)]" />
+          <VaultDrop />
+          <div className="relative z-20 mx-auto flex min-h-[calc(100svh-4.75rem)] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-200">Saint Paul + Minneapolis · Adults 21+</p>
+              <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[.96] tracking-[-0.045em] sm:text-6xl lg:text-8xl">
+                Cannabis,<br /><span className="text-blue-300">considered.</span>
+              </h1>
+              <p className="mt-7 max-w-xl text-base leading-7 text-blue-50/80 sm:text-xl sm:leading-8">
+                A focused collection, clear product details, and discreet local service—built for a better way to shop.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link href="/products">
-                  <Button
-                    size="lg"
-                    className="group gap-2 rounded-full border border-indigo-300/20 bg-indigo-600 px-8 text-base text-white shadow-[0_18px_50px_rgba(79,70,229,0.22)] transition-transform hover:-translate-y-0.5"
-                  >
-                    Shop our collection
+                  <Button size="lg" className="group w-full gap-2 rounded-full bg-white px-8 text-slate-950 shadow-[0_18px_55px_rgba(37,99,235,.3)] hover:bg-blue-50 sm:w-auto">
+                    Shop the collection
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
+                <Link href="/drops" className="inline-flex h-12 items-center justify-center rounded-full border border-white/30 bg-white/10 px-7 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/20">
+                  View the next drop
+                </Link>
               </div>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                <span>21+ verified</span>
-                <span className="h-1 w-1 rounded-full bg-indigo-300" />
-                <span>Private service</span>
-                <span className="h-1 w-1 rounded-full bg-indigo-300" />
-                <span>Twin Cities local</span>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-3">
-                {[
-                  "Curated premium assortment",
-                  "Discreet delivery windows",
-                  "21+ only · ID verified at delivery",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700 backdrop-blur-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative mx-auto flex w-full max-w-xl items-center justify-center lg:justify-end">
-              <div className="absolute h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl animate-glow" />
-              <div className="absolute right-10 top-10 h-32 w-32 rounded-full border border-indigo-300/20 bg-slate-50 backdrop-blur-xl" />
-              <div className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(79,70,229,0.18),transparent_42%,rgba(255,255,255,0.04))]" />
-                <div className="relative space-y-6">
-                  <div className="flex items-center justify-between text-sm text-slate-700">
-                    <span className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1 text-indigo-700">
-                      Curated for connoisseurs
-                    </span>
-                    <Sparkles className="h-5 w-5 text-indigo-600 animate-float" />
-                  </div>
-
-                  <VaultDrop />
-
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                      <p className="text-xs uppercase tracking-[0.3em] text-indigo-600/70">Next service window</p>
-                      <p className="mt-2 text-lg font-medium text-slate-950">Tue · Thu · Sat</p>
-                      <p className="text-sm text-slate-500">Fresh drops delivered at 10am.</p>
-                    </div>
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                      <p className="text-xs uppercase tracking-[0.3em] text-indigo-600/70">Metro coverage</p>
-                      <p className="mt-2 text-lg font-medium text-slate-950">Saint Paul + Minneapolis</p>
-                      <p className="text-sm text-slate-500">Boutique service with discreet arrival.</p>
-                    </div>
-                  </div>
-                </div>
+              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium uppercase tracking-[0.15em] text-blue-100/70">
+                <span>Curated weekly</span><span>Private service</span><span>ID verified</span>
               </div>
             </div>
           </div>
@@ -247,19 +183,17 @@ export default function HomePage() {
         <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <Badge className="w-fit border-slate-200 bg-slate-50 px-4 py-1.5 text-indigo-700">Shop by Category</Badge>
+              <Badge className="w-fit border-blue-100 bg-blue-50 px-4 py-1.5 text-blue-700">The collection</Badge>
               <h2 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-                <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">
-                  Build your ritual
-                </span>
-                <span className="block pt-2 text-slate-950">from our signature collection.</span>
+                <span className="text-slate-950">Find your format.</span>
+                <span className="block pt-2 text-blue-700">Keep it simple.</span>
               </h2>
               <p className="max-w-2xl text-lg text-slate-500">
-                Explore standout formats crafted for every mood, from intimate evenings to social pours.
+                Six clear paths into the menu, each backed by real product imagery and useful details.
               </p>
             </div>
             <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700">
-              View all categories <ArrowRight className="h-4 w-4" />
+              Shop everything <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
@@ -296,10 +230,10 @@ export default function HomePage() {
                   <Zap className="h-7 w-7" />
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm uppercase tracking-[0.35em] text-indigo-600/70">Drop Timer</p>
-                  <h3 className="text-2xl font-semibold text-slate-950">New drops delivered Tue · Thu · Sat @ 10am</h3>
+                  <p className="text-sm uppercase tracking-[0.35em] text-blue-600/70">Next drop</p>
+                  <h3 className="text-2xl font-semibold text-slate-950">Fresh menu updates. Three times a week.</h3>
                   <p className="text-sm text-slate-500">
-                    Count down to the next release and secure the week&apos;s most coveted menu additions.
+                    The vault opens Tuesday, Thursday, and Saturday at 10am.
                   </p>
                 </div>
               </div>
@@ -334,20 +268,20 @@ export default function HomePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="grid gap-8 rounded-[2rem] border border-indigo-100 bg-[linear-gradient(135deg,rgba(255,255,255,1),rgba(238,242,255,0.92),rgba(224,231,255,0.72))] p-8 shadow-[0_24px_70px_-48px_rgba(79,70,229,0.45)] lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
             <div className="min-w-0 space-y-5">
-              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Featured Collection</Badge>
+              <Badge className="w-fit border-blue-100 bg-blue-50 px-4 py-1.5 text-blue-700">This week</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
-                Discover this week&apos;s <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">premium selection</span>
+                A smaller menu.<br /><span className="text-blue-700">A better edit.</span>
               </h2>
               <p className="max-w-2xl text-lg leading-8 text-slate-700">
-                From signature flower to polished edible experiences, each release is selected for taste, consistency, and elevated presentation.
+                We keep the collection focused so quality, freshness, and product information stay easy to understand.
               </p>
             </div>
             <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_16px_60px_rgba(0,0,0,0.3)]">
               <div className="space-y-4">
                 {[
-                  "Rotating craft flower and infused essentials",
-                  "Fresh menu updates aligned with every drop window",
-                  "Delivery tailored to Saint Paul & Minneapolis metro",
+                  "A rotating edit across core formats",
+                  "Clear strengths, sizes, and options",
+                  "Local service across the Twin Cities",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 text-slate-700">
                     <Star className="mt-0.5 h-5 w-5 shrink-0 text-indigo-600" />
@@ -367,9 +301,9 @@ export default function HomePage() {
 
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-8 space-y-3">
-            <Badge className="w-fit border-slate-200 bg-slate-50 px-4 py-1.5 text-indigo-700">Community</Badge>
+            <Badge className="w-fit border-blue-100 bg-blue-50 px-4 py-1.5 text-blue-700">High Society, beyond the shop</Badge>
             <h2 className="text-4xl font-semibold sm:text-5xl">
-              Beyond the menu, <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">join the culture.</span>
+              Learn something. <span className="text-blue-700">Meet someone.</span>
             </h2>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -400,9 +334,9 @@ export default function HomePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 backdrop-blur-sm lg:p-10">
             <div className="space-y-4">
-              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Delivery Coverage</Badge>
+              <Badge className="w-fit border-blue-100 bg-blue-50 px-4 py-1.5 text-blue-700">Local service</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
-                Delivery Area: <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">Saint Paul & Minneapolis Metro</span>
+                Made for the <span className="text-blue-700">Twin Cities.</span>
               </h2>
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-700">
                 <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2">
@@ -429,19 +363,19 @@ export default function HomePage() {
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
           <div className="grid gap-8 rounded-[2rem] border border-indigo-100 bg-[linear-gradient(135deg,rgba(238,242,255,0.96),rgba(255,255,255,1),rgba(224,231,255,0.74))] p-8 shadow-[0_24px_70px_-48px_rgba(79,70,229,0.45)] lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
             <div className="min-w-0 space-y-5">
-              <Badge className="w-fit border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-indigo-700">Rewards & Updates</Badge>
+              <Badge className="w-fit border-blue-100 bg-blue-50 px-4 py-1.5 text-blue-700">Private list</Badge>
               <h2 className="text-4xl font-semibold sm:text-5xl">
-                Join our <span className="bg-gradient-to-r from-indigo-400 to-indigo-200 bg-clip-text text-transparent">rewards program</span>
+                First look.<br /><span className="text-blue-700">Better rewards.</span>
               </h2>
               <p className="text-lg leading-8 text-slate-700">
-                Unlock first access to coveted drops, members-only offers, and curated delivery alerts tailored to your taste.
+                Get drop alerts, member offers, and service reminders without the noise.
               </p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  "Priority drop notifications",
-                  "Exclusive rewards for repeat orders",
-                  "Private menu highlights",
-                  "Delivery reminders for Tue · Thu · Sat",
+                  "Early drop alerts",
+                  "Member-only rewards",
+                  "Focused menu notes",
+                  "Service-day reminders",
                 ].map((item) => (
                   <div key={item} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
                     {item}

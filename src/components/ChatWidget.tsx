@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Building2, ExternalLink, Leaf, ListFilter, Loader2, LocateFixed, Map, MapPin, Navigation, Search, Send, Sparkles, X } from "lucide-react";
-import { BrandMark } from "@/components/BrandMark";
 
 type Message = { role: "user" | "assistant"; content: string };
 type Place = {
@@ -22,7 +22,7 @@ const BUD_SEEKER_EMAIL_KEY = "hs_budseeker_email";
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState<"nearby" | "guide">("nearby");
+  const [tab, setTab] = useState<"nearby" | "guide">("guide");
   const [places, setPlaces] = useState<Place[]>([]);
   const [locationState, setLocationState] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [locationError, setLocationError] = useState("");
@@ -58,6 +58,11 @@ export function ChatWidget() {
     return () => window.removeEventListener("bud-seeker:open", handler);
   }, []);
   useEffect(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
+
+  function toggleGuide() {
+    setTab("guide");
+    setOpen((current) => !current);
+  }
 
   async function loadPlaces(nextCoordinates: Coordinates, label: string) {
     setLocationState("loading");
@@ -156,29 +161,36 @@ export function ChatWidget() {
 
   return (
     <>
-      <button onClick={() => setOpen((current) => !current)}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-700 text-white shadow-xl transition hover:scale-105 hover:bg-indigo-800"
-        aria-label={open ? "Close Bud Seeker" : "Open Bud Seeker"}>
-        {open ? <X className="h-6 w-6" /> : <BrandMark className="h-8 w-8 text-white" />}
+      <button onClick={toggleGuide}
+        className="group fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-blue-700 text-white shadow-[0_16px_45px_rgba(29,78,216,.4)] transition hover:scale-105"
+        aria-label={open ? "Close private guide" : "Chat with the private guide"}>
+        {open ? <X className="h-6 w-6" /> : (
+          <>
+            <Image src="/brand/private-guide.webp" alt="" fill sizes="64px" className="rounded-full object-cover transition duration-500 group-hover:scale-105" />
+            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,.8)]" />
+          </>
+        )}
       </button>
 
       {open && (
-        <section className="fixed inset-3 z-50 flex flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white text-slate-950 shadow-2xl sm:inset-auto sm:bottom-20 sm:right-5 sm:h-[min(760px,calc(100vh-7rem))] sm:w-[min(920px,calc(100vw-2.5rem))]">
+        <section className="fixed inset-3 z-50 flex flex-col overflow-hidden rounded-[1.75rem] border border-blue-100 bg-white text-slate-950 shadow-[0_30px_100px_rgba(15,23,42,.3)] sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[min(760px,calc(100vh-8rem))] sm:w-[min(920px,calc(100vw-2.5rem))]">
           <header className="border-b border-slate-200 bg-white px-5 py-4">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <BrandMark className="h-10 w-10 text-indigo-700" />
-                <div><h2 className="font-semibold">Bud Seeker</h2><p className="text-xs text-slate-500">Discover nearby dispensaries and explore the High Society menu</p></div>
+                <div className="relative h-11 w-11 shrink-0 animate-guide-idle overflow-hidden rounded-full ring-2 ring-blue-100">
+                  <Image src="/brand/private-guide.webp" alt="" fill sizes="44px" className="object-cover" />
+                </div>
+                <div><h2 className="font-semibold">{tab === "guide" ? "Private Guide" : "Bud Seeker"}</h2><p className="text-xs text-slate-500">{tab === "guide" ? "Your private High Society product guide" : "Explore licensed retailers near you"}</p></div>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-full p-2 text-slate-500 hover:bg-slate-100 sm:hidden" aria-label="Close"><X className="h-5 w-5" /></button>
             </div>
-            {memberEmail && <div className="mt-4 grid max-w-sm grid-cols-2 rounded-xl bg-slate-100 p-1">
-              <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Dispensaries</button>
-              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-indigo-700 shadow-sm" : "text-slate-600"}`}>Guide</button>
-            </div>}
+            <div className="mt-4 grid max-w-sm grid-cols-2 rounded-xl bg-slate-100 p-1">
+              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-blue-700 shadow-sm" : "text-slate-600"}`}>Private guide</button>
+              <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-blue-700 shadow-sm" : "text-slate-600"}`}>Bud Seeker</button>
+            </div>
           </header>
 
-          {!memberEmail ? (
+          {tab === "nearby" && !memberEmail ? (
             <form onSubmit={joinBudSeeker} className="m-auto w-full max-w-md p-7">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Members only</p>
               <h3 className="mt-3 text-3xl font-semibold">Unlock Bud Seeker.</h3>
