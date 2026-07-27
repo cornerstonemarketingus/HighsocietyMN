@@ -158,7 +158,7 @@ export default function HomePage() {
           <VaultDrop />
           <div className="relative z-20 mx-auto flex min-h-[calc(100svh-4.75rem)] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-white/55">The High Society edit · Adults 21+</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-white/55">High Society · Adults 21+</p>
               <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[.96] tracking-[-0.045em] sm:text-6xl lg:text-8xl">
                 Cannabis,<br /><span className="aurora-text">considered.</span>
               </h1>
