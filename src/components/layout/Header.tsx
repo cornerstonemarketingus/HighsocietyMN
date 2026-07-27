@@ -22,15 +22,17 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-[0_10px_35px_rgba(15,23,42,0.07)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/[.08] bg-[#050505]/72 shadow-[0_14px_50px_rgba(0,0,0,.3)] backdrop-blur-[32px]">
+      <div className="pointer-events-none absolute left-[8%] top-[-3rem] h-20 w-72 rounded-full bg-emerald-400/14 blur-[55px]" />
+      <div className="pointer-events-none absolute right-[16%] top-[-3rem] h-20 w-80 rounded-full bg-cyan-400/12 blur-[60px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.75rem] items-center justify-between">
           {/* Logo */}
           <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="High Society MN home">
-            <BrandMark />
+            <BrandMark className="text-cyan-300" />
             <span className="leading-none">
-              <span className="block text-lg font-semibold tracking-[0.02em] text-slate-950">High Society</span>
-              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-indigo-600">Minnesota</span>
+              <span className="block text-lg font-semibold tracking-[0.02em] text-white">High Society</span>
+              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-cyan-300/80">Minnesota</span>
             </span>
           </Link>
 
@@ -40,14 +42,14 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-slate-600 transition-colors hover:text-blue-700"
+                className="text-sm font-medium text-white/58 transition-colors hover:text-white"
               >
                 {link.label}
               </Link>
             ))}
             <BudSeekerTrigger compact />
             {navLinks.slice(2).map((link) => (
-              <Link key={link.href} href={link.href} className="text-sm font-medium text-slate-600 transition-colors hover:text-blue-700">
+              <Link key={link.href} href={link.href} className="text-sm font-medium text-white/58 transition-colors hover:text-white">
                 {link.label}
               </Link>
             ))}
@@ -62,7 +64,7 @@ export function Header() {
 
             <Link
               href="/cart"
-              className="relative p-2 text-slate-700 hover:text-indigo-400 transition-colors"
+              className="relative p-2 text-white/65 transition-colors hover:text-cyan-300"
               aria-label="Cart"
             >
               <ShoppingCart className="h-5 w-5" />
@@ -79,23 +81,23 @@ export function Header() {
                 )}
                 <Link
                   href="/account"
-                  className="p-2 text-slate-700 hover:text-indigo-400 transition-colors"
+                    className="p-2 text-white/65 transition-colors hover:text-cyan-300"
                   aria-label="Account"
                 >
                   <User className="h-5 w-5" />
                 </Link>
-                <button onClick={() => signOut({ callbackUrl: "/" })} className="hidden text-xs text-slate-500 sm:block">Sign out</button>
+                <button onClick={() => signOut({ callbackUrl: "/" })} className="hidden text-xs text-white/45 sm:block">Sign out</button>
               </div>
             ) : (
               <Link href="/login">
-                <Button size="sm" className="hidden sm:flex">
+                <Button size="sm" className="hidden rounded-full bg-white/[.08] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.1)] hover:bg-white/[.14] sm:flex">
                   Sign In
                 </Button>
               </Link>
             )}
 
             <button
-              className="p-2 text-slate-700 hover:text-slate-950 lg:hidden"
+              className="p-2 text-white/70 hover:text-white lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -111,13 +113,13 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-slate-200 bg-white lg:hidden">
+        <div className="border-t border-white/[.08] bg-[#07090d]/92 backdrop-blur-[32px] lg:hidden">
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block text-slate-700 hover:text-indigo-400 py-2 text-sm"
+                className="block py-2 text-sm text-white/65 hover:text-cyan-300"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}

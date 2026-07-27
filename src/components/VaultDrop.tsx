@@ -42,32 +42,32 @@ export function VaultDrop() {
 
   return (
     <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden" aria-live="polite">
-      <div className={`absolute inset-y-0 left-0 w-1/2 overflow-hidden border-r border-blue-300/40 bg-[linear-gradient(115deg,#030712_0%,#071738_52%,#123b83_100%)] shadow-[20px_0_80px_rgba(0,0,0,.55)] transition-transform duration-[1600ms] ease-[cubic-bezier(.72,0,.18,1)] motion-reduce:duration-0 ${doorMotion}`}>
-        <div className="absolute inset-4 border border-blue-300/15 sm:inset-7" />
-        <div className="absolute inset-8 bg-[repeating-linear-gradient(0deg,transparent_0_70px,rgba(147,197,253,.09)_71px_72px),repeating-linear-gradient(90deg,transparent_0_100px,rgba(147,197,253,.06)_101px_102px)] sm:inset-12" />
-        <div className="absolute inset-y-0 right-5 w-px bg-blue-200/40 shadow-[0_0_28px_rgba(96,165,250,.7)]" />
-        {[12, 30, 50, 70, 88].map((top) => <span key={top} className="absolute left-5 h-2.5 w-2.5 rounded-full bg-blue-300/60 shadow-[0_0_12px_rgba(96,165,250,.7)] sm:left-8" style={{ top: `${top}%` }} />)}
+      <div className={`absolute inset-y-0 left-0 w-1/2 overflow-hidden border-r border-white/15 bg-[radial-gradient(circle_at_12%_22%,rgba(0,245,160,.17),transparent_30%),radial-gradient(circle_at_82%_72%,rgba(124,58,237,.16),transparent_34%),linear-gradient(115deg,rgba(5,5,5,.98),rgba(9,16,21,.94))] shadow-[20px_0_90px_rgba(0,0,0,.65)] backdrop-blur-[32px] transition-transform duration-[1600ms] ease-[cubic-bezier(.72,0,.18,1)] motion-reduce:duration-0 ${doorMotion}`}>
+        <div className="absolute inset-4 border border-white/[.07] sm:inset-7" />
+        <div className="absolute inset-8 bg-[repeating-linear-gradient(0deg,transparent_0_70px,rgba(255,255,255,.045)_71px_72px),repeating-linear-gradient(90deg,transparent_0_100px,rgba(255,255,255,.03)_101px_102px)] sm:inset-12" />
+        <div className="absolute inset-y-0 right-5 w-px bg-cyan-200/30 shadow-[0_0_32px_rgba(0,229,255,.48)]" />
+        {[12, 30, 50, 70, 88].map((top) => <span key={top} className="absolute left-5 h-2.5 w-2.5 rounded-full bg-white/45 shadow-[0_0_14px_rgba(0,229,255,.38)] sm:left-8" style={{ top: `${top}%` }} />)}
       </div>
 
-      <div className={`absolute inset-y-0 right-0 w-1/2 overflow-hidden border-l border-blue-300/40 bg-[linear-gradient(65deg,#123b83_0%,#071738_48%,#030712_100%)] shadow-[-20px_0_80px_rgba(0,0,0,.55)] transition-transform delay-100 duration-[1700ms] ease-[cubic-bezier(.72,0,.18,1)] motion-reduce:duration-0 ${doorMotion}`}>
-        <div className="absolute inset-4 border border-blue-300/15 sm:inset-7" />
-        <div className="absolute inset-8 bg-[repeating-linear-gradient(0deg,transparent_0_70px,rgba(147,197,253,.09)_71px_72px),repeating-linear-gradient(90deg,transparent_0_100px,rgba(147,197,253,.06)_101px_102px)] sm:inset-12" />
-        <div className="absolute inset-y-0 left-5 w-px bg-blue-200/40 shadow-[0_0_28px_rgba(96,165,250,.7)]" />
-        {[12, 30, 50, 70, 88].map((top) => <span key={top} className="absolute right-5 h-2.5 w-2.5 rounded-full bg-blue-300/60 shadow-[0_0_12px_rgba(96,165,250,.7)] sm:right-8" style={{ top: `${top}%` }} />)}
+      <div className={`absolute inset-y-0 right-0 w-1/2 overflow-hidden border-l border-white/15 bg-[radial-gradient(circle_at_88%_18%,rgba(0,229,255,.17),transparent_32%),radial-gradient(circle_at_18%_78%,rgba(236,72,153,.1),transparent_32%),linear-gradient(65deg,rgba(9,16,21,.94),rgba(5,5,5,.98))] shadow-[-20px_0_90px_rgba(0,0,0,.65)] backdrop-blur-[32px] transition-transform delay-100 duration-[1700ms] ease-[cubic-bezier(.72,0,.18,1)] motion-reduce:duration-0 ${doorMotion}`}>
+        <div className="absolute inset-4 border border-white/[.07] sm:inset-7" />
+        <div className="absolute inset-8 bg-[repeating-linear-gradient(0deg,transparent_0_70px,rgba(255,255,255,.045)_71px_72px),repeating-linear-gradient(90deg,transparent_0_100px,rgba(255,255,255,.03)_101px_102px)] sm:inset-12" />
+        <div className="absolute inset-y-0 left-5 w-px bg-cyan-200/30 shadow-[0_0_32px_rgba(0,229,255,.48)]" />
+        {[12, 30, 50, 70, 88].map((top) => <span key={top} className="absolute right-5 h-2.5 w-2.5 rounded-full bg-white/45 shadow-[0_0_14px_rgba(0,229,255,.38)] sm:right-8" style={{ top: `${top}%` }} />)}
       </div>
 
-      <div className={`absolute bottom-5 left-4 flex items-center gap-3 rounded-2xl border border-blue-200/30 bg-[#030918]/90 px-4 py-3 text-white shadow-[0_18px_60px_rgba(0,0,0,.5)] backdrop-blur-xl transition-all duration-700 sm:bottom-10 sm:left-auto sm:right-8 sm:px-5 ${open ? "translate-y-6 opacity-0" : "translate-y-0 opacity-100"}`}>
-        <div className="flex h-11 w-11 items-center justify-center rounded-full border border-blue-300/50 bg-blue-500/10 shadow-[0_0_24px_rgba(59,130,246,.45)]">
-          <LockKeyhole className="h-5 w-5 text-blue-200" />
+      <div className={`absolute bottom-5 left-4 flex items-center gap-3 rounded-2xl bg-white/[.075] px-4 py-3 text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12),0_18px_70px_rgba(0,0,0,.48)] backdrop-blur-[32px] transition-all duration-700 sm:bottom-10 sm:left-auto sm:right-8 sm:px-5 ${open ? "translate-y-6 opacity-0" : "translate-y-0 opacity-100"}`}>
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/[.07] shadow-[0_0_28px_rgba(0,229,255,.28)]">
+          <LockKeyhole className="h-5 w-5 text-cyan-200" />
         </div>
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-blue-300">Vault opens in</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-cyan-200/80">Vault opens in</p>
           <p className="mt-1 font-mono text-sm font-semibold sm:text-base">{formatRemaining(next.getTime() - now.getTime())}</p>
         </div>
       </div>
 
       {open && (
-        <div className="absolute bottom-5 left-4 rounded-full border border-blue-200/30 bg-blue-600/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-[0_0_35px_rgba(59,130,246,.55)] backdrop-blur-md sm:bottom-10 sm:left-auto sm:right-8">
+        <div className="absolute bottom-5 left-4 rounded-full bg-white/[.08] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12),0_0_40px_rgba(0,229,255,.2)] backdrop-blur-[32px] sm:bottom-10 sm:left-auto sm:right-8">
           Vault open · Drop live
         </div>
       )}
