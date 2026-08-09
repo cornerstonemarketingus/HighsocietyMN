@@ -19,7 +19,7 @@ export default function AdminLayout({
       <aside className="w-64 border-r border-slate-200 bg-white shrink-0 hidden md:flex flex-col">
         <div className="p-6 border-b border-slate-200">
           <Link href="/" className="flex items-center gap-2">
-            <Crown className="h-6 w-6 text-indigo-600" />
+            <Crown className="h-6 w-6 text-emerald-600" />
             <div>
               <p className="text-slate-950 font-bold text-sm">High Society MN</p>
               <p className="text-slate-500 text-xs">Admin Dashboard</p>
@@ -31,7 +31,7 @@ export default function AdminLayout({
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 hover:text-indigo-400 hover:bg-slate-50 transition-colors text-sm"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-700 hover:text-emerald-400 hover:bg-slate-50 transition-colors text-sm"
             >
               <Icon className="h-4 w-4" />
               {label}
@@ -39,7 +39,7 @@ export default function AdminLayout({
           ))}
         </nav>
         <div className="p-4 border-t border-slate-200">
-          <Link href="/" className="text-xs text-slate-500 hover:text-indigo-400">
+          <Link href="/" className="text-xs text-slate-500 hover:text-emerald-400">
             ← Back to Store
           </Link>
         </div>
@@ -48,8 +48,8 @@ export default function AdminLayout({
       {/* Content */}
       <div className="border-b border-slate-200 bg-white px-4 py-3 md:hidden">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-semibold text-slate-950"><Crown className="h-5 w-5 text-indigo-600" /> High Society Admin</Link>
-          <Link href="/" className="text-xs text-indigo-700">View store</Link>
+          <Link href="/" className="flex items-center gap-2 font-semibold text-slate-950"><Crown className="h-5 w-5 text-emerald-600" /> High Society Admin</Link>
+          <Link href="/" className="text-xs text-emerald-700">View store</Link>
         </div>
         <nav className="mt-3 flex gap-2 overflow-x-auto">
           {adminLinks.map(({ href, label }) => <Link key={href} href={href} className="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700">{label}</Link>)}

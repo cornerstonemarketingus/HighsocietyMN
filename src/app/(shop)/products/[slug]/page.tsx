@@ -48,7 +48,7 @@ export default async function ProductDetailPage({
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <Link
           href="/products"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-indigo-400 mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-emerald-400 mb-8 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>
@@ -83,7 +83,7 @@ export default async function ProductDetailPage({
           {/* Details */}
           <div className="space-y-6">
             <div>
-              <p className="text-indigo-500 text-sm uppercase tracking-wider mb-2">
+              <p className="text-emerald-500 text-sm uppercase tracking-wider mb-2">
                 {product.category.name}
               </p>
               <h1 className="text-3xl font-bold text-slate-950">{product.name}</h1>
@@ -93,7 +93,7 @@ export default async function ProductDetailPage({
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-indigo-700">
+              <span className="text-3xl font-bold text-emerald-700">
                 {variants.length > 1 ? "From " : ""}
                 {formatPrice(Math.min(product.price, ...variants.map((variant) => variant.price)))}
               </span>

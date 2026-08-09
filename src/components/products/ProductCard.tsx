@@ -44,9 +44,9 @@ export function ProductCard({
   const displayPrice = variantPrices.length ? Math.min(price, ...variantPrices) : price;
 
   return (
-    <article className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white shadow-[0_14px_45px_-32px_rgba(15,23,42,0.45)] transition-all duration-500 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-[0_24px_60px_-30px_rgba(79,70,229,0.35)]">
+    <article className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white shadow-[0_14px_45px_-32px_rgba(15,23,42,0.45)] transition-all duration-500 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-[0_24px_60px_-30px_rgba(5,150,105,0.35)]">
       <Link href={`/products/${slug}`} className="block">
-        <div className="relative aspect-[4/4.35] overflow-hidden bg-gradient-to-br from-indigo-50 to-slate-100">
+        <div className="relative aspect-[4/4.35] overflow-hidden bg-gradient-to-br from-emerald-50 to-slate-100">
           <Image
             src={imageUrl}
             alt={name}
@@ -68,7 +68,7 @@ export function ProductCard({
           )}
         </div>
         <div className="space-y-3 p-5">
-          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-indigo-600">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-emerald-600">
             {category.name}
           </p>
           <h3 className="min-h-12 text-base font-semibold leading-snug text-slate-950 line-clamp-2 sm:text-lg">
@@ -86,7 +86,7 @@ export function ProductCard({
               )}
             </div>
             {thcContent !== null && thcContent !== undefined && (
-              <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-[0.68rem] font-semibold text-indigo-700">
+              <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[0.68rem] font-semibold text-emerald-700">
                 {thcContent}% THC
               </span>
             )}
@@ -96,7 +96,7 @@ export function ProductCard({
       <div className="px-5 pb-5">
         {inStock ? (
           <Link href={`/products/${slug}`}>
-            <span className="inline-flex h-9 w-full items-center justify-center rounded-full bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
+            <span className="inline-flex h-9 w-full items-center justify-center rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
               View product <ArrowUpRight className="ml-2 h-4 w-4" />
             </span>
           </Link>

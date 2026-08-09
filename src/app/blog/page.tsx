@@ -26,7 +26,7 @@ export default async function BlogPage() {
       <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <BookOpen className="h-7 w-7 text-indigo-500" />
+            <BookOpen className="h-7 w-7 text-emerald-500" />
             <h1 className="text-4xl font-bold text-slate-950">Blog</h1>
           </div>
           <p className="text-slate-600 max-w-xl">
@@ -45,7 +45,7 @@ export default async function BlogPage() {
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                className="group flex flex-col rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden hover:border-indigo-500/40 transition-all"
+                className="group flex flex-col rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden hover:border-emerald-500/40 transition-all"
               >
                 {post.image && (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -56,22 +56,22 @@ export default async function BlogPage() {
                   />
                 )}
                 {!post.image && (
-                  <div className="w-full h-48 bg-gradient-to-br from-indigo-900/30 to-black/60 flex items-center justify-center">
-                    <BookOpen className="h-12 w-12 text-indigo-800" />
+                  <div className="w-full h-48 bg-gradient-to-br from-emerald-900/30 to-black/60 flex items-center justify-center">
+                    <BookOpen className="h-12 w-12 text-emerald-800" />
                   </div>
                 )}
                 <div className="flex flex-col flex-1 p-6 space-y-3">
-                  <p className="text-xs text-indigo-500 font-medium">
+                  <p className="text-xs text-emerald-500 font-medium">
                     {post.publishedAt ? formatDate(post.publishedAt) : formatDate(post.createdAt)}
                     {post.author.name && ` · ${post.author.name}`}
                   </p>
-                  <h2 className="text-slate-950 font-semibold text-lg leading-snug group-hover:text-indigo-400 transition-colors">
+                  <h2 className="text-slate-950 font-semibold text-lg leading-snug group-hover:text-emerald-400 transition-colors">
                     {post.title}
                   </h2>
                   {post.excerpt && (
                     <p className="text-slate-600 text-sm flex-1 line-clamp-3">{post.excerpt}</p>
                   )}
-                  <span className="flex items-center gap-1 text-indigo-400 text-sm mt-auto">
+                  <span className="flex items-center gap-1 text-emerald-400 text-sm mt-auto">
                     Read more <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>

@@ -51,10 +51,10 @@ function drawRobot(context: CanvasRenderingContext2D, x: number, groundY: number
   context.translate(x, groundY);
   context.scale(direction, 1);
   const body = context.createLinearGradient(-25, -75, 30, -15);
-  body.addColorStop(0, "#dffcff");
-  body.addColorStop(0.48, "#82f3ff");
-  body.addColorStop(1, "#6d5dfc");
-  context.shadowColor = "rgba(0,229,255,.45)";
+  body.addColorStop(0, "#d1fae5");
+  body.addColorStop(0.48, "#34d399");
+  body.addColorStop(1, "#047857");
+  context.shadowColor = "rgba(16,185,129,.45)";
   context.shadowBlur = 24;
   context.fillStyle = body;
   context.beginPath();
@@ -69,7 +69,7 @@ function drawRobot(context: CanvasRenderingContext2D, x: number, groundY: number
   context.beginPath();
   context.arc(7, -52, 3.5, 0, Math.PI * 2);
   context.fill();
-  context.strokeStyle = "#b8fbff";
+  context.strokeStyle = "#a7f3d0";
   context.lineWidth = 7;
   context.lineCap = "round";
   context.beginPath();
@@ -80,7 +80,7 @@ function drawRobot(context: CanvasRenderingContext2D, x: number, groundY: number
   context.moveTo(22, -53);
   context.lineTo(40, -46);
   context.stroke();
-  context.fillStyle = "#00e5ff";
+  context.fillStyle = "#10b981";
   context.fillRect(38, -50, 18, 8);
   context.restore();
 }
@@ -155,8 +155,8 @@ export function DinoDefenseGame() {
 
     const glows = [
       { x: 130, y: 120, radius: 220, color: "rgba(0,245,160,.12)" },
-      { x: 760, y: 150, radius: 260, color: "rgba(0,229,255,.13)" },
-      { x: 520, y: 420, radius: 250, color: "rgba(124,58,237,.12)" },
+      { x: 760, y: 150, radius: 260, color: "rgba(16,185,129,.13)" },
+      { x: 520, y: 420, radius: 250, color: "rgba(5,150,105,.12)" },
     ];
     for (const glow of glows) {
       const gradient = context.createRadialGradient(glow.x, glow.y, 0, glow.x, glow.y, glow.radius);
@@ -184,13 +184,13 @@ export function DinoDefenseGame() {
     context.fillStyle = "rgba(255,255,255,.075)";
     context.fillRect(0, GROUND + 2, WIDTH, 2);
     const floorGlow = context.createLinearGradient(0, GROUND, 0, HEIGHT);
-    floorGlow.addColorStop(0, "rgba(0,229,255,.09)");
+    floorGlow.addColorStop(0, "rgba(16,185,129,.09)");
     floorGlow.addColorStop(1, "transparent");
     context.fillStyle = floorGlow;
     context.fillRect(0, GROUND, WIDTH, HEIGHT - GROUND);
 
     for (const shot of game.shots) {
-      context.shadowColor = "#00e5ff";
+      context.shadowColor = "#10b981";
       context.shadowBlur = 18;
       context.fillStyle = "#dfffff";
       context.fillRect(shot.x, shot.y, 18, 4);
@@ -310,7 +310,7 @@ export function DinoDefenseGame() {
     <div className="overflow-hidden rounded-[2rem] bg-white/[.055] shadow-[inset_0_1px_0_rgba(255,255,255,.1),0_30px_100px_rgba(0,0,0,.45)] backdrop-blur-[32px]">
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-7">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-300/75">Arcade 01</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-300/75">Arcade 01</p>
           <h2 className="mt-1 text-xl font-semibold text-white sm:text-2xl">Chrome Ranger: Dino Rush</h2>
         </div>
         <div className="flex items-center gap-4 font-mono text-xs text-white/60 sm:text-sm">
@@ -325,10 +325,10 @@ export function DinoDefenseGame() {
         {status !== "playing" && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-5 backdrop-blur-sm">
             <div className="max-w-md rounded-[1.75rem] bg-black/45 p-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-[32px] sm:p-8">
-              <Zap className="mx-auto h-8 w-8 text-cyan-300" />
+              <Zap className="mx-auto h-8 w-8 text-emerald-300" />
               <h3 className="mt-4 text-2xl font-semibold text-white">{status === "gameover" ? "The dinosaurs broke through." : "Hold the line."}</h3>
               <p className="mt-3 text-sm leading-6 text-white/55">{status === "gameover" ? `Final score: ${score}. Ready for another run?` : "Move, jump, and fire before the dinosaurs reach your ranger."}</p>
-              <button type="button" onClick={start} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#050505] transition hover:bg-cyan-50">
+              <button type="button" onClick={start} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#050505] transition hover:bg-emerald-50">
                 {status === "gameover" ? <RotateCcw className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 {status === "gameover" ? "Play again" : "Start game"}
               </button>
@@ -340,7 +340,7 @@ export function DinoDefenseGame() {
       <div className="grid grid-cols-4 gap-2 p-3 sm:hidden">
         <button type="button" onClick={() => move(-1)} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-white active:bg-white/[.14]" aria-label="Move left"><ArrowLeft /></button>
         <button type="button" onClick={jump} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-xs font-semibold uppercase tracking-wider text-white active:bg-white/[.14]">Jump</button>
-        <button type="button" onClick={fire} className="flex h-14 items-center justify-center rounded-2xl bg-cyan-300 text-[#050505] active:bg-cyan-200" aria-label="Fire"><Crosshair /></button>
+        <button type="button" onClick={fire} className="flex h-14 items-center justify-center rounded-2xl bg-emerald-300 text-[#050505] active:bg-emerald-200" aria-label="Fire"><Crosshair /></button>
         <button type="button" onClick={() => move(1)} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-white active:bg-white/[.14]" aria-label="Move right"><ArrowRight /></button>
       </div>
       <div className="hidden items-center justify-between px-7 py-4 text-xs text-white/38 sm:flex">

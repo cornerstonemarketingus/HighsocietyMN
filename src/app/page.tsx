@@ -148,12 +148,12 @@ export default function HomePage() {
 
       <main className="relative">
         <div className="pointer-events-none absolute left-[-12rem] top-[55rem] h-[32rem] w-[32rem] rounded-full bg-emerald-400/15 blur-[140px]" />
-        <div className="pointer-events-none absolute right-[-14rem] top-[88rem] h-[38rem] w-[38rem] rounded-full bg-cyan-400/15 blur-[150px]" />
-        <div className="pointer-events-none absolute left-[30%] top-[145rem] h-[34rem] w-[34rem] rounded-full bg-violet-500/12 blur-[150px]" />
+        <div className="pointer-events-none absolute right-[-14rem] top-[88rem] h-[38rem] w-[38rem] rounded-full bg-emerald-400/15 blur-[150px]" />
+        <div className="pointer-events-none absolute left-[30%] top-[145rem] h-[34rem] w-[34rem] rounded-full bg-emerald-500/12 blur-[150px]" />
 
         <section className="relative isolate min-h-[calc(100svh-4.75rem)] overflow-hidden bg-[#050505] text-white">
           <Image src="/brand/hero-cobalt-cannabis.webp" alt="Premium cannabis flower revealed behind the High Society vault" fill priority sizes="100vw" className="object-cover object-[68%_center] sm:object-center" />
-          <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_78%_44%,rgba(0,229,255,.16),transparent_24%),radial-gradient(circle_at_58%_18%,rgba(124,58,237,.14),transparent_26%),linear-gradient(90deg,rgba(5,5,5,.98)_0%,rgba(5,5,5,.84)_42%,rgba(5,5,5,.2)_78%)]" />
+          <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_78%_44%,rgba(16,185,129,.16),transparent_24%),radial-gradient(circle_at_58%_18%,rgba(5,150,105,.14),transparent_26%),linear-gradient(90deg,rgba(5,5,5,.98)_0%,rgba(5,5,5,.84)_42%,rgba(5,5,5,.2)_78%)]" />
           <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,transparent_50%,#050505_100%)]" />
           <VaultDrop />
           <div className="relative z-20 mx-auto flex min-h-[calc(100svh-4.75rem)] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
@@ -167,7 +167,7 @@ export default function HomePage() {
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link href="/products">
-                  <Button size="lg" className="group w-full gap-2 rounded-full bg-white px-8 text-[#050505] shadow-[0_18px_70px_rgba(0,229,255,.18)] hover:bg-cyan-50 sm:w-auto">
+                  <Button size="lg" className="group w-full gap-2 rounded-full bg-white px-8 text-[#050505] shadow-[0_18px_70px_rgba(16,185,129,.18)] hover:bg-emerald-50 sm:w-auto">
                     Shop the collection
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
@@ -186,7 +186,7 @@ export default function HomePage() {
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-300/80">The collection</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-emerald-300/80">The collection</p>
               <h2 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
                 <span className="text-white">Find your format.</span>
                 <span className="aurora-text block pt-2">Keep it simple.</span>
@@ -195,7 +195,7 @@ export default function HomePage() {
                 Six clear paths into the menu, each backed by real product imagery and useful details.
               </p>
             </div>
-            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-cyan-300 transition-colors hover:text-white">
+            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-emerald-300 transition-colors hover:text-white">
               Shop everything <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -205,11 +205,11 @@ export default function HomePage() {
               <Link
                 key={category.slug}
                 href={`/products?category=${category.slug}`}
-                className="glass-card group relative min-h-72 overflow-hidden rounded-[1.75rem] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_28px_90px_rgba(0,229,255,.13)]"
+                className="glass-card group relative min-h-72 overflow-hidden rounded-[1.75rem] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_28px_90px_rgba(16,185,129,.13)]"
               >
                 <Image src={category.image} alt={category.imageAlt} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_15%,rgba(5,5,5,.32)_48%,rgba(5,5,5,.96)_100%)]" />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-[radial-gradient(ellipse_at_bottom,rgba(0,229,255,.16),transparent_68%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-[radial-gradient(ellipse_at_bottom,rgba(16,185,129,.16),transparent_68%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="relative flex min-h-72 flex-col justify-end p-7">
                   <div className="mb-5 flex items-center justify-end">
                     <ArrowRight className="h-5 w-5 text-white transition-transform duration-300 group-hover:translate-x-1" />
@@ -229,10 +229,10 @@ export default function HomePage() {
         <section className="relative z-10 mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
           <div className="glass-panel relative overflow-hidden rounded-[1.75rem] px-6 py-6 sm:px-8">
             <div className="pointer-events-none absolute -left-20 -top-24 h-48 w-48 rounded-full bg-emerald-400/20 blur-[70px]" />
-            <div className="pointer-events-none absolute -right-20 -bottom-24 h-52 w-52 rounded-full bg-cyan-400/20 blur-[75px]" />
+            <div className="pointer-events-none absolute -right-20 -bottom-24 h-52 w-52 rounded-full bg-emerald-400/20 blur-[75px]" />
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/[.07] text-cyan-300 shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-[30px]">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/[.07] text-emerald-300 shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-[30px]">
                   <Zap className="h-7 w-7" />
                 </div>
                 <div className="space-y-2">
@@ -258,7 +258,7 @@ export default function HomePage() {
                 className="glass-card min-w-[240px] flex-1 rounded-2xl px-5 py-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[.06] text-cyan-300">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[.06] text-emerald-300">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -273,10 +273,10 @@ export default function HomePage() {
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="glass-panel relative grid gap-8 overflow-hidden rounded-[2rem] p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
-            <div className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-violet-500/20 blur-[110px]" />
-            <div className="pointer-events-none absolute bottom-[-8rem] left-[30%] h-64 w-64 rounded-full bg-cyan-400/14 blur-[100px]" />
+            <div className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-emerald-500/20 blur-[110px]" />
+            <div className="pointer-events-none absolute bottom-[-8rem] left-[30%] h-64 w-64 rounded-full bg-emerald-400/14 blur-[100px]" />
             <div className="min-w-0 space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-300/80">This week</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-emerald-300/80">This week</p>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 A smaller menu.<br /><span className="aurora-text">A better edit.</span>
               </h2>
@@ -292,7 +292,7 @@ export default function HomePage() {
                   "Local service across the Twin Cities",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 text-white/68">
-                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" />
+                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-emerald-300" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -309,7 +309,7 @@ export default function HomePage() {
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-8 space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-300/75">High Society, beyond the shop</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-emerald-300/75">High Society, beyond the shop</p>
             <h2 className="text-4xl font-semibold sm:text-5xl">
               Learn something. <span className="aurora-text">Meet someone.</span>
             </h2>
@@ -319,19 +319,19 @@ export default function HomePage() {
               <Link
                 key={card.href}
                 href={card.href}
-                className="glass-card group relative overflow-hidden rounded-[1.75rem] p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_90px_rgba(124,58,237,.14)]"
+                className="glass-card group relative overflow-hidden rounded-[1.75rem] p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_90px_rgba(5,150,105,.14)]"
               >
-                <div className="pointer-events-none absolute -right-16 -top-20 h-44 w-44 rounded-full bg-violet-500/15 blur-[70px] transition group-hover:bg-cyan-400/15" />
+                <div className="pointer-events-none absolute -right-16 -top-20 h-44 w-44 rounded-full bg-emerald-500/15 blur-[70px] transition group-hover:bg-emerald-400/15" />
                 <div className="flex h-full flex-col gap-6">
-                  <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[.06] text-cyan-300 shadow-[inset_0_1px_0_rgba(255,255,255,.1)]">
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[.06] text-emerald-300 shadow-[inset_0_1px_0_rgba(255,255,255,.1)]">
                     <card.icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-3">
-                    <p className="text-sm uppercase tracking-[0.3em] text-violet-300/70">{card.eyebrow}</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-emerald-300/70">{card.eyebrow}</p>
                     <h3 className="text-3xl font-semibold text-white">{card.title}</h3>
                     <p className="text-base leading-7 text-white/48">{card.description}</p>
                   </div>
-                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-cyan-300 transition-colors group-hover:text-white">
+                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-emerald-300 transition-colors group-hover:text-white">
                     {card.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
@@ -350,7 +350,7 @@ export default function HomePage() {
               </h2>
               <div className="flex flex-wrap items-center gap-3 text-sm text-white/58">
                 <span className="inline-flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-cyan-300" /> Saint Paul, Minneapolis & nearby metro neighborhoods
+                  <MapPin className="h-4 w-4 text-emerald-300" /> Saint Paul, Minneapolis & nearby metro neighborhoods
                 </span>
                 <span className="text-white/30">•</span>
                 <span className="inline-flex items-center gap-2 text-emerald-200/80">
@@ -374,10 +374,10 @@ export default function HomePage() {
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
           <div className="glass-panel relative grid gap-8 overflow-hidden rounded-[2rem] p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
-            <div className="pointer-events-none absolute -right-28 -top-24 h-80 w-80 rounded-full bg-pink-500/12 blur-[110px]" />
-            <div className="pointer-events-none absolute -bottom-24 left-[35%] h-64 w-64 rounded-full bg-cyan-400/15 blur-[100px]" />
+            <div className="pointer-events-none absolute -right-28 -top-24 h-80 w-80 rounded-full bg-emerald-500/12 blur-[110px]" />
+            <div className="pointer-events-none absolute -bottom-24 left-[35%] h-64 w-64 rounded-full bg-emerald-400/15 blur-[100px]" />
             <div className="min-w-0 space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-pink-300/75">Private list</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-emerald-300/75">Private list</p>
               <h2 className="text-4xl font-semibold sm:text-5xl">
                 First look.<br /><span className="aurora-text">Better rewards.</span>
               </h2>

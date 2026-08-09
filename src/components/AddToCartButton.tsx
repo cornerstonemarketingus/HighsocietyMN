@@ -71,7 +71,7 @@ export function AddToCartButton({
               setState("idle");
               setMessage("");
             }}
-            className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-normal text-slate-900 outline-none focus:border-indigo-500"
+            className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-normal text-slate-900 outline-none focus:border-emerald-500"
           >
             {variants.length > 1 && <option value="">Select an option…</option>}
             {variants.map((variant) => (
@@ -92,12 +92,12 @@ export function AddToCartButton({
             onChange={(event) =>
               setCustomization((current) => ({ ...current, [field.title]: event.target.value }))
             }
-            className="mt-2 w-full resize-y rounded-xl border border-slate-300 px-4 py-3 font-normal outline-none focus:border-indigo-500"
+            className="mt-2 w-full resize-y rounded-xl border border-slate-300 px-4 py-3 font-normal outline-none focus:border-emerald-500"
           />
         </label>
       ))}
       {selectedVariant && (
-        <p className="text-sm font-semibold text-indigo-700">
+        <p className="text-sm font-semibold text-emerald-700">
           Selected price: ${selectedVariant.price.toFixed(2)}
         </p>
       )}

@@ -44,9 +44,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 justify-center">
-            <Leaf className="h-8 w-8 text-indigo-500" />
+            <Leaf className="h-8 w-8 text-emerald-500" />
             <span className="text-2xl font-bold text-slate-950">
-              High Society <span className="text-indigo-500">MN</span>
+              High Society <span className="text-emerald-500">MN</span>
             </span>
           </Link>
           <p className="text-slate-600">Create your account</p>
@@ -86,7 +86,7 @@ export default function RegisterPage() {
 
           <p className="text-xs text-slate-500">
             By creating an account, you confirm you are 21+ and agree to our{" "}
-            <Link href="/terms" className="text-indigo-400 hover:underline">
+            <Link href="/terms" className="text-emerald-400 hover:underline">
               Terms of Service
             </Link>
             .
@@ -99,7 +99,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-slate-600">
           Already have an account?{" "}
-          <Link href="/login" className="text-indigo-400 hover:underline">
+          <Link href="/login" className="text-emerald-400 hover:underline">
             Sign in
           </Link>
         </p>

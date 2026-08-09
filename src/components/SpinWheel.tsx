@@ -57,11 +57,11 @@ export function SpinWheel({ email }: { email?: string } = {}) {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8" aria-labelledby="spin-wheel-title">
-      <div className="grid gap-8 overflow-hidden rounded-[2rem] border border-indigo-200 bg-white p-5 shadow-sm sm:p-8 lg:grid-cols-2 lg:items-center lg:p-12">
+      <div className="grid gap-8 overflow-hidden rounded-[2rem] border border-emerald-200 bg-white p-5 shadow-sm sm:p-8 lg:grid-cols-2 lg:items-center lg:p-12">
         <div className="space-y-5">
-          <p className="text-sm uppercase tracking-[0.35em] text-indigo-600/70">Member Rewards</p>
+          <p className="text-sm uppercase tracking-[0.35em] text-emerald-600/70">Member Rewards</p>
           <h2 id="spin-wheel-title" className="text-4xl font-semibold sm:text-5xl">
-            Spin for a <span className="text-indigo-600">High Society reward.</span>
+            Spin for a <span className="text-emerald-600">High Society reward.</span>
           </h2>
           <p className="max-w-xl text-lg leading-8 text-slate-700">
             Try your luck for discounts, delivery rewards, points, and tokens. Signed-in members get one spin.
@@ -70,18 +70,18 @@ export function SpinWheel({ email }: { email?: string } = {}) {
             type="button"
             onClick={spin}
             disabled={spinning}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-indigo-600 px-7 font-semibold text-white transition hover:bg-indigo-300 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-600 px-7 font-semibold text-white transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {spinning ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
             {spinning ? "Spinning…" : "Spin the wheel"}
           </button>
           <div aria-live="polite" className="min-h-16">
             {prize && (
-              <div className="rounded-2xl border-2 border-indigo-500 bg-white p-5 text-slate-950 shadow-[0_16px_45px_-24px_rgba(79,70,229,.65)]">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-700">Your reward</p>
+              <div className="rounded-2xl border-2 border-emerald-500 bg-white p-5 text-slate-950 shadow-[0_16px_45px_-24px_rgba(5,150,105,.65)]">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-700">Your reward</p>
                 <p className="mt-2 text-xl font-bold leading-tight text-slate-950">You won: {prize.prize}</p>
                 {prize.code && (
-                  <p className="mt-3 inline-flex rounded-full bg-indigo-700 px-4 py-2 text-sm font-semibold text-white">
+                  <p className="mt-3 inline-flex rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white">
                     Code: <strong className="ml-1.5 tracking-wide">{prize.code}</strong>
                   </p>
                 )}
@@ -92,13 +92,13 @@ export function SpinWheel({ email }: { email?: string } = {}) {
         </div>
 
         <div className="relative mx-auto flex aspect-square w-full max-w-80 items-center justify-center">
-          <div className="absolute -top-3 z-10 h-0 w-0 border-x-[14px] border-t-[28px] border-x-transparent border-t-indigo-200" />
+          <div className="absolute -top-3 z-10 h-0 w-0 border-x-[14px] border-t-[28px] border-x-transparent border-t-emerald-200" />
           <div
-            className="relative h-full w-full rounded-full border-8 border-indigo-300/70 shadow-[0_0_60px_rgba(79,70,229,0.25)] transition-transform duration-[3000ms] ease-out"
+            className="relative h-full w-full rounded-full border-8 border-emerald-300/70 shadow-[0_0_60px_rgba(5,150,105,0.25)] transition-transform duration-[3000ms] ease-out"
             style={{
               transform: `rotate(${rotation}deg)`,
               background:
-                "conic-gradient(#4f46e5 0deg 60deg,#e0e7ff 60deg 120deg,#818cf8 120deg 180deg,#c7d2fe 180deg 240deg,#4338ca 240deg 300deg,#eef2ff 300deg 360deg)",
+                "conic-gradient(#059669 0deg 60deg,#d1fae5 60deg 120deg,#34d399 120deg 180deg,#a7f3d0 180deg 240deg,#047857 240deg 300deg,#ecfdf5 300deg 360deg)",
             }}
           >
             {["10% OFF", "POINTS", "15% OFF", "TOKENS", "DELIVERY", "TRY AGAIN"].map((label, index) => (
@@ -110,7 +110,7 @@ export function SpinWheel({ email }: { email?: string } = {}) {
                 {label}
               </span>
             ))}
-            <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-indigo-200 bg-white text-indigo-600">
+            <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-emerald-200 bg-white text-emerald-600">
               <Gift className="h-8 w-8" />
             </div>
           </div>

@@ -17,7 +17,7 @@ body {
 }
 
 ::selection {
-  background: rgba(0, 229, 255, 0.28);
+  background: rgba(16, 185, 129, 0.28);
   color: #f8fafc;
 }
 
@@ -30,22 +30,22 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #155e75;
+  background: #065f46;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00e5ff;
+  background: #10b981;
 }
 
 .aurora-page {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(circle at 8% 18%, rgba(0, 245, 160, 0.14), transparent 27rem),
-    radial-gradient(circle at 92% 30%, rgba(0, 212, 255, 0.14), transparent 30rem),
-    radial-gradient(circle at 48% 64%, rgba(124, 58, 237, 0.12), transparent 34rem),
-    radial-gradient(circle at 78% 88%, rgba(236, 72, 153, 0.08), transparent 26rem),
+    radial-gradient(circle at 8% 18%, rgba(16, 185, 129, 0.16), transparent 27rem),
+    radial-gradient(circle at 92% 30%, rgba(52, 211, 153, 0.14), transparent 30rem),
+    radial-gradient(circle at 48% 64%, rgba(5, 150, 105, 0.14), transparent 34rem),
+    radial-gradient(circle at 78% 88%, rgba(4, 120, 87, 0.1), transparent 26rem),
     #050505;
 }
 
@@ -82,7 +82,7 @@ body {
 }
 
 .aurora-text {
-  background: linear-gradient(100deg, #00f5a0 0%, #00e5ff 38%, #8b5cf6 72%, #f472b6 100%);
+  background: linear-gradient(100deg, #34d399 0%, #10b981 38%, #059669 72%, #047857 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -142,13 +142,13 @@ body {
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(79, 70, 229, 0.1) 50%, transparent 75%);
+  background: linear-gradient(90deg, transparent 25%, rgba(16, 185, 129, 0.12) 50%, transparent 75%);
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #1D4ED8 0%, #60A5FA 50%, #2563EB 100%);
+  background: linear-gradient(135deg, #047857 0%, #34d399 50%, #059669 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

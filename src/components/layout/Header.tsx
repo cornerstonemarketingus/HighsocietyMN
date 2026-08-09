@@ -24,15 +24,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/[.08] bg-[#050505]/72 shadow-[0_14px_50px_rgba(0,0,0,.3)] backdrop-blur-[32px]">
       <div className="pointer-events-none absolute left-[8%] top-[-3rem] h-20 w-72 rounded-full bg-emerald-400/14 blur-[55px]" />
-      <div className="pointer-events-none absolute right-[16%] top-[-3rem] h-20 w-80 rounded-full bg-cyan-400/12 blur-[60px]" />
+      <div className="pointer-events-none absolute right-[16%] top-[-3rem] h-20 w-80 rounded-full bg-emerald-400/12 blur-[60px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.75rem] items-center justify-between">
           {/* Logo */}
           <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="High Society MN home">
-            <BrandMark className="text-cyan-300" />
+            <BrandMark className="text-emerald-300" />
             <span className="leading-none">
               <span className="block text-lg font-semibold tracking-[0.02em] text-white">High Society</span>
-              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-cyan-300/80">Minnesota</span>
+              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-emerald-300/80">Minnesota</span>
             </span>
           </Link>
 
@@ -64,7 +64,7 @@ export function Header() {
 
             <Link
               href="/cart"
-              className="relative p-2 text-white/65 transition-colors hover:text-cyan-300"
+              className="relative p-2 text-white/65 transition-colors hover:text-emerald-300"
               aria-label="Cart"
             >
               <ShoppingCart className="h-5 w-5" />
@@ -81,7 +81,7 @@ export function Header() {
                 )}
                 <Link
                   href="/account"
-                    className="p-2 text-white/65 transition-colors hover:text-cyan-300"
+                    className="p-2 text-white/65 transition-colors hover:text-emerald-300"
                   aria-label="Account"
                 >
                   <User className="h-5 w-5" />
@@ -119,7 +119,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block py-2 text-sm text-white/65 hover:text-cyan-300"
+                className="block py-2 text-sm text-white/65 hover:text-emerald-300"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
