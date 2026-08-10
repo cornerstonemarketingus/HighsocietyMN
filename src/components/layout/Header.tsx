@@ -22,15 +22,13 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[.08] bg-[#050505]/72 shadow-[0_14px_50px_rgba(0,0,0,.3)] backdrop-blur-[32px]">
-      <div className="pointer-events-none absolute left-[8%] top-[-3rem] h-20 w-72 rounded-full bg-green-400/14 blur-[55px]" />
-      <div className="pointer-events-none absolute right-[16%] top-[-3rem] h-20 w-80 rounded-full bg-green-400/12 blur-[60px]" />
+    <header className="sticky top-0 z-50 border-b-2 border-black bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.75rem] items-center justify-between">
           <div className="flex shrink-0 items-center gap-2">
             {/* Mobile menu toggle — leftmost, like a hamburger nav */}
             <button
-              className="-ml-2 p-2 text-white/70 hover:text-white lg:hidden"
+              className="-ml-2 p-2 text-slate-900 hover:text-green-600 lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -39,10 +37,12 @@ export function Header() {
 
             {/* Logo */}
             <Link href="/" className="group flex items-center gap-2.5" aria-label="High Society MN home">
-              <BrandMark className="text-green-300" />
+              <BrandMark className="text-slate-950" />
               <span className="leading-none">
-                <span className="block text-lg font-semibold tracking-[0.02em] text-white">High Society</span>
-                <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-green-300/80">Minnesota</span>
+                <span className="block text-lg font-black uppercase tracking-tight text-slate-950">
+                  High <span className="bg-green-500 px-1 text-black">Society</span>
+                </span>
+                <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-green-600">Minnesota</span>
               </span>
             </Link>
           </div>
@@ -53,14 +53,14 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-white/58 transition-colors hover:text-white"
+                className="text-sm font-bold uppercase tracking-wide text-slate-700 transition-colors hover:text-green-600"
               >
                 {link.label}
               </Link>
             ))}
             <BudSeekerTrigger compact />
             {navLinks.slice(2).map((link) => (
-              <Link key={link.href} href={link.href} className="text-sm font-medium text-white/58 transition-colors hover:text-white">
+              <Link key={link.href} href={link.href} className="text-sm font-bold uppercase tracking-wide text-slate-700 transition-colors hover:text-green-600">
                 {link.label}
               </Link>
             ))}
@@ -75,7 +75,7 @@ export function Header() {
 
             <Link
               href="/products"
-              className="p-2 text-white/65 transition-colors hover:text-green-300"
+              className="p-2 text-slate-800 transition-colors hover:text-green-600"
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -83,7 +83,7 @@ export function Header() {
 
             <Link
               href="/cart"
-              className="relative p-2 text-white/65 transition-colors hover:text-green-300"
+              className="relative p-2 text-slate-800 transition-colors hover:text-green-600"
               aria-label="Cart"
             >
               <ShoppingCart className="h-5 w-5" />
@@ -100,16 +100,16 @@ export function Header() {
                 )}
                 <Link
                   href="/account"
-                    className="p-2 text-white/65 transition-colors hover:text-green-300"
+                    className="p-2 text-slate-800 transition-colors hover:text-green-600"
                   aria-label="Account"
                 >
                   <User className="h-5 w-5" />
                 </Link>
-                <button onClick={() => signOut({ callbackUrl: "/" })} className="hidden text-xs text-white/45 sm:block">Sign out</button>
+                <button onClick={() => signOut({ callbackUrl: "/" })} className="hidden text-xs font-medium text-slate-500 sm:block">Sign out</button>
               </div>
             ) : (
               <Link href="/login">
-                <Button size="sm" className="hidden rounded-full bg-white/[.08] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.1)] hover:bg-white/[.14] sm:flex">
+                <Button size="sm" className="hidden rounded-md !bg-black !text-white hover:!bg-slate-800 sm:flex">
                   Sign In
                 </Button>
               </Link>
@@ -120,13 +120,13 @@ export function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-white/[.08] bg-[#07090d]/92 backdrop-blur-[32px] lg:hidden">
+        <div className="border-t-2 border-black bg-white lg:hidden">
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block py-2 text-sm text-white/65 hover:text-green-300"
+                className="block py-2 text-sm font-bold uppercase tracking-wide text-slate-800 hover:text-green-600"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
@@ -140,7 +140,7 @@ export function Header() {
             </div>
             {!session?.user && (
               <Link href="/login" onClick={() => setMobileOpen(false)}>
-                <Button className="w-full mt-2">Sign In</Button>
+                <Button className="w-full mt-2 !bg-black !text-white hover:!bg-slate-800">Sign In</Button>
               </Link>
             )}
           </div>

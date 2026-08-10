@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Play, Check, BadgeCheck, Flame } from "lucide-react";
+import { Check, BadgeCheck, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { formatPrice } from "@/lib/utils";
 
@@ -48,30 +48,24 @@ export function ProductCard({
   const displayPrice = variantPrices.length ? Math.min(price, ...variantPrices) : price;
 
   return (
-    <article className="group relative">
+    <article className="group relative overflow-hidden rounded-xl border-2 border-black bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_rgba(34,197,94,1)]">
       <Link href={`/products/${slug}`} className="block">
-        <div className="relative aspect-video overflow-hidden rounded-lg bg-neutral-900 ring-1 ring-white/[.06] transition-all duration-300 group-hover:ring-green-500/60">
+        <div className="relative aspect-square overflow-hidden border-b-2 border-black bg-slate-50">
           <Image
             src={imageUrl}
             alt={name}
             fill
             unoptimized={imageUrl.startsWith("data:")}
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.06]"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
           />
-          <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/35" />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500 shadow-[0_0_25px_rgba(34,197,94,.55)]">
-              <Play className="h-5 w-5 translate-x-0.5 fill-black text-black" />
-            </div>
-          </div>
           {thcContent !== null && thcContent !== undefined && (
-            <span className="absolute bottom-1.5 right-1.5 rounded bg-black/80 px-1.5 py-0.5 text-[0.68rem] font-semibold text-green-400">
+            <span className="absolute bottom-1.5 right-1.5 rounded bg-black px-1.5 py-0.5 text-[0.68rem] font-bold text-green-400">
               {thcContent}% THC
             </span>
           )}
           {!inStock && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/75">
+            <div className="absolute inset-0 flex items-center justify-center bg-white/90">
               <Badge variant="danger">Out of Stock</Badge>
             </div>
           )}
@@ -82,37 +76,37 @@ export function ProductCard({
           )}
         </div>
 
-        <div className="mt-2.5 space-y-1">
-          <h3 className="line-clamp-2 text-sm font-medium leading-snug text-neutral-100 group-hover:text-green-400">
+        <div className="space-y-1 p-3">
+          <h3 className="line-clamp-2 text-sm font-bold leading-snug text-slate-950 group-hover:text-green-700">
             {name}
           </h3>
           {(brand || !!unitsSold) && (
-            <div className="flex items-center justify-between gap-3 text-xs text-neutral-500">
+            <div className="flex items-center justify-between gap-3 text-xs text-slate-500">
               {brand ? (
                 <span className="flex items-center gap-1">
-                  {brand} <BadgeCheck className="h-3.5 w-3.5 text-green-500" />
+                  {brand} <BadgeCheck className="h-3.5 w-3.5 text-green-600" />
                 </span>
               ) : <span />}
               {!!unitsSold && (
                 <span className="flex items-center gap-1 shrink-0">
-                  <Flame className="h-3.5 w-3.5 text-green-500" /> {unitsSold} sold
+                  <Flame className="h-3.5 w-3.5 text-green-600" /> {unitsSold} sold
                 </span>
               )}
             </div>
           )}
-          <div className="flex items-center justify-between gap-3 text-xs text-neutral-500">
-            <span className="uppercase tracking-[0.14em]">{category.name}</span>
-            <span className="flex items-center gap-1.5 font-semibold text-white">
+          <div className="flex items-center justify-between gap-3 text-xs text-slate-500">
+            <span className="font-semibold uppercase tracking-[0.14em]">{category.name}</span>
+            <span className="flex items-center gap-1.5 font-black text-slate-950">
               {variantPrices.length ? "From " : ""}{formatPrice(displayPrice)}
               {comparePrice && comparePrice > price && (
-                <span className="text-neutral-500 line-through">{formatPrice(comparePrice)}</span>
+                <span className="font-normal text-slate-400 line-through">{formatPrice(comparePrice)}</span>
               )}
             </span>
           </div>
         </div>
       </Link>
       {!inStock && (
-        <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+        <span className="mb-3 ml-3 inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
           <Check className="h-3.5 w-3.5" /> Check back soon
         </span>
       )}

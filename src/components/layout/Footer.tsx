@@ -5,9 +5,7 @@ import { BrandMark } from "@/components/BrandMark";
 
 export function Footer({ hideNewsletter = false }: { hideNewsletter?: boolean }) {
   return (
-    <footer className="relative mt-20 overflow-hidden border-t border-white/[.07] bg-[#050505] text-white">
-      <div className="pointer-events-none absolute -left-28 top-0 h-72 w-72 rounded-full bg-green-400/10 blur-[110px]" />
-      <div className="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-green-500/10 blur-[110px]" />
+    <footer className="relative mt-20 border-t-4 border-green-500 bg-black text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {!hideNewsletter && (
           <div className="mb-12" id="newsletter">
@@ -18,9 +16,9 @@ export function Footer({ hideNewsletter = false }: { hideNewsletter?: boolean })
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <BrandMark className="h-8 w-8 text-green-300" />
-              <span className="text-lg font-bold text-white">
-                High Society <span className="text-green-300">MN</span>
+              <BrandMark className="h-8 w-8 text-white" />
+              <span className="text-lg font-black uppercase tracking-tight text-white">
+                High <span className="bg-green-500 px-1 text-black">Society</span>
               </span>
             </div>
             <p className="text-sm text-white/48">
