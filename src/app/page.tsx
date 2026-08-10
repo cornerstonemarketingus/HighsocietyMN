@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
 import { VaultDrop } from "@/components/VaultDrop";
+import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
 import { ProductCard } from "@/components/products/ProductCard";
 import { db } from "@/lib/db";
 import { attachSoldCounts } from "@/lib/products";
@@ -18,6 +19,7 @@ import {
   Truck,
   Package,
   Zap,
+  Sparkles,
   MessageSquare,
   BookOpen,
   Crown,
@@ -192,7 +194,6 @@ export default async function HomePage() {
         <section className="relative isolate overflow-hidden border-b-2 border-black bg-black text-white">
           <Image src="/brand/hero-cobalt-cannabis.webp" alt="Premium cannabis flower revealed behind the High Society vault" fill priority sizes="100vw" className="object-cover object-[68%_center] opacity-70 sm:object-center" />
           <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(0,0,0,.92)_0%,rgba(0,0,0,.7)_48%,rgba(0,0,0,.35)_100%)]" />
-          <VaultDrop />
           <div className="relative z-20 mx-auto flex min-h-[46vh] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.34em] text-green-400">High Society · Adults 21+</p>
@@ -214,6 +215,24 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+          </div>
+        </section>
+
+        <VaultDrop />
+
+        <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="grid gap-8 overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-10 lg:p-12">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-black bg-green-500 text-black">
+              <Sparkles className="h-9 w-9" />
+            </div>
+            <div className="space-y-2">
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">Members only</p>
+              <h2 className="text-3xl font-black uppercase tracking-tight text-slate-950 sm:text-4xl">Meet Bud Seeker.</h2>
+              <p className="max-w-xl text-base leading-7 text-slate-600">
+                Your private product guide and dispensary finder. Ask for what you want, search licensed retailers near you, and get a personal welcome offer — free to join.
+              </p>
+            </div>
+            <BudSeekerTrigger />
           </div>
         </section>
 
