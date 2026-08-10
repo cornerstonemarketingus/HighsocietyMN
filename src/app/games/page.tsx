@@ -18,12 +18,12 @@ export default function GamesPage() {
     <div className="aurora-page min-h-screen overflow-hidden text-white">
       <Header />
       <main className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="pointer-events-none absolute -left-32 top-24 h-80 w-80 rounded-full bg-emerald-400/15 blur-[120px]" />
-        <div className="pointer-events-none absolute -right-32 top-80 h-96 w-96 rounded-full bg-violet-500/14 blur-[130px]" />
+        <div className="pointer-events-none absolute -left-32 top-24 h-80 w-80 rounded-full bg-green-400/15 blur-[120px]" />
+        <div className="pointer-events-none absolute -right-32 top-80 h-96 w-96 rounded-full bg-green-500/14 blur-[130px]" />
 
         <div className="relative mb-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cyan-300/75">High Society Arcade</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/75">High Society Arcade</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-[-0.035em] sm:text-6xl">One game.<br /><span className="aurora-text">One more run.</span></h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/52">A fast, skill-based survival game designed for mobile and desktop. No slots, guessing games, wagering, or cannabis prizes.</p>
           </div>

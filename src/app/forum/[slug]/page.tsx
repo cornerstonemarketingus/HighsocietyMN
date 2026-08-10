@@ -91,7 +91,7 @@ export default function ForumThreadPage() {
       <div className="min-h-screen bg-white">
         <Header />
         <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="h-8 w-8 text-indigo-500 animate-spin" />
+          <Loader2 className="h-8 w-8 text-green-500 animate-spin" />
         </div>
       </div>
     );
@@ -105,7 +105,7 @@ export default function ForumThreadPage() {
       <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <Link
           href="/forum"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-indigo-400 text-sm mb-6"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-400 text-sm mb-6"
         >
           <ArrowLeft className="h-4 w-4" /> Forum
         </Link>
@@ -113,9 +113,9 @@ export default function ForumThreadPage() {
         {/* Thread header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
-            {thread.pinned && <Pin className="h-4 w-4 text-indigo-500" />}
+            {thread.pinned && <Pin className="h-4 w-4 text-green-500" />}
             {thread.locked && <Lock className="h-4 w-4 text-slate-500" />}
-            <span className="text-xs text-indigo-500 font-medium">{thread.category.name}</span>
+            <span className="text-xs text-green-500 font-medium">{thread.category.name}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-950 mb-2">{thread.title}</h1>
           <p className="text-xs text-slate-500">
@@ -135,7 +135,7 @@ export default function ForumThreadPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={post.author.image} alt={post.author.name ?? ""} className="h-8 w-8 rounded-full" />
                 ) : (
-                  <div className="h-8 w-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-xs font-bold">
+                  <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs font-bold">
                     {(post.author.name ?? "?").charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -170,7 +170,7 @@ export default function ForumThreadPage() {
               rows={5}
               maxLength={5000}
               required
-              className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-950 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-950 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
             />
             <div className="flex justify-end">
               <Button type="submit" disabled={submitting} className="gap-2">
