@@ -19,7 +19,7 @@ export function BudSeekerTrigger({ compact = false }: BudSeekerTriggerProps) {
       className={
         compact
           ? "inline-flex items-center gap-2 rounded-full border-2 border-black bg-green-500 px-4 py-2 text-sm font-bold text-black transition-colors hover:bg-green-400"
-          : "inline-flex h-12 items-center justify-center gap-2 rounded-full border border-slate-300 bg-slate-50 px-8 text-base font-medium text-slate-950 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-green-400 hover:bg-green-500/10 hover:text-green-700"
+          : "inline-flex h-14 shrink-0 items-center justify-center gap-2 rounded-md border-2 border-black bg-green-500 px-8 text-base font-black uppercase tracking-wide text-black transition-all hover:-translate-y-0.5 hover:bg-green-400 hover:shadow-[6px_6px_0_0_#000]"
       }
       aria-label="Open Bud Seeker"
     >
