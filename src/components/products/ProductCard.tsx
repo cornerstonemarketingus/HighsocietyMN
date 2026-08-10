@@ -50,7 +50,7 @@ export function ProductCard({
   return (
     <article className="group relative">
       <Link href={`/products/${slug}`} className="block">
-        <div className="relative aspect-video overflow-hidden rounded-lg bg-neutral-900 ring-1 ring-white/[.06] transition-all duration-300 group-hover:ring-orange-500/60">
+        <div className="relative aspect-video overflow-hidden rounded-lg bg-neutral-900 ring-1 ring-white/[.06] transition-all duration-300 group-hover:ring-green-500/60">
           <Image
             src={imageUrl}
             alt={name}
@@ -61,12 +61,12 @@ export function ProductCard({
           />
           <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/35" />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 shadow-[0_0_25px_rgba(255,145,0,.55)]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500 shadow-[0_0_25px_rgba(34,197,94,.55)]">
               <Play className="h-5 w-5 translate-x-0.5 fill-black text-black" />
             </div>
           </div>
           {thcContent !== null && thcContent !== undefined && (
-            <span className="absolute bottom-1.5 right-1.5 rounded bg-black/80 px-1.5 py-0.5 text-[0.68rem] font-semibold text-orange-400">
+            <span className="absolute bottom-1.5 right-1.5 rounded bg-black/80 px-1.5 py-0.5 text-[0.68rem] font-semibold text-green-400">
               {thcContent}% THC
             </span>
           )}
@@ -83,19 +83,19 @@ export function ProductCard({
         </div>
 
         <div className="mt-2.5 space-y-1">
-          <h3 className="line-clamp-2 text-sm font-medium leading-snug text-neutral-100 group-hover:text-orange-400">
+          <h3 className="line-clamp-2 text-sm font-medium leading-snug text-neutral-100 group-hover:text-green-400">
             {name}
           </h3>
           {(brand || !!unitsSold) && (
             <div className="flex items-center justify-between gap-3 text-xs text-neutral-500">
               {brand ? (
                 <span className="flex items-center gap-1">
-                  {brand} <BadgeCheck className="h-3.5 w-3.5 text-orange-500" />
+                  {brand} <BadgeCheck className="h-3.5 w-3.5 text-green-500" />
                 </span>
               ) : <span />}
               {!!unitsSold && (
                 <span className="flex items-center gap-1 shrink-0">
-                  <Flame className="h-3.5 w-3.5 text-orange-500" /> {unitsSold} sold
+                  <Flame className="h-3.5 w-3.5 text-green-500" /> {unitsSold} sold
                 </span>
               )}
             </div>

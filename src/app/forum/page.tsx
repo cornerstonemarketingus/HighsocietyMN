@@ -47,7 +47,7 @@ export default async function ForumPage({
         <div className="flex items-start justify-between mb-10">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <Users className="h-7 w-7 text-orange-500" />
+              <Users className="h-7 w-7 text-green-500" />
               <h1 className="text-4xl font-bold text-slate-950">Community Forum</h1>
             </div>
             <p className="text-slate-600">
@@ -56,7 +56,7 @@ export default async function ForumPage({
           </div>
           <Link
             href="/forum/new"
-            className="hidden sm:flex items-center gap-2 rounded-xl bg-orange-600 text-white px-5 py-2.5 text-sm font-semibold hover:bg-orange-400 transition-colors"
+            className="hidden sm:flex items-center gap-2 rounded-xl bg-green-600 text-white px-5 py-2.5 text-sm font-semibold hover:bg-green-400 transition-colors"
           >
             <PlusCircle className="h-4 w-4" /> New Thread
           </Link>
@@ -71,17 +71,17 @@ export default async function ForumPage({
                 href={`/forum?category=${cat.slug}`}
                 className={`group rounded-xl border p-5 transition-all ${
                   activeCategory?.id === cat.id
-                    ? "border-orange-500 bg-orange-50 shadow-sm"
-                    : "border-slate-200 bg-slate-50 hover:border-orange-500/40"
+                    ? "border-green-500 bg-green-50 shadow-sm"
+                    : "border-slate-200 bg-slate-50 hover:border-green-500/40"
                 }`}
               >
-                <h3 className="text-slate-950 font-semibold group-hover:text-orange-400 transition-colors">
+                <h3 className="text-slate-950 font-semibold group-hover:text-green-400 transition-colors">
                   {cat.name}
                 </h3>
                 {cat.description && (
                   <p className="text-slate-500 text-sm mt-1">{cat.description}</p>
                 )}
-                <p className="text-xs text-orange-500 mt-3">{cat._count.threads} threads</p>
+                <p className="text-xs text-green-500 mt-3">{cat._count.threads} threads</p>
               </Link>
             ))}
           </div>
@@ -97,11 +97,11 @@ export default async function ForumPage({
                 : "No threads yet"}
           </h2>
           {activeCategory && (
-            <div className="mb-5 flex items-center justify-between rounded-2xl border border-orange-100 bg-orange-50 px-4 py-3">
-              <p className="text-sm text-orange-950">
+            <div className="mb-5 flex items-center justify-between rounded-2xl border border-green-100 bg-green-50 px-4 py-3">
+              <p className="text-sm text-green-950">
                 Showing {recentThreads.length} thread{recentThreads.length === 1 ? "" : "s"} in {activeCategory.name}
               </p>
-              <Link href="/forum" className="text-sm font-semibold text-orange-700 hover:underline">View all</Link>
+              <Link href="/forum" className="text-sm font-semibold text-green-700 hover:underline">View all</Link>
             </div>
           )}
 
@@ -111,7 +111,7 @@ export default async function ForumPage({
               <p className="text-slate-600">Be the first to start a conversation!</p>
               <Link
                 href="/forum/new"
-                className="inline-flex items-center gap-2 rounded-xl bg-orange-600 text-white px-6 py-2.5 text-sm font-semibold hover:bg-orange-400 transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl bg-green-600 text-white px-6 py-2.5 text-sm font-semibold hover:bg-green-400 transition-colors"
               >
                 <PlusCircle className="h-4 w-4" /> Start a Thread
               </Link>
@@ -122,18 +122,18 @@ export default async function ForumPage({
             <Link
               key={thread.id}
               href={`/forum/${thread.slug}`}
-              className="flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-orange-500/30 transition-all group"
+              className="flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-green-500/30 transition-all group"
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  {thread.pinned && <Pin className="h-3.5 w-3.5 text-orange-500 shrink-0" />}
+                  {thread.pinned && <Pin className="h-3.5 w-3.5 text-green-500 shrink-0" />}
                   {thread.locked && <Lock className="h-3.5 w-3.5 text-slate-500 shrink-0" />}
-                  <h3 className="text-slate-950 font-medium truncate group-hover:text-orange-400 transition-colors">
+                  <h3 className="text-slate-950 font-medium truncate group-hover:text-green-400 transition-colors">
                     {thread.title}
                   </h3>
                 </div>
                 <p className="text-xs text-slate-500">
-                  <span className="text-orange-600">{thread.category.name}</span>
+                  <span className="text-green-600">{thread.category.name}</span>
                   {" · "}by {thread.author.name ?? "Anonymous"}
                   {" · "}
                   {formatDate(thread.updatedAt)}
