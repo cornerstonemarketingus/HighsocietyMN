@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/Button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
 import { VaultDrop } from "@/components/VaultDrop";
+import { ProductCard } from "@/components/products/ProductCard";
+import { db } from "@/lib/db";
 import {
   ArrowRight,
   MapPin,
@@ -137,7 +139,31 @@ const structuredData = {
   },
 };
 
-export default function HomePage() {
+async function getTrendingProducts() {
+  try {
+    return await db.product.findMany({
+      where: { published: true },
+      include: { category: true },
+      orderBy: { featured: "desc" },
+      take: 10,
+    });
+  } catch {
+    return [];
+  }
+}
+
+const browseTabs = [
+  { label: "Flower", href: "/products?category=flower" },
+  { label: "Edibles", href: "/products?category=edibles" },
+  { label: "Vapes", href: "/products?category=vapes" },
+  { label: "Concentrates", href: "/products?category=concentrates" },
+  { label: "Beverages", href: "/products?category=beverages" },
+  { label: "Accessories", href: "/products?category=accessories" },
+  { label: "Drops", href: "/drops" },
+] as const;
+
+export default async function HomePage() {
+  const trending = await getTrendingProducts();
   return (
     <div className="aurora-page min-h-screen overflow-hidden text-white">
       <Header />
@@ -146,26 +172,40 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
+      <div className="sticky top-[4.75rem] z-40 border-b border-white/[.07] bg-black">
+        <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden">
+          {browseTabs.map((tab) => (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className="shrink-0 px-4 py-3 text-xs font-bold uppercase tracking-[0.1em] text-neutral-400 transition-colors hover:text-orange-400"
+            >
+              {tab.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       <main className="relative">
         <div className="pointer-events-none absolute left-[-12rem] top-[55rem] h-[32rem] w-[32rem] rounded-full bg-amber-400/15 blur-[140px]" />
         <div className="pointer-events-none absolute right-[-14rem] top-[88rem] h-[38rem] w-[38rem] rounded-full bg-orange-400/15 blur-[150px]" />
         <div className="pointer-events-none absolute left-[30%] top-[145rem] h-[34rem] w-[34rem] rounded-full bg-orange-500/12 blur-[150px]" />
 
-        <section className="relative isolate min-h-[calc(100svh-4.75rem)] overflow-hidden bg-[#050505] text-white">
+        <section className="relative isolate min-h-[46vh] overflow-hidden bg-[#050505] text-white">
           <Image src="/brand/hero-cobalt-cannabis.webp" alt="Premium cannabis flower revealed behind the High Society vault" fill priority sizes="100vw" className="object-cover object-[68%_center] sm:object-center" />
           <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_78%_44%,rgba(255,145,0,.18),transparent_24%),radial-gradient(circle_at_58%_18%,rgba(255,106,0,.14),transparent_26%),linear-gradient(90deg,rgba(5,5,5,.98)_0%,rgba(5,5,5,.84)_42%,rgba(5,5,5,.2)_78%)]" />
           <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,transparent_50%,#050505_100%)]" />
           <VaultDrop />
-          <div className="relative z-20 mx-auto flex min-h-[calc(100svh-4.75rem)] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
+          <div className="relative z-20 mx-auto flex min-h-[46vh] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <p className="text-xs font-semibold uppercase tracking-[0.34em] text-white/55">High Society · Adults 21+</p>
-              <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[.96] tracking-[-0.045em] sm:text-6xl lg:text-8xl">
+              <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[.96] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
                 Cannabis,<br /><span className="aurora-text">considered.</span>
               </h1>
-              <p className="mt-7 max-w-xl text-base leading-7 text-white/68 sm:text-xl sm:leading-8">
+              <p className="mt-5 max-w-xl text-base leading-7 text-white/68 sm:text-lg">
                 A focused collection, clear product details, and discreet local service—built for a better way to shop.
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link href="/products">
                   <Button size="lg" className="group w-full gap-2 rounded-full bg-white px-8 text-[#050505] shadow-[0_18px_70px_rgba(255,145,0,.22)] hover:bg-orange-50 sm:w-auto">
                     Shop the collection
@@ -176,12 +216,25 @@ export default function HomePage() {
                   View the next drop
                 </Link>
               </div>
-              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium uppercase tracking-[0.15em] text-white/45">
-                <span>Curated weekly</span><span>Private service</span><span>ID verified</span>
-              </div>
             </div>
           </div>
         </section>
+
+        {trending.length > 0 && (
+          <section className="relative z-10 mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">Trending now</h2>
+              <Link href="/products" className="inline-flex items-center gap-1.5 text-sm font-medium text-orange-400 hover:text-white">
+                Shop everything <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+              {trending.map((product) => (
+                <ProductCard key={product.id} {...product} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
