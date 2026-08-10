@@ -53,7 +53,7 @@ export function AgeVerification() {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm">
       <div className="my-auto w-full max-w-md overflow-y-auto rounded-2xl border-2 border-black bg-white p-6 text-center shadow-[10px_10px_0_0_rgba(34,197,94,1)] sm:p-9">
-        <div className="text-2xl font-black uppercase tracking-tight">
+        <div className="font-display text-2xl uppercase tracking-tight">
           <span className="text-slate-950">High </span>
           <span className="bg-green-500 px-2 py-0.5 text-black">Society</span>
         </div>

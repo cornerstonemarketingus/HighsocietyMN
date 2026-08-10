@@ -48,9 +48,9 @@ export function ProductCard({
   const displayPrice = variantPrices.length ? Math.min(price, ...variantPrices) : price;
 
   return (
-    <article className="group relative overflow-hidden rounded-xl border-2 border-black bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_0_rgba(34,197,94,1)]">
+    <article className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:border-black hover:shadow-[6px_6px_0_0_rgba(34,197,94,1)]">
       <Link href={`/products/${slug}`} className="block">
-        <div className="relative aspect-square overflow-hidden border-b-2 border-black bg-slate-50">
+        <div className="relative aspect-square overflow-hidden border-b border-slate-200 bg-slate-50 group-hover:border-black">
           <Image
             src={imageUrl}
             alt={name}

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { AgeVerification } from "@/components/AgeVerification";
 import { ChatWidget } from "@/components/ChatWidget";
+
+const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
@@ -33,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${anton.variable} ${inter.variable}`}>
       <body className="antialiased bg-slate-50 text-slate-950 font-sans">
         <SessionProvider>
           <AgeVerification />
