@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Play, Check, BadgeCheck } from "lucide-react";
+import { Play, Check, BadgeCheck, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { formatPrice } from "@/lib/utils";
 
@@ -17,6 +17,7 @@ interface ProductCardProps {
   inStock: boolean;
   featured?: boolean;
   variants?: unknown;
+  unitsSold?: number;
 }
 
 export function ProductCard({
@@ -30,6 +31,7 @@ export function ProductCard({
   thcContent,
   inStock,
   variants,
+  unitsSold,
 }: ProductCardProps) {
   const imageUrl =
     images[0] ??
@@ -84,10 +86,19 @@ export function ProductCard({
           <h3 className="line-clamp-2 text-sm font-medium leading-snug text-neutral-100 group-hover:text-orange-400">
             {name}
           </h3>
-          {brand && (
-            <p className="flex items-center gap-1 text-xs text-neutral-500">
-              {brand} <BadgeCheck className="h-3.5 w-3.5 text-orange-500" />
-            </p>
+          {(brand || !!unitsSold) && (
+            <div className="flex items-center justify-between gap-3 text-xs text-neutral-500">
+              {brand ? (
+                <span className="flex items-center gap-1">
+                  {brand} <BadgeCheck className="h-3.5 w-3.5 text-orange-500" />
+                </span>
+              ) : <span />}
+              {!!unitsSold && (
+                <span className="flex items-center gap-1 shrink-0">
+                  <Flame className="h-3.5 w-3.5 text-orange-500" /> {unitsSold} sold
+                </span>
+              )}
+            </div>
           )}
           <div className="flex items-center justify-between gap-3 text-xs text-neutral-500">
             <span className="uppercase tracking-[0.14em]">{category.name}</span>

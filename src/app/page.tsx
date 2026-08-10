@@ -9,6 +9,7 @@ import { DropTimer } from "@/components/DropTimer";
 import { VaultDrop } from "@/components/VaultDrop";
 import { ProductCard } from "@/components/products/ProductCard";
 import { db } from "@/lib/db";
+import { attachSoldCounts } from "@/lib/products";
 import {
   ArrowRight,
   MapPin,
@@ -141,12 +142,13 @@ const structuredData = {
 
 async function getTrendingProducts() {
   try {
-    return await db.product.findMany({
+    const products = await db.product.findMany({
       where: { published: true },
       include: { category: true },
       orderBy: { featured: "desc" },
       take: 10,
     });
+    return await attachSoldCounts(products);
   } catch {
     return [];
   }

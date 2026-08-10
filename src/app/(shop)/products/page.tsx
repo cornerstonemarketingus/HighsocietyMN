@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductCard } from "@/components/products/ProductCard";
 import { db } from "@/lib/db";
+import { attachSoldCounts } from "@/lib/products";
 import { Search, SlidersHorizontal, Sparkles } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -49,7 +50,7 @@ async function getProducts(params: SearchParams) {
       take: 48,
     });
 
-    return products;
+    return await attachSoldCounts(products);
   } catch {
     return [];
   }
