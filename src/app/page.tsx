@@ -220,13 +220,38 @@ export default async function HomePage() {
           </div>
         </section>
 
+        <section className="relative z-10 mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
+          <div className="flex gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {categories.map((category) => (
+              <Link
+                key={category.slug}
+                href={`/products?category=${category.slug}`}
+                className="group flex shrink-0 flex-col items-center gap-2"
+              >
+                <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-orange-500/70 ring-offset-2 ring-offset-black transition-transform group-hover:scale-105 sm:h-20 sm:w-20">
+                  <Image src={category.image} alt={category.imageAlt} fill sizes="80px" className="object-cover" />
+                  <span className="absolute left-0 top-0 rounded-br-md bg-orange-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-black">New</span>
+                </div>
+                <span className="text-xs font-medium text-neutral-300 group-hover:text-orange-400">{category.name}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {trending.length > 0 && (
           <section className="relative z-10 mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white">Trending now</h2>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">Fresh Menu 🌿</h2>
               <Link href="/products" className="inline-flex items-center gap-1.5 text-sm font-medium text-orange-400 hover:text-white">
                 Shop everything <ArrowRight className="h-4 w-4" />
               </Link>
+            </div>
+            <div className="mb-6 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {["New", "On Sale", "Top Shelf", ...Array.from(new Set(trending.map((p) => p.brand).filter(Boolean)))].map((tag) => (
+                <span key={tag} className="shrink-0 rounded-full border border-white/10 bg-white/[.04] px-3.5 py-1.5 text-xs font-medium text-neutral-300 transition-colors hover:border-orange-500/50 hover:text-orange-400">
+                  {tag}
+                </span>
+              ))}
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
               {trending.map((product) => (

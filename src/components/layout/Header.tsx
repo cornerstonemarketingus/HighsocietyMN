@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { ShoppingCart, User, Menu, X } from "lucide-react";
+import { ShoppingCart, User, Menu, X, Search } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { DropTimer } from "@/components/DropTimer";
@@ -27,14 +27,25 @@ export function Header() {
       <div className="pointer-events-none absolute right-[16%] top-[-3rem] h-20 w-80 rounded-full bg-orange-400/12 blur-[60px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-[4.75rem] items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="High Society MN home">
-            <BrandMark className="text-orange-300" />
-            <span className="leading-none">
-              <span className="block text-lg font-semibold tracking-[0.02em] text-white">High Society</span>
-              <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-orange-300/80">Minnesota</span>
-            </span>
-          </Link>
+          <div className="flex shrink-0 items-center gap-2">
+            {/* Mobile menu toggle — leftmost, like a hamburger nav */}
+            <button
+              className="-ml-2 p-2 text-white/70 hover:text-white lg:hidden"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+
+            {/* Logo */}
+            <Link href="/" className="group flex items-center gap-2.5" aria-label="High Society MN home">
+              <BrandMark className="text-orange-300" />
+              <span className="leading-none">
+                <span className="block text-lg font-semibold tracking-[0.02em] text-white">High Society</span>
+                <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-orange-300/80">Minnesota</span>
+              </span>
+            </Link>
+          </div>
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-5 lg:flex xl:gap-7">
@@ -61,6 +72,14 @@ export function Header() {
             <div className="hidden 2xl:block">
               <DropTimer />
             </div>
+
+            <Link
+              href="/products"
+              className="p-2 text-white/65 transition-colors hover:text-orange-300"
+              aria-label="Search"
+            >
+              <Search className="h-5 w-5" />
+            </Link>
 
             <Link
               href="/cart"
@@ -95,18 +114,6 @@ export function Header() {
                 </Button>
               </Link>
             )}
-
-            <button
-              className="p-2 text-white/70 hover:text-white lg:hidden"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </button>
           </div>
         </div>
       </div>
