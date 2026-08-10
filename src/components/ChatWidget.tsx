@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Building2, ExternalLink, Leaf, ListFilter, Loader2, LocateFixed, Map, MapPin, Navigation, Search, Send, Sparkles, X } from "lucide-react";
+import { Building2, Crown, ExternalLink, Leaf, ListFilter, Loader2, LocateFixed, Map, MapPin, Navigation, Search, Send, Sparkles, X } from "lucide-react";
 
 type Message = { role: "user" | "assistant"; content: string };
 type Place = {
@@ -166,38 +165,38 @@ export function ChatWidget() {
   return (
     <>
       <button onClick={toggleGuide}
-        className="group fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-blue-700 text-white shadow-[0_16px_45px_rgba(29,78,216,.4)] transition hover:scale-105"
+        className="group fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full border-2 border-black bg-green-500 text-black shadow-[0_16px_45px_rgba(0,0,0,.35)] transition hover:scale-105"
         aria-label={open ? "Close private guide" : "Chat with the private guide"}>
         {open ? <X className="h-6 w-6" /> : (
           <>
-            <Image src="/brand/private-guide.webp" alt="" fill sizes="64px" className="rounded-full object-cover transition duration-500 group-hover:scale-105" />
-            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-green-400 shadow-[0_0_12px_rgba(52,211,153,.8)]" />
+            <Sparkles className="h-7 w-7 transition-transform duration-500 group-hover:scale-110" />
+            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-black bg-white" />
           </>
         )}
       </button>
 
       {open && (
-        <section className="fixed inset-3 z-50 flex flex-col overflow-hidden rounded-[1.75rem] border border-blue-100 bg-white text-slate-950 shadow-[0_30px_100px_rgba(15,23,42,.3)] sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[min(760px,calc(100vh-8rem))] sm:w-[min(920px,calc(100vw-2.5rem))]">
-          <header className="border-b border-slate-200 bg-white px-5 py-4">
+        <section className="fixed inset-3 z-50 flex flex-col overflow-hidden rounded-[1.75rem] border-2 border-black bg-white text-slate-950 shadow-[0_30px_100px_rgba(15,23,42,.3)] sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[min(760px,calc(100vh-8rem))] sm:w-[min(920px,calc(100vw-2.5rem))]">
+          <header className="border-b-2 border-black bg-white px-5 py-4">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="relative h-11 w-11 shrink-0 animate-guide-idle overflow-hidden rounded-full ring-2 ring-blue-100">
-                  <Image src="/brand/private-guide.webp" alt="" fill sizes="44px" className="object-cover" />
+                <div className="relative flex h-11 w-11 shrink-0 animate-guide-idle items-center justify-center overflow-hidden rounded-full border-2 border-black bg-green-500 text-black">
+                  <Crown className="h-5 w-5" />
                 </div>
-                <div><h2 className="font-semibold">{tab === "guide" ? "Private Guide" : "Bud Seeker"}</h2><p className="text-xs text-slate-500">{tab === "guide" ? "Your private High Society product guide" : "Explore licensed retailers near you"}</p></div>
+                <div><h2 className="font-semibold">{tab === "guide" ? "Private Guide" : "Nearby"}</h2><p className="text-xs text-slate-500">{tab === "guide" ? "Your private High Society product guide" : "Explore licensed retailers near you"}</p></div>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-full p-2 text-slate-500 hover:bg-slate-100 sm:hidden" aria-label="Close"><X className="h-5 w-5" /></button>
             </div>
             <div className="mt-4 grid max-w-sm grid-cols-2 rounded-xl bg-slate-100 p-1">
-              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-blue-700 shadow-sm" : "text-slate-600"}`}>Private guide</button>
-              <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-blue-700 shadow-sm" : "text-slate-600"}`}>Bud Seeker</button>
+              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-green-700 shadow-sm" : "text-slate-600"}`}>Private guide</button>
+              <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-green-700 shadow-sm" : "text-slate-600"}`}>Nearby</button>
             </div>
           </header>
 
           {tab === "nearby" && !memberEmail ? (
             <form onSubmit={joinBudSeeker} className="m-auto w-full max-w-md p-7">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-green-600">Members only</p>
-              <h3 className="mt-3 text-3xl font-semibold">Unlock Bud Seeker.</h3>
+              <h3 className="mt-3 text-3xl font-semibold">Unlock nearby search.</h3>
               <p className="mt-3 leading-7 text-slate-600">Join the private list to search nearby dispensaries and use your personal product guide.</p>
               <label htmlFor="bud-seeker-email" className="mt-6 block text-sm font-medium text-slate-700">Email address</label>
               <input id="bud-seeker-email" type="email" required value={gateEmail} onChange={(event) => setGateEmail(event.target.value)}
