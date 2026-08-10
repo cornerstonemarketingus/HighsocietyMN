@@ -27,7 +27,7 @@ export default function CartPage() {
         <h1 className="text-4xl font-semibold">Your bag</h1>
         {loading ? <p className="mt-8 text-slate-500">Loading…</p> : items.length === 0 ? (
           <div className="mt-8 rounded-3xl border border-slate-200 bg-white py-20 text-center shadow-sm">
-            <ShoppingBag className="mx-auto h-14 w-14 text-indigo-600" />
+            <ShoppingBag className="mx-auto h-14 w-14 text-orange-600" />
             <p className="mt-5 text-lg text-slate-600">Your bag is empty.</p>
             <Link href="/products"><Button className="mt-5">Browse products</Button></Link>
           </div>
@@ -35,7 +35,7 @@ export default function CartPage() {
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_340px]">
             <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-6 shadow-sm">
               {items.map((item) => <div key={item.id} className="flex items-center justify-between gap-4 py-6">
-                <div><h2 className="font-semibold">{item.product.name}</h2>{item.variantLabel && <p className="text-sm font-medium text-indigo-700">{item.variantLabel}</p>}<p className="text-sm text-slate-500">Quantity {item.quantity}</p>{item.customization && Object.entries(item.customization).map(([label, value]) => value && <p key={label} className="mt-1 text-xs text-slate-500">{label}: {value}</p>)}</div>
+                <div><h2 className="font-semibold">{item.product.name}</h2>{item.variantLabel && <p className="text-sm font-medium text-orange-700">{item.variantLabel}</p>}<p className="text-sm text-slate-500">Quantity {item.quantity}</p>{item.customization && Object.entries(item.customization).map(([label, value]) => value && <p key={label} className="mt-1 text-xs text-slate-500">{label}: {value}</p>)}</div>
                 <div className="flex items-center gap-4"><p className="font-semibold">${((item.unitPrice ?? item.product.price) * item.quantity).toFixed(2)}</p><button onClick={() => remove(item.id)} aria-label={`Remove ${item.product.name}`} className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button></div>
               </div>)}
             </div>

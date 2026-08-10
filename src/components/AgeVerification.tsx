@@ -52,16 +52,16 @@ export function AgeVerification() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-indigo-950/80 p-4 backdrop-blur-xl">
-      <div className="my-auto w-full max-w-3xl overflow-y-auto rounded-[2rem] border border-indigo-100 bg-white p-6 text-center shadow-2xl sm:p-9">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-orange-950/80 p-4 backdrop-blur-xl">
+      <div className="my-auto w-full max-w-3xl overflow-y-auto rounded-[2rem] border border-orange-100 bg-white p-6 text-center shadow-2xl sm:p-9">
         <BrandMark className="mx-auto h-14 w-14" />
-        <p className="mt-3 text-xs font-bold uppercase tracking-[0.3em] text-indigo-600">High Society Minnesota</p>
+        <p className="mt-3 text-xs font-bold uppercase tracking-[0.3em] text-orange-600">High Society Minnesota</p>
 
         {step === "age" && (
           <div className="mx-auto mt-7 max-w-xl">
-            <div className="text-6xl font-bold text-indigo-700">21+</div>
+            <div className="text-6xl font-bold text-orange-700">21+</div>
             <h1 className="mt-4 text-3xl font-semibold text-slate-950">Are you 21 years of age or older?</h1>
-            <p className="mt-4 text-sm leading-6 text-slate-600">You must be 21 or older to enter. By continuing, you confirm your age and agree to our <a href="/terms" className="font-medium text-indigo-700 underline">Terms of Service</a>.</p>
+            <p className="mt-4 text-sm leading-6 text-slate-600">You must be 21 or older to enter. By continuing, you confirm your age and agree to our <a href="/terms" className="font-medium text-orange-700 underline">Terms of Service</a>.</p>
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
               <Button onClick={() => setStep("choice")} size="lg">Yes, I&apos;m 21+</Button>
               <Button onClick={handleDeny} variant="outline" size="lg">No, exit</Button>
@@ -70,19 +70,19 @@ export function AgeVerification() {
         )}
 
         {step === "choice" && (
-          <div className="mx-auto mt-7 max-w-xl rounded-3xl border border-indigo-100 bg-indigo-50 p-6 text-left sm:p-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Private list</p>
+          <div className="mx-auto mt-7 max-w-xl rounded-3xl border border-orange-100 bg-orange-50 p-6 text-left sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">Private list</p>
             <h1 className="mt-3 text-3xl font-semibold text-slate-950">Unlock Bud Seeker and your welcome spin.</h1>
             <p className="mt-3 leading-7 text-slate-600">Join for private drop alerts, nearby dispensary search, and one chance at a welcome offer—or continue without signup.</p>
             <form onSubmit={joinList}>
               <label htmlFor="gate-email" className="mt-6 block text-sm font-medium text-slate-700">Email address</label>
               <input id="gate-email" type="email" required value={email} onChange={(event) => setEmail(event.target.value)}
-                className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-slate-950 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-slate-950 outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
                 placeholder="you@example.com" />
               {emailError && <p className="mt-3 text-sm text-red-600">{emailError}</p>}
               <Button type="submit" className="mt-4 w-full" size="lg" disabled={joining}>{joining ? "Joining…" : "Join and unlock"}</Button>
             </form>
-            <button type="button" onClick={enterSite} className="mt-4 w-full py-2 text-sm font-semibold text-slate-600 hover:text-indigo-700">No thanks, continue to the site</button>
+            <button type="button" onClick={enterSite} className="mt-4 w-full py-2 text-sm font-semibold text-slate-600 hover:text-orange-700">No thanks, continue to the site</button>
             <p className="mt-3 text-center text-xs text-slate-500">No spam. Unsubscribe anytime. Adults 21+ only.</p>
           </div>
         )}

@@ -44,7 +44,7 @@ export default async function BlogPostPage({
         {/* Back */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-indigo-400 transition-colors text-sm mb-8"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-orange-400 transition-colors text-sm mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Blog
         </Link>
@@ -59,8 +59,8 @@ export default async function BlogPostPage({
           />
         )}
         {!post.image && (
-          <div className="w-full h-40 rounded-2xl mb-8 bg-gradient-to-br from-indigo-900/30 to-black/60 flex items-center justify-center">
-            <BookOpen className="h-14 w-14 text-indigo-800" />
+          <div className="w-full h-40 rounded-2xl mb-8 bg-gradient-to-br from-orange-900/30 to-black/60 flex items-center justify-center">
+            <BookOpen className="h-14 w-14 text-orange-800" />
           </div>
         )}
 
@@ -89,7 +89,7 @@ export default async function BlogPostPage({
         </h1>
 
         {post.excerpt && (
-          <p className="text-slate-600 text-lg mb-8 border-l-2 border-indigo-500 pl-4">
+          <p className="text-slate-600 text-lg mb-8 border-l-2 border-orange-500 pl-4">
             {post.excerpt}
           </p>
         )}

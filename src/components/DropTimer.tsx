@@ -76,9 +76,9 @@ export function DropTimer() {
         className="flex items-center gap-2 rounded-lg bg-white/[.065] px-3 py-1.5 text-sm font-medium text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,.1)] backdrop-blur-[30px] transition-colors hover:bg-white/[.11] hover:text-white"
         aria-label="Toggle drop timer"
       >
-        <Zap className="h-3.5 w-3.5 text-cyan-300" />
+        <Zap className="h-3.5 w-3.5 text-orange-300" />
         <span className="hidden sm:inline">Next Drop:</span>
-        <span className="font-mono tabular-nums text-cyan-200">
+        <span className="font-mono tabular-nums text-orange-200">
           {timeLeft.days > 0 && `${timeLeft.days}d `}
           {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
         </span>
@@ -93,10 +93,10 @@ export function DropTimer() {
         <div className="absolute right-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-white/[.09] bg-[#090d12]/90 text-white shadow-[0_24px_80px_rgba(0,0,0,.55)] backdrop-blur-[32px]">
           <div className="bg-[radial-gradient(circle_at_top_right,rgba(0,229,255,.13),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(124,58,237,.14),transparent_50%)] p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Zap className="h-5 w-5 text-cyan-300" />
+              <Zap className="h-5 w-5 text-orange-300" />
               <h3 className="text-sm font-semibold text-white">Next Drop</h3>
             </div>
-            <p className="mb-3 text-xs text-cyan-200/70">{dropLabel} @ 10:00 AM</p>
+            <p className="mb-3 text-xs text-orange-200/70">{dropLabel} @ 10:00 AM</p>
             <div className="grid grid-cols-4 gap-2">
               {[
                 { label: "Days", value: timeLeft.days },
@@ -105,7 +105,7 @@ export function DropTimer() {
                 { label: "Sec", value: timeLeft.seconds },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col items-center rounded-lg bg-white/[.055] py-2 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
-                  <span className="font-mono text-xl font-bold tabular-nums text-cyan-200">
+                  <span className="font-mono text-xl font-bold tabular-nums text-orange-200">
                     {pad(value)}
                   </span>
                   <span className="mt-0.5 text-xs text-white/38">{label}</span>
@@ -119,7 +119,7 @@ export function DropTimer() {
             <Link
               href="/drops"
               onClick={() => setOpen(false)}
-              className="block w-full rounded-lg bg-white py-2 text-center text-sm font-semibold text-[#050505] transition-colors hover:bg-cyan-50"
+              className="block w-full rounded-lg bg-white py-2 text-center text-sm font-semibold text-[#050505] transition-colors hover:bg-orange-50"
             >
               See Upcoming Drops →
             </Link>

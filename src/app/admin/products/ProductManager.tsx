@@ -198,11 +198,11 @@ export function ProductManager({
       <div className="space-y-6 p-4 sm:p-8">
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600">Catalog manager</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Catalog manager</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Products</h1>
             <p className="mt-1 text-sm text-slate-600">{products.length} products in your storefront</p>
           </div>
-          <button onClick={startCreate} className="inline-flex h-11 items-center justify-center rounded-full bg-indigo-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">
+          <button onClick={startCreate} className="inline-flex h-11 items-center justify-center rounded-full bg-orange-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-700">
             <Plus className="mr-2 h-4 w-4" /> Add product
           </button>
         </div>
@@ -215,17 +215,17 @@ export function ProductManager({
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {filtered.map((product) => (
             <article key={product.id} className="flex gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_14px_40px_-32px_rgba(15,23,42,.5)]">
-              <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-indigo-50">
+              <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-orange-50">
                 {/* Admin images may be compressed data URLs, which are intentionally rendered without optimization. */}
                 <img src={product.images[0]} alt="" className="h-full w-full object-cover" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-indigo-600">{product.category.name}</p>
+                <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-orange-600">{product.category.name}</p>
                 <h2 className="mt-1 truncate font-semibold text-slate-950">{product.name}</h2>
                 <p className="mt-1 text-sm font-bold text-slate-900">${product.price.toFixed(2)}</p>
                 <p className="mt-1 text-xs text-slate-500">{product.published ? (product.inStock ? `${product.stockQuantity} in stock` : "Out of stock") : "Draft"}</p>
                 <div className="mt-3 flex gap-2">
-                  <button onClick={() => startEdit(product)} className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-indigo-300 hover:text-indigo-700"><Pencil className="mr-1.5 h-3.5 w-3.5" /> Edit</button>
+                  <button onClick={() => startEdit(product)} className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-orange-300 hover:text-orange-700"><Pencil className="mr-1.5 h-3.5 w-3.5" /> Edit</button>
                   <button onClick={() => remove(product)} aria-label={`Delete ${product.name}`} className="rounded-full border border-slate-200 p-1.5 text-slate-400 hover:border-red-200 hover:text-red-600"><Trash2 className="h-3.5 w-3.5" /></button>
                 </div>
               </div>
@@ -244,8 +244,8 @@ export function ProductManager({
 
             <div className="grid gap-6 p-5 sm:p-7 md:grid-cols-2">
               <div className="space-y-4">
-                <label className="block text-sm font-medium text-slate-700">Product name<input required value={form.name} onChange={(event) => setForm((current) => ({ ...current, name: event.target.value, slug: editing ? current.slug : slugify(event.target.value) }))} className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 outline-none focus:border-indigo-500" /></label>
-                <label className="block text-sm font-medium text-slate-700">URL slug<input required value={form.slug} onChange={(event) => setForm((current) => ({ ...current, slug: slugify(event.target.value) }))} className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 outline-none focus:border-indigo-500" /></label>
+                <label className="block text-sm font-medium text-slate-700">Product name<input required value={form.name} onChange={(event) => setForm((current) => ({ ...current, name: event.target.value, slug: editing ? current.slug : slugify(event.target.value) }))} className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 outline-none focus:border-orange-500" /></label>
+                <label className="block text-sm font-medium text-slate-700">URL slug<input required value={form.slug} onChange={(event) => setForm((current) => ({ ...current, slug: slugify(event.target.value) }))} className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 outline-none focus:border-orange-500" /></label>
                 <label className="block text-sm font-medium text-slate-700">Category<select value={form.categoryId} onChange={(event) => setForm((current) => ({ ...current, categoryId: event.target.value }))} className="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5">{categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label>
                 <div className="grid grid-cols-2 gap-3">
                   <label className="block text-sm font-medium text-slate-700">Price<input required min="0" step="0.01" type="number" value={form.price} onChange={(event) => setForm((current) => ({ ...current, price: event.target.value }))} className="mt-1.5 w-full rounded-xl border border-slate-300 px-3.5 py-2.5" /></label>
@@ -258,7 +258,7 @@ export function ProductManager({
               <div className="space-y-4">
                 <div>
                   <span className="text-sm font-medium text-slate-700">Product photos</span>
-                  <label className="mt-1.5 flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/60 px-5 py-8 text-sm font-semibold text-indigo-700 hover:bg-indigo-50">
+                  <label className="mt-1.5 flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-orange-200 bg-orange-50/60 px-5 py-8 text-sm font-semibold text-orange-700 hover:bg-orange-50">
                     <ImagePlus className="mr-2 h-5 w-5" /> {uploading ? "Preparing photos…" : "Choose photos"}
                     <input type="file" accept="image/jpeg,image/png,image/webp" multiple className="sr-only" disabled={uploading} onChange={(event) => addPhotos(event.target.files)} />
                   </label>
@@ -277,7 +277,7 @@ export function ProductManager({
                   {(["inStock", "published", "featured"] as const).map((field) => (
                     <label key={field} className="flex items-center justify-between gap-4 text-slate-700">
                       <span>{field === "inStock" ? "In stock" : field === "published" ? "Visible in shop" : "Featured product"}</span>
-                      <input type="checkbox" checked={form[field]} onChange={(event) => setForm((current) => ({ ...current, [field]: event.target.checked }))} className="h-5 w-5 accent-indigo-600" />
+                      <input type="checkbox" checked={form[field]} onChange={(event) => setForm((current) => ({ ...current, [field]: event.target.checked }))} className="h-5 w-5 accent-orange-600" />
                     </label>
                   ))}
                 </div>
@@ -286,7 +286,7 @@ export function ProductManager({
             </div>
             <div className="sticky bottom-0 flex justify-end gap-3 border-t border-slate-200 bg-white px-5 py-4 sm:px-7">
               <button type="button" onClick={() => setOpen(false)} className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700">Cancel</button>
-              <button disabled={saving || uploading} className="rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50">{saving ? "Saving…" : editing ? "Save changes" : "Add product"}</button>
+              <button disabled={saving || uploading} className="rounded-full bg-orange-600 px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-50">{saving ? "Saving…" : editing ? "Save changes" : "Add product"}</button>
             </div>
           </form>
         </div>

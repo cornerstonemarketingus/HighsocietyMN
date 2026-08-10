@@ -49,7 +49,7 @@ export default function CheckoutPage() {
               <div className="mt-3 grid grid-cols-2 gap-3">
                 {(["DELIVERY", "PICKUP"] as const).map((option) => (
                   <button key={option} onClick={() => setMethod(option)}
-                    className={`rounded-xl border p-4 text-left ${method === option ? "border-indigo-600 bg-indigo-50 text-indigo-800" : "border-slate-200"}`}>
+                    className={`rounded-xl border p-4 text-left ${method === option ? "border-orange-600 bg-orange-50 text-orange-800" : "border-slate-200"}`}>
                     <span className="font-semibold">{option === "DELIVERY" ? "Delivery" : "Pickup"}</span>
                   </button>
                 ))}
@@ -68,7 +68,7 @@ export default function CheckoutPage() {
               {items.map((item) => <div key={item.id} className="flex justify-between gap-4 text-sm"><span>{item.quantity} × {item.product.name}{item.variantLabel ? ` — ${item.variantLabel}` : ""}</span><span>${(item.quantity * (item.unitPrice ?? item.product.price)).toFixed(2)}</span></div>)}
             </div>
             <div className="mt-5 border-t border-slate-200 pt-4"><div className="flex justify-between font-semibold"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div><p className="mt-2 text-xs text-slate-500">Any wheel discount is applied securely before Stripe payment.</p></div>
-            {discountCode && <p className="mt-3 rounded-lg bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700">Wheel reward: {discountCode}</p>}
+            {discountCode && <p className="mt-3 rounded-lg bg-orange-50 px-3 py-2 text-sm font-medium text-orange-700">Wheel reward: {discountCode}</p>}
             {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
             <Button className="mt-5 w-full" size="lg" onClick={checkout} disabled={loading || items.length === 0 || !scheduledAt || (method === "DELIVERY" && !address)}>
               {loading ? "Opening payment…" : "Continue to secure payment"}

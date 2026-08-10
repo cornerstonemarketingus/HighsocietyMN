@@ -2,7 +2,7 @@ export function BrandMark({ className = "" }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={`inline-flex h-11 w-11 items-center justify-center text-indigo-700 ${className}`}
+      className={`inline-flex h-11 w-11 items-center justify-center text-orange-700 ${className}`}
     >
       <svg viewBox="6 4 36 30" className="h-full w-full" fill="none">
         <circle cx="10" cy="12" r="2.25" fill="currentColor" />

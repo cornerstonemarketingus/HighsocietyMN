@@ -44,9 +44,9 @@ export default function LoginPage() {
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 justify-center">
-            <Leaf className="h-8 w-8 text-indigo-500" />
+            <Leaf className="h-8 w-8 text-orange-500" />
             <span className="text-2xl font-bold text-slate-950">
-              High Society <span className="text-indigo-500">MN</span>
+              High Society <span className="text-orange-500">MN</span>
             </span>
           </Link>
           <p className="text-slate-600">Sign in to your account</p>
@@ -101,11 +101,11 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-slate-600">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-indigo-400 hover:underline">
+          <Link href="/register" className="text-orange-400 hover:underline">
             Create one
           </Link>
         </p>
-        <Link href="/admin" className="block text-center text-xs font-medium text-indigo-600 hover:underline">
+        <Link href="/admin" className="block text-center text-xs font-medium text-orange-600 hover:underline">
           Store administrator? Open the dashboard
         </Link>
       </div>

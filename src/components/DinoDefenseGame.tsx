@@ -310,13 +310,13 @@ export function DinoDefenseGame() {
     <div className="overflow-hidden rounded-[2rem] bg-white/[.055] shadow-[inset_0_1px_0_rgba(255,255,255,.1),0_30px_100px_rgba(0,0,0,.45)] backdrop-blur-[32px]">
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-7">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-300/75">Arcade 01</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-orange-300/75">Arcade 01</p>
           <h2 className="mt-1 text-xl font-semibold text-white sm:text-2xl">Chrome Ranger: Dino Rush</h2>
         </div>
         <div className="flex items-center gap-4 font-mono text-xs text-white/60 sm:text-sm">
           <span>Score <strong className="text-white">{score}</strong></span>
           <span>Wave <strong className="text-white">{wave}</strong></span>
-          <span>Lives <strong className="text-emerald-300">{"●".repeat(lives)}{"○".repeat(3 - lives)}</strong></span>
+          <span>Lives <strong className="text-amber-300">{"●".repeat(lives)}{"○".repeat(3 - lives)}</strong></span>
         </div>
       </div>
 
@@ -325,10 +325,10 @@ export function DinoDefenseGame() {
         {status !== "playing" && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-5 backdrop-blur-sm">
             <div className="max-w-md rounded-[1.75rem] bg-black/45 p-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-[32px] sm:p-8">
-              <Zap className="mx-auto h-8 w-8 text-cyan-300" />
+              <Zap className="mx-auto h-8 w-8 text-orange-300" />
               <h3 className="mt-4 text-2xl font-semibold text-white">{status === "gameover" ? "The dinosaurs broke through." : "Hold the line."}</h3>
               <p className="mt-3 text-sm leading-6 text-white/55">{status === "gameover" ? `Final score: ${score}. Ready for another run?` : "Move, jump, and fire before the dinosaurs reach your ranger."}</p>
-              <button type="button" onClick={start} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#050505] transition hover:bg-cyan-50">
+              <button type="button" onClick={start} className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#050505] transition hover:bg-orange-50">
                 {status === "gameover" ? <RotateCcw className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 {status === "gameover" ? "Play again" : "Start game"}
               </button>
@@ -340,7 +340,7 @@ export function DinoDefenseGame() {
       <div className="grid grid-cols-4 gap-2 p-3 sm:hidden">
         <button type="button" onClick={() => move(-1)} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-white active:bg-white/[.14]" aria-label="Move left"><ArrowLeft /></button>
         <button type="button" onClick={jump} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-xs font-semibold uppercase tracking-wider text-white active:bg-white/[.14]">Jump</button>
-        <button type="button" onClick={fire} className="flex h-14 items-center justify-center rounded-2xl bg-cyan-300 text-[#050505] active:bg-cyan-200" aria-label="Fire"><Crosshair /></button>
+        <button type="button" onClick={fire} className="flex h-14 items-center justify-center rounded-2xl bg-orange-300 text-[#050505] active:bg-orange-200" aria-label="Fire"><Crosshair /></button>
         <button type="button" onClick={() => move(1)} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-white active:bg-white/[.14]" aria-label="Move right"><ArrowRight /></button>
       </div>
       <div className="hidden items-center justify-between px-7 py-4 text-xs text-white/38 sm:flex">

@@ -171,7 +171,7 @@ export function ChatWidget() {
         {open ? <X className="h-6 w-6" /> : (
           <>
             <Image src="/brand/private-guide.webp" alt="" fill sizes="64px" className="rounded-full object-cover transition duration-500 group-hover:scale-105" />
-            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,.8)]" />
+            <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-amber-400 shadow-[0_0_12px_rgba(52,211,153,.8)]" />
           </>
         )}
       </button>
@@ -196,15 +196,15 @@ export function ChatWidget() {
 
           {tab === "nearby" && !memberEmail ? (
             <form onSubmit={joinBudSeeker} className="m-auto w-full max-w-md p-7">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">Members only</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">Members only</p>
               <h3 className="mt-3 text-3xl font-semibold">Unlock Bud Seeker.</h3>
               <p className="mt-3 leading-7 text-slate-600">Join the private list to search nearby dispensaries and use your personal product guide.</p>
               <label htmlFor="bud-seeker-email" className="mt-6 block text-sm font-medium text-slate-700">Email address</label>
               <input id="bud-seeker-email" type="email" required value={gateEmail} onChange={(event) => setGateEmail(event.target.value)}
-                className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 outline-none focus:border-indigo-500"
+                className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 outline-none focus:border-orange-500"
                 placeholder="you@example.com" />
               {gateError && <p className="mt-3 text-sm text-red-600">{gateError}</p>}
-              <button disabled={joining} className="mt-4 h-12 w-full rounded-xl bg-indigo-700 font-semibold text-white disabled:opacity-50">{joining ? "Joining…" : "Join and continue"}</button>
+              <button disabled={joining} className="mt-4 h-12 w-full rounded-xl bg-orange-700 font-semibold text-white disabled:opacity-50">{joining ? "Joining…" : "Join and continue"}</button>
               <p className="mt-3 text-center text-xs text-slate-500">Adults 21+ · Unsubscribe anytime</p>
             </form>
           ) : tab === "nearby" ? (
@@ -214,53 +214,53 @@ export function ChatWidget() {
                   <div className="relative flex-1">
                     <MapPin className="absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
                     <input value={areaQuery} onChange={(event) => setAreaQuery(event.target.value)} placeholder="City, neighborhood, or ZIP code"
-                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 text-sm outline-none focus:border-indigo-500" />
+                      className="h-11 w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 text-sm outline-none focus:border-orange-500" />
                   </div>
-                  <button className="rounded-xl bg-indigo-700 px-4 text-sm font-semibold text-white">Search</button>
+                  <button className="rounded-xl bg-orange-700 px-4 text-sm font-semibold text-white">Search</button>
                   <button type="button" onClick={findNearby} className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700"><LocateFixed className="h-4 w-4" /><span className="hidden sm:inline">Near me</span></button>
                 </form>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500"><ListFilter className="h-3.5 w-3.5" />Distance</span>
-                  {[5, 10, 25, 50].map((distance) => <button key={distance} onClick={() => setMaxDistance(distance)} className={`rounded-full px-3 py-1 text-xs font-semibold ${maxDistance === distance ? "bg-indigo-700 text-white" : "border border-slate-200 bg-white text-slate-600"}`}>{distance} mi</button>)}
-                  <button onClick={() => setWebsiteOnly((current) => !current)} className={`rounded-full px-3 py-1 text-xs font-semibold ${websiteOnly ? "bg-indigo-700 text-white" : "border border-slate-200 bg-white text-slate-600"}`}>Online menu</button>
+                  {[5, 10, 25, 50].map((distance) => <button key={distance} onClick={() => setMaxDistance(distance)} className={`rounded-full px-3 py-1 text-xs font-semibold ${maxDistance === distance ? "bg-orange-700 text-white" : "border border-slate-200 bg-white text-slate-600"}`}>{distance} mi</button>)}
+                  <button onClick={() => setWebsiteOnly((current) => !current)} className={`rounded-full px-3 py-1 text-xs font-semibold ${websiteOnly ? "bg-orange-700 text-white" : "border border-slate-200 bg-white text-slate-600"}`}>Online menu</button>
                 </div>
               </div>
 
-              {locationState === "idle" && <div className="m-auto px-6 py-12 text-center"><Map className="mx-auto h-14 w-14 text-indigo-600" /><h3 className="mt-4 text-2xl font-semibold">Find your local cannabis scene.</h3><p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-600">Search a Minnesota city or ZIP code, or use your current location to discover mapped dispensaries ordered by distance.</p><button onClick={findNearby} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-700 px-5 py-3 font-semibold text-white"><Navigation className="h-4 w-4" />Explore near me</button></div>}
+              {locationState === "idle" && <div className="m-auto px-6 py-12 text-center"><Map className="mx-auto h-14 w-14 text-orange-600" /><h3 className="mt-4 text-2xl font-semibold">Find your local cannabis scene.</h3><p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-600">Search a Minnesota city or ZIP code, or use your current location to discover mapped dispensaries ordered by distance.</p><button onClick={findNearby} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-orange-700 px-5 py-3 font-semibold text-white"><Navigation className="h-4 w-4" />Explore near me</button></div>}
               {locationState === "loading" && <div className="m-auto flex items-center gap-3 py-16 text-slate-600"><Loader2 className="h-5 w-5 animate-spin" />Searching the area…</div>}
-              {locationState === "error" && <div className="m-auto py-10 text-center"><p className="text-sm text-red-600">{locationError}</p><button onClick={findNearby} className="mt-4 rounded-lg border border-indigo-200 px-4 py-2 text-sm font-medium text-indigo-700">Try current location</button></div>}
+              {locationState === "error" && <div className="m-auto py-10 text-center"><p className="text-sm text-red-600">{locationError}</p><button onClick={findNearby} className="mt-4 rounded-lg border border-orange-200 px-4 py-2 text-sm font-medium text-orange-700">Try current location</button></div>}
               {locationState === "done" && <div className="grid min-h-0 flex-1 lg:grid-cols-[1.05fr_0.95fr]">
                 <div className="order-2 overflow-y-auto p-4 lg:order-1">
-                  <div className="mb-3 flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">Near {locationLabel}</p><p className="mt-1 text-sm text-slate-500">{visiblePlaces.length} mapped result{visiblePlaces.length === 1 ? "" : "s"}</p></div></div>
+                  <div className="mb-3 flex items-end justify-between"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-600">Near {locationLabel}</p><p className="mt-1 text-sm text-slate-500">{visiblePlaces.length} mapped result{visiblePlaces.length === 1 ? "" : "s"}</p></div></div>
                   <div className="space-y-3">
                     {visiblePlaces.length === 0 && <p className="rounded-2xl bg-slate-50 p-6 text-center text-sm text-slate-500">No mapped dispensaries match these filters. Try a wider distance.</p>}
-                    {visiblePlaces.map((place, index) => <article key={place.id} className="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-indigo-300 hover:shadow-sm">
-                      <div className="flex items-start gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-xs font-bold text-indigo-700">{index + 1}</span><div className="min-w-0 flex-1"><div className="flex items-start justify-between gap-3"><div><h3 className="font-semibold">{place.name}</h3><p className="mt-1 text-sm text-slate-500">{place.address}</p></div><span className="shrink-0 rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700">{place.distanceMiles} mi</span></div>
+                    {visiblePlaces.map((place, index) => <article key={place.id} className="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-orange-300 hover:shadow-sm">
+                      <div className="flex items-start gap-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-50 text-xs font-bold text-orange-700">{index + 1}</span><div className="min-w-0 flex-1"><div className="flex items-start justify-between gap-3"><div><h3 className="font-semibold">{place.name}</h3><p className="mt-1 text-sm text-slate-500">{place.address}</p></div><span className="shrink-0 rounded-full bg-orange-50 px-2.5 py-1 text-xs font-semibold text-orange-700">{place.distanceMiles} mi</span></div>
                         {place.openingHours && <p className="mt-2 text-xs text-slate-500">{place.openingHours}</p>}
-                        <div className="mt-3 flex flex-wrap gap-2"><a target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/directions?to=${place.latitude},${place.longitude}`} className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-700 px-3 py-2 text-xs font-semibold text-white">Directions <Navigation className="h-3.5 w-3.5" /></a>{place.website && <a target="_blank" rel="noreferrer" href={place.website} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold">Menu / website <ExternalLink className="h-3.5 w-3.5" /></a>}</div>
+                        <div className="mt-3 flex flex-wrap gap-2"><a target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/directions?to=${place.latitude},${place.longitude}`} className="inline-flex items-center gap-1.5 rounded-lg bg-orange-700 px-3 py-2 text-xs font-semibold text-white">Directions <Navigation className="h-3.5 w-3.5" /></a>{place.website && <a target="_blank" rel="noreferrer" href={place.website} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold">Menu / website <ExternalLink className="h-3.5 w-3.5" /></a>}</div>
                       </div></div>
                     </article>)}
                   </div>
                 </div>
-                <div className="order-1 min-h-56 border-b border-slate-200 bg-indigo-50 lg:order-2 lg:border-b-0 lg:border-l">
+                <div className="order-1 min-h-56 border-b border-slate-200 bg-orange-50 lg:order-2 lg:border-b-0 lg:border-l">
                   {mapUrl && <iframe src={mapUrl} className="h-full min-h-64 w-full" style={{ border: 0 }} loading="lazy" title={`Dispensaries near ${locationLabel}`} />}
                 </div>
               </div>}
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-white px-4 py-2 text-[11px] text-slate-500">
                 <span>Location data © OpenStreetMap contributors. Verify licensing directly.</span>
-                <a href="mailto:partnerships@highsocietymn.com?subject=Claim%20my%20Bud%20Seeker%20listing" className="inline-flex items-center gap-1 font-semibold text-indigo-700"><Building2 className="h-3.5 w-3.5" />Retailer? Claim your listing</a>
+                <a href="mailto:partnerships@highsocietymn.com?subject=Claim%20my%20Bud%20Seeker%20listing" className="inline-flex items-center gap-1 font-semibold text-orange-700"><Building2 className="h-3.5 w-3.5" />Retailer? Claim your listing</a>
               </div>
             </div>
           ) : (
             <>
               <div className="flex-1 space-y-3 overflow-y-auto p-5">
-                {messages.map((message, index) => <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}><div className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${message.role === "user" ? "bg-indigo-700 text-white" : "bg-slate-100 text-slate-800"}`}>{message.content}</div></div>)}
-                {loading && <Loader2 className="h-5 w-5 animate-spin text-indigo-600" />}
+                {messages.map((message, index) => <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}><div className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${message.role === "user" ? "bg-orange-700 text-white" : "bg-slate-100 text-slate-800"}`}>{message.content}</div></div>)}
+                {loading && <Loader2 className="h-5 w-5 animate-spin text-orange-600" />}
                 <div ref={bottomRef} />
               </div>
               <form onSubmit={sendMessage} className="flex gap-2 border-t border-slate-200 bg-white p-3">
-                <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="What are you looking for?" className="h-11 flex-1 rounded-xl border border-slate-300 bg-white px-4 text-sm outline-none focus:border-indigo-500" />
-                <button disabled={!input.trim() || loading} className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-700 text-white disabled:opacity-40"><Send className="h-4 w-4" /></button>
+                <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="What are you looking for?" className="h-11 flex-1 rounded-xl border border-slate-300 bg-white px-4 text-sm outline-none focus:border-orange-500" />
+                <button disabled={!input.trim() || loading} className="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-700 text-white disabled:opacity-40"><Send className="h-4 w-4" /></button>
               </form>
               <p className="flex items-center justify-center gap-1 pb-2 text-[11px] text-slate-500"><Leaf className="h-3 w-3" />Adults 21+ · Not medical advice</p>
             </>
