@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "Terms of Service" };
 
 export default function TermsPage() {
   return (
-    <LegalPage eyebrow="Legal" title="Terms of Service" intro="These terms govern use of the High Society MN website, member features, product catalog, Bud Seeker, and related services. By using the site, you agree to them.">
+    <LegalPage eyebrow="Legal" title="Terms of Service" intro="These terms govern use of the High Society MN website, member features, product catalog, nearby-dispensary search, and related services. By using the site, you agree to them.">
       <section><h2>Eligibility</h2><p>You must be at least 21 years old and legally permitted to access cannabis-related content. You agree to provide accurate information and present valid government-issued identification whenever required. Age-gate confirmation alone does not replace transaction-level verification.</p></section>
       <section><h2>Lawful services only</h2><p>Products, pickup, delivery, promotions, and other regulated activity are available only where authorized and through businesses holding all required licenses or endorsements. No website statement overrides Minnesota law, local requirements, possession limits, or regulator instructions.</p></section>
       <section><h2>Catalog and orders</h2><p>Catalog information, availability, potency, images, pricing, taxes, and service windows may change. An order submission is a request and may be declined or adjusted for inventory, verification, safety, legal, geographic, or compliance reasons. Final product labels and test information control over website descriptions.</p></section>

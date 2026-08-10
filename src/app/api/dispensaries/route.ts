@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Valid coordinates are required." }, { status: 400 });
   }
   if (!email || !await db.newsletterSubscriber.findUnique({ where: { email }, select: { id: true } })) {
-    return NextResponse.json({ error: "Email signup is required to use Bud Seeker." }, { status: 403 });
+    return NextResponse.json({ error: "Email signup is required to use the private guide." }, { status: 403 });
   }
 
   const query = `[out:json][timeout:20];

@@ -6,7 +6,6 @@ import { ShoppingCart, User, Menu, X, Search } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { DropTimer } from "@/components/DropTimer";
-import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
 import { BrandMark } from "@/components/BrandMark";
 
 const navLinks = [
@@ -58,7 +57,6 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <BudSeekerTrigger compact />
             {navLinks.slice(2).map((link) => (
               <Link key={link.href} href={link.href} className="text-sm font-bold uppercase tracking-wide text-slate-700 transition-colors hover:text-green-600">
                 {link.label}
@@ -132,9 +130,6 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <div className="py-2">
-              <BudSeekerTrigger compact />
-            </div>
             <div className="pt-2">
               <DropTimer />
             </div>

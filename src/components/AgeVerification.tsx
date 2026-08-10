@@ -97,7 +97,7 @@ export function AgeVerification() {
         {step === "choice" && (
           <div className="mx-auto mt-6 max-w-sm rounded-xl border-2 border-black bg-slate-50 p-6 text-left sm:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-700">Private list</p>
-            <h1 className="mt-3 text-2xl font-black text-slate-950">Unlock Bud Seeker and your welcome spin.</h1>
+            <h1 className="mt-3 text-2xl font-black text-slate-950">Unlock your welcome spin.</h1>
             <p className="mt-3 text-sm leading-6 text-slate-600">Join for private drop alerts, nearby dispensary search, and one chance at a welcome offer—or continue without signup.</p>
             <form onSubmit={joinList}>
               <label htmlFor="gate-email" className="mt-6 block text-sm font-medium text-slate-700">Email address</label>

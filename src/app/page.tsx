@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
 import { VaultDrop } from "@/components/VaultDrop";
-import { BudSeekerTrigger } from "@/components/BudSeekerTrigger";
 import { ProductCard } from "@/components/products/ProductCard";
 import { db } from "@/lib/db";
 import { attachSoldCounts } from "@/lib/products";
@@ -19,7 +18,6 @@ import {
   Truck,
   Package,
   Zap,
-  Sparkles,
   MessageSquare,
   BookOpen,
   Crown,
@@ -219,22 +217,6 @@ export default async function HomePage() {
         </section>
 
         <VaultDrop />
-
-        <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-8 overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-10 lg:p-12">
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-black bg-green-500 text-black">
-              <Sparkles className="h-9 w-9" />
-            </div>
-            <div className="space-y-2">
-              <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">Members only</p>
-              <h2 className="text-3xl font-black uppercase tracking-tight text-slate-950 sm:text-4xl">Meet Bud Seeker.</h2>
-              <p className="max-w-xl text-base leading-7 text-slate-600">
-                Your private product guide and dispensary finder. Ask for what you want, search licensed retailers near you, and get a personal welcome offer — free to join.
-              </p>
-            </div>
-            <BudSeekerTrigger />
-          </div>
-        </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
           <div className="flex gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
