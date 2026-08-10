@@ -75,7 +75,7 @@ export function VaultDrop() {
             {open ? "Vault open" : "Vault opens in"}
           </p>
           {open ? (
-            <p className="mt-2 text-3xl font-black uppercase text-white sm:text-4xl">Drop is live</p>
+            <p className="font-display mt-2 text-3xl uppercase text-white sm:text-4xl">Drop is live</p>
           ) : (
             <p className="mt-2 font-mono text-4xl font-black tabular-nums text-white sm:text-5xl">
               {formatRemaining(next.getTime() - now.getTime())}

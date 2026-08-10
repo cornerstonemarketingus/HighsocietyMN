@@ -110,7 +110,7 @@ export default async function ProductsPage({
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col gap-5 rounded-2xl border-2 border-black bg-slate-50 p-4 sm:p-5">
+          <div className="mb-8 flex flex-col gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm sm:p-5">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2 text-sm font-bold text-slate-800">
                 <SlidersHorizontal className="h-4 w-4 text-green-600" /> Browse by category

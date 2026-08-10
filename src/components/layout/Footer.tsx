@@ -17,7 +17,7 @@ export function Footer({ hideNewsletter = false }: { hideNewsletter?: boolean })
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <BrandMark className="h-8 w-8 text-white" />
-              <span className="text-lg font-black uppercase tracking-tight text-white">
+              <span className="font-display text-lg uppercase tracking-tight text-white">
                 High <span className="bg-green-500 px-1 text-black">Society</span>
               </span>
             </div>

@@ -281,7 +281,7 @@ export default async function HomePage() {
               <Link
                 key={category.slug}
                 href={`/products?category=${category.slug}`}
-                className="group relative min-h-72 overflow-hidden rounded-xl border-2 border-black transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[8px_8px_0_0_rgba(34,197,94,1)]"
+                className="group relative min-h-72 overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl"
               >
                 <Image src={category.image} alt={category.imageAlt} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_15%,rgba(0,0,0,.35)_48%,rgba(0,0,0,.9)_100%)]" />
@@ -290,7 +290,7 @@ export default async function HomePage() {
                     <ArrowRight className="h-5 w-5 text-white transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black uppercase text-white">{category.name}</h3>
+                    <h3 className="font-display text-2xl uppercase text-white">{category.name}</h3>
                     <p className="mt-3 max-w-sm text-sm leading-6 text-white/75">
                       {category.description}
                     </p>
@@ -302,15 +302,15 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-xl border-2 border-black bg-white px-6 py-6 sm:px-8">
+          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-xl shadow-slate-200/60 sm:px-8">
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-green-500 text-black">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-green-500 text-black">
                   <Zap className="h-7 w-7" />
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-bold uppercase tracking-[0.35em] text-green-700">Next drop</p>
-                  <h3 className="text-2xl font-black text-slate-950">Fresh menu updates. Three times a week.</h3>
+                  <h3 className="font-display text-2xl text-slate-950">Fresh menu updates. Three times a week.</h3>
                   <p className="text-sm text-slate-600">
                     The vault opens Tuesday, Thursday, and Saturday at 10am.
                   </p>
@@ -328,10 +328,10 @@ export default async function HomePage() {
             {trustItems.map((item) => (
               <div
                 key={item.title}
-                className="min-w-[240px] flex-1 rounded-xl border-2 border-black bg-white px-5 py-4"
+                className="min-w-[240px] flex-1 rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-black bg-green-500 text-black">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-green-500 text-black">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
@@ -345,17 +345,17 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="relative grid gap-8 overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
+          <div className="relative grid gap-8 overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/60 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
             <div className="min-w-0 space-y-5">
               <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">This week</p>
-              <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+              <h2 className="text-4xl uppercase tracking-tight sm:text-5xl">
                 A smaller menu.<br /><span className="bg-green-500 px-2">A better edit.</span>
               </h2>
               <p className="max-w-2xl text-lg leading-8 text-slate-600">
                 We keep the collection focused so quality, freshness, and product information stay easy to understand.
               </p>
             </div>
-            <div className="relative rounded-xl border-2 border-black bg-slate-50 p-6">
+            <div className="relative rounded-xl bg-slate-50 p-6">
               <div className="space-y-4">
                 {[
                   "A rotating edit across core formats",
@@ -390,15 +390,15 @@ export default async function HomePage() {
               <Link
                 key={card.href}
                 href={card.href}
-                className="group relative overflow-hidden rounded-xl border-2 border-black bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0_0_rgba(34,197,94,1)]"
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
               >
                 <div className="flex h-full flex-col gap-6">
-                  <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border-2 border-black bg-green-500 text-black">
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-xl bg-green-500 text-black">
                     <card.icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-3">
                     <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">{card.eyebrow}</p>
-                    <h3 className="text-3xl font-black text-slate-950">{card.title}</h3>
+                    <h3 className="font-display text-3xl text-slate-950">{card.title}</h3>
                     <p className="text-base leading-7 text-slate-600">{card.description}</p>
                   </div>
                   <span className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-green-700 transition-colors group-hover:text-slate-950">
@@ -411,7 +411,7 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:p-10">
+          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/60 lg:p-10">
             <div className="space-y-4">
               <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">Local service</p>
               <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
@@ -427,7 +427,7 @@ export default async function HomePage() {
                 </span>
               </div>
             </div>
-            <div className="relative mt-8 overflow-hidden rounded-xl border-2 border-black">
+            <div className="relative mt-8 overflow-hidden rounded-xl border border-slate-200">
               <iframe
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-93.2290%2C44.9137%2C-93.0490%2C44.9937&amp;layer=mapnik&amp;marker=44.9537%2C-93.1039"
                 style={{ border: 0 }}
@@ -441,10 +441,10 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
-          <div className="relative grid gap-8 overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
+          <div className="relative grid gap-8 overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/60 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
             <div className="min-w-0 space-y-5">
               <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">Private list</p>
-              <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+              <h2 className="text-4xl uppercase tracking-tight sm:text-5xl">
                 First look.<br /><span className="bg-green-500 px-2">Better rewards.</span>
               </h2>
               <p className="text-lg leading-8 text-slate-600">
@@ -457,7 +457,7 @@ export default async function HomePage() {
                   "Focused menu notes",
                   "Service-day reminders",
                 ].map((item) => (
-                  <div key={item} className="rounded-lg border-2 border-black bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
+                  <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
                     {item}
                   </div>
                 ))}

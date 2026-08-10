@@ -38,7 +38,7 @@ export function Header() {
             <Link href="/" className="group flex items-center gap-2.5" aria-label="High Society MN home">
               <BrandMark className="text-slate-950" />
               <span className="leading-none">
-                <span className="block text-lg font-black uppercase tracking-tight text-slate-950">
+                <span className="font-display block text-lg uppercase tracking-tight text-slate-950">
                   High <span className="bg-green-500 px-1 text-black">Society</span>
                 </span>
                 <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.34em] text-green-600">Minnesota</span>

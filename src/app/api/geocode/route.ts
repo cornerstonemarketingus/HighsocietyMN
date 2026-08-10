@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get("email")?.trim().toLowerCase();
   if (!query) return NextResponse.json({ error: "Enter a city or ZIP code." }, { status: 400 });
   if (!email || !await db.newsletterSubscriber.findUnique({ where: { email }, select: { id: true } })) {
-    return NextResponse.json({ error: "Email signup is required to use the private guide." }, { status: 403 });
+    return NextResponse.json({ error: "Email signup is required to use the budtender." }, { status: 403 });
   }
 
   try {

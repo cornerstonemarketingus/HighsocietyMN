@@ -20,6 +20,13 @@ type Coordinates = { latitude: number; longitude: number };
 
 const BUD_SEEKER_EMAIL_KEY = "hs_budseeker_email";
 
+const BUDTENDER_CAPABILITIES = [
+  "Recommend a strain by effect or flavor",
+  "Explain dosing for edibles, vapes, or flower",
+  "Compare two products in today's menu",
+  "Suggest what's fresh this week",
+];
+
 export function ChatWidget() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -34,7 +41,7 @@ export function ChatWidget() {
   const [websiteOnly, setWebsiteOnly] = useState(false);
   const [messages, setMessages] = useState<Message[]>([{
     role: "assistant",
-    content: "Tell me the experience, format, and strength you prefer. Your private guide will compare your request with today’s High Society menu.",
+    content: "Hey, I'm your budtender. Tell me the experience, format, and strength you prefer, and I'll compare your request with today's High Society menu.",
   }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -116,9 +123,7 @@ export function ChatWidget() {
     }
   }
 
-  async function sendMessage(event: React.FormEvent) {
-    event.preventDefault();
-    const text = input.trim();
+  async function sendText(text: string) {
     if (!text || loading) return;
     const userMessage: Message = { role: "user", content: text };
     setMessages((current) => [...current, userMessage]);
@@ -131,13 +136,18 @@ export function ChatWidget() {
         body: JSON.stringify({ messages: [...messages, userMessage], email: memberEmail }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Guide is unavailable.");
+      if (!response.ok) throw new Error(data.error || "Budtender is unavailable.");
       setMessages((current) => [...current, { role: "assistant", content: data.reply }]);
     } catch (error) {
-      setMessages((current) => [...current, { role: "assistant", content: error instanceof Error ? error.message : "Guide is unavailable." }]);
+      setMessages((current) => [...current, { role: "assistant", content: error instanceof Error ? error.message : "Budtender is unavailable." }]);
     } finally {
       setLoading(false);
     }
+  }
+
+  function sendMessage(event: React.FormEvent) {
+    event.preventDefault();
+    sendText(input.trim());
   }
 
   async function joinBudSeeker(event: React.FormEvent) {
@@ -166,7 +176,7 @@ export function ChatWidget() {
     <>
       <button onClick={toggleGuide}
         className="group fixed bottom-5 right-5 z-50 flex h-16 w-16 items-center justify-center rounded-full border-2 border-black bg-green-500 text-black shadow-[0_16px_45px_rgba(0,0,0,.35)] transition hover:scale-105"
-        aria-label={open ? "Close private guide" : "Chat with the private guide"}>
+        aria-label={open ? "Close budtender chat" : "Chat with your budtender"}>
         {open ? <X className="h-6 w-6" /> : (
           <>
             <Sparkles className="h-7 w-7 transition-transform duration-500 group-hover:scale-110" />
@@ -183,12 +193,12 @@ export function ChatWidget() {
                 <div className="relative flex h-11 w-11 shrink-0 animate-guide-idle items-center justify-center overflow-hidden rounded-full border-2 border-black bg-green-500 text-black">
                   <Crown className="h-5 w-5" />
                 </div>
-                <div><h2 className="font-semibold">{tab === "guide" ? "Private Guide" : "Nearby"}</h2><p className="text-xs text-slate-500">{tab === "guide" ? "Your private High Society product guide" : "Explore licensed retailers near you"}</p></div>
+                <div><h2 className="font-sans font-semibold">{tab === "guide" ? "Budtender" : "Nearby"}</h2><p className="text-xs text-slate-500">{tab === "guide" ? "Ask about strains, dosing, and what to try next" : "Explore licensed retailers near you"}</p></div>
               </div>
               <button onClick={() => setOpen(false)} className="rounded-full p-2 text-slate-500 hover:bg-slate-100 sm:hidden" aria-label="Close"><X className="h-5 w-5" /></button>
             </div>
             <div className="mt-4 grid max-w-sm grid-cols-2 rounded-xl bg-slate-100 p-1">
-              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-green-700 shadow-sm" : "text-slate-600"}`}>Private guide</button>
+              <button onClick={() => setTab("guide")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "guide" ? "bg-white text-green-700 shadow-sm" : "text-slate-600"}`}>Budtender</button>
               <button onClick={() => setTab("nearby")} className={`rounded-lg px-3 py-2 text-sm font-medium ${tab === "nearby" ? "bg-white text-green-700 shadow-sm" : "text-slate-600"}`}>Nearby</button>
             </div>
           </header>
@@ -247,13 +257,27 @@ export function ChatWidget() {
               </div>}
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 bg-white px-4 py-2 text-[11px] text-slate-500">
                 <span>Location data © OpenStreetMap contributors. Verify licensing directly.</span>
-                <a href="mailto:partnerships@highsocietymn.com?subject=Claim%20my%20Bud%20Seeker%20listing" className="inline-flex items-center gap-1 font-semibold text-green-700"><Building2 className="h-3.5 w-3.5" />Retailer? Claim your listing</a>
+                <a href="mailto:partnerships@highsocietymn.com?subject=Claim%20my%20dispensary%20listing" className="inline-flex items-center gap-1 font-semibold text-green-700"><Building2 className="h-3.5 w-3.5" />Retailer? Claim your listing</a>
               </div>
             </div>
           ) : (
             <>
               <div className="flex-1 space-y-3 overflow-y-auto p-5">
                 {messages.map((message, index) => <div key={index} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}><div className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${message.role === "user" ? "bg-green-700 text-white" : "bg-slate-100 text-slate-800"}`}>{message.content}</div></div>)}
+                {messages.length === 1 && !loading && (
+                  <div className="flex flex-wrap gap-2 pl-1">
+                    {BUDTENDER_CAPABILITIES.map((capability) => (
+                      <button
+                        key={capability}
+                        type="button"
+                        onClick={() => sendText(capability)}
+                        className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:border-green-500 hover:text-green-700"
+                      >
+                        {capability}
+                      </button>
+                    ))}
+                  </div>
+                )}
                 {loading && <Loader2 className="h-5 w-5 animate-spin text-green-600" />}
                 <div ref={bottomRef} />
               </div>

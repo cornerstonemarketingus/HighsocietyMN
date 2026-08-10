@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     }
     const normalizedEmail = email?.trim().toLowerCase();
     if (!normalizedEmail || !await db.newsletterSubscriber.findUnique({ where: { email: normalizedEmail }, select: { id: true } })) {
-      return NextResponse.json({ error: "Email signup is required to use the private guide." }, { status: 403 });
+      return NextResponse.json({ error: "Email signup is required to use the budtender." }, { status: 403 });
     }
 
     const products = await db.product.findMany({
@@ -81,13 +81,13 @@ Be warm, professional, and concise. Use cannabis-friendly language but stay lega
 
     if (!llmRes.ok) {
       console.error("Private LLM request failed:", llmRes.status, await llmRes.text());
-      return NextResponse.json({ error: "The private guide is temporarily unavailable." }, { status: 502 });
+      return NextResponse.json({ error: "The budtender is temporarily unavailable." }, { status: 502 });
     }
 
     const data = await llmRes.json() as { message?: { content?: string } };
     const reply = data.message?.content?.trim();
     if (!reply) {
-      return NextResponse.json({ error: "The private guide returned an empty response." }, { status: 502 });
+      return NextResponse.json({ error: "The budtender returned an empty response." }, { status: 502 });
     }
     return NextResponse.json({ reply });
   } catch (err) {
