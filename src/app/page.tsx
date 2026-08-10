@@ -167,20 +167,20 @@ const browseTabs = [
 export default async function HomePage() {
   const trending = await getTrendingProducts();
   return (
-    <div className="aurora-page min-h-screen overflow-hidden text-white">
+    <div className="aurora-page min-h-screen text-slate-950">
       <Header />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="sticky top-[4.75rem] z-40 border-b border-white/[.07] bg-black">
+      <div className="sticky top-[4.75rem] z-40 border-b-2 border-black bg-white">
         <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden">
           {browseTabs.map((tab) => (
             <Link
               key={tab.href}
               href={tab.href}
-              className="shrink-0 px-4 py-3 text-xs font-bold uppercase tracking-[0.1em] text-neutral-400 transition-colors hover:text-green-400"
+              className="shrink-0 px-4 py-3 text-xs font-bold uppercase tracking-[0.1em] text-slate-600 transition-colors hover:text-green-700"
             >
               {tab.label}
             </Link>
@@ -189,32 +189,27 @@ export default async function HomePage() {
       </div>
 
       <main className="relative">
-        <div className="pointer-events-none absolute left-[-12rem] top-[55rem] h-[32rem] w-[32rem] rounded-full bg-green-400/15 blur-[140px]" />
-        <div className="pointer-events-none absolute right-[-14rem] top-[88rem] h-[38rem] w-[38rem] rounded-full bg-green-400/15 blur-[150px]" />
-        <div className="pointer-events-none absolute left-[30%] top-[145rem] h-[34rem] w-[34rem] rounded-full bg-green-500/12 blur-[150px]" />
-
-        <section className="relative isolate min-h-[46vh] overflow-hidden bg-[#050505] text-white">
-          <Image src="/brand/hero-cobalt-cannabis.webp" alt="Premium cannabis flower revealed behind the High Society vault" fill priority sizes="100vw" className="object-cover object-[68%_center] sm:object-center" />
-          <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_78%_44%,rgba(34,197,94,.18),transparent_24%),radial-gradient(circle_at_58%_18%,rgba(21,128,61,.16),transparent_26%),linear-gradient(90deg,rgba(5,5,5,.98)_0%,rgba(5,5,5,.84)_42%,rgba(5,5,5,.2)_78%)]" />
-          <div className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,transparent_50%,#050505_100%)]" />
+        <section className="relative isolate overflow-hidden border-b-2 border-black bg-black text-white">
+          <Image src="/brand/hero-cobalt-cannabis.webp" alt="Premium cannabis flower revealed behind the High Society vault" fill priority sizes="100vw" className="object-cover object-[68%_center] opacity-70 sm:object-center" />
+          <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(0,0,0,.92)_0%,rgba(0,0,0,.7)_48%,rgba(0,0,0,.35)_100%)]" />
           <VaultDrop />
           <div className="relative z-20 mx-auto flex min-h-[46vh] max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-white/55">High Society · Adults 21+</p>
-              <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-[.96] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
-                Cannabis,<br /><span className="aurora-text">considered.</span>
+              <p className="text-xs font-bold uppercase tracking-[0.34em] text-green-400">High Society · Adults 21+</p>
+              <h1 className="mt-4 max-w-3xl text-4xl font-black uppercase leading-[.96] tracking-tight sm:text-5xl lg:text-6xl">
+                Cannabis,<br /><span className="bg-green-500 px-2 text-black">considered.</span>
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-7 text-white/68 sm:text-lg">
+              <p className="mt-5 max-w-xl text-base leading-7 text-white/75 sm:text-lg">
                 A focused collection, clear product details, and discreet local service—built for a better way to shop.
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link href="/products">
-                  <Button size="lg" className="group w-full gap-2 rounded-full bg-white px-8 text-[#050505] shadow-[0_18px_70px_rgba(34,197,94,.24)] hover:bg-green-50 sm:w-auto">
+                  <Button size="lg" className="group w-full gap-2 rounded-md !border-2 !border-white !bg-green-500 px-8 !text-black hover:!bg-green-400 sm:w-auto">
                     Shop the collection
                     <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </Link>
-                <Link href="/drops" className="inline-flex h-12 items-center justify-center rounded-full bg-white/[.08] px-7 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.14)] backdrop-blur-[30px] transition hover:bg-white/[.14]">
+                <Link href="/drops" className="inline-flex h-12 items-center justify-center rounded-md border-2 border-white px-7 text-sm font-bold text-white transition hover:bg-white hover:text-black">
                   View the next drop
                 </Link>
               </div>
@@ -230,11 +225,11 @@ export default async function HomePage() {
                 href={`/products?category=${category.slug}`}
                 className="group flex shrink-0 flex-col items-center gap-2"
               >
-                <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-green-500/70 ring-offset-2 ring-offset-black transition-transform group-hover:scale-105 sm:h-20 sm:w-20">
+                <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-black transition-transform group-hover:scale-105 sm:h-20 sm:w-20">
                   <Image src={category.image} alt={category.imageAlt} fill sizes="80px" className="object-cover" />
                   <span className="absolute left-0 top-0 rounded-br-md bg-green-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-black">New</span>
                 </div>
-                <span className="text-xs font-medium text-neutral-300 group-hover:text-green-400">{category.name}</span>
+                <span className="text-xs font-bold text-slate-700 group-hover:text-green-700">{category.name}</span>
               </Link>
             ))}
           </div>
@@ -243,14 +238,14 @@ export default async function HomePage() {
         {trending.length > 0 && (
           <section className="relative z-10 mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-white">Fresh Menu 🌿</h2>
-              <Link href="/products" className="inline-flex items-center gap-1.5 text-sm font-medium text-green-400 hover:text-white">
+              <h2 className="text-xl font-black uppercase text-slate-950">Fresh Menu 🌿</h2>
+              <Link href="/products" className="inline-flex items-center gap-1.5 text-sm font-bold text-green-700 hover:text-slate-950">
                 Shop everything <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="mb-6 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {["New", "On Sale", "Top Shelf", ...Array.from(new Set(trending.map((p) => p.brand).filter(Boolean)))].map((tag) => (
-                <span key={tag} className="shrink-0 rounded-full border border-white/10 bg-white/[.04] px-3.5 py-1.5 text-xs font-medium text-neutral-300 transition-colors hover:border-green-500/50 hover:text-green-400">
+                <span key={tag} className="shrink-0 rounded-full border-2 border-black bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:bg-green-50">
                   {tag}
                 </span>
               ))}
@@ -266,16 +261,16 @@ export default async function HomePage() {
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/80">The collection</p>
-              <h2 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-                <span className="text-white">Find your format.</span>
-                <span className="aurora-text block pt-2">Keep it simple.</span>
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">The collection</p>
+              <h2 className="max-w-3xl text-4xl font-black uppercase tracking-tight sm:text-5xl">
+                <span className="text-slate-950">Find your format.</span>
+                <span className="block pt-2 text-slate-950">Keep it <span className="bg-green-500 px-2">simple.</span></span>
               </h2>
-              <p className="max-w-2xl text-lg text-white/50">
+              <p className="max-w-2xl text-lg text-slate-600">
                 Six clear paths into the menu, each backed by real product imagery and useful details.
               </p>
             </div>
-            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-green-300 transition-colors hover:text-white">
+            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-bold text-green-700 transition-colors hover:text-slate-950">
               Shop everything <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -285,18 +280,17 @@ export default async function HomePage() {
               <Link
                 key={category.slug}
                 href={`/products?category=${category.slug}`}
-                className="glass-card group relative min-h-72 overflow-hidden rounded-[1.75rem] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_28px_90px_rgba(34,197,94,.18)]"
+                className="group relative min-h-72 overflow-hidden rounded-xl border-2 border-black transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[8px_8px_0_0_rgba(34,197,94,1)]"
               >
                 <Image src={category.image} alt={category.imageAlt} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_15%,rgba(5,5,5,.32)_48%,rgba(5,5,5,.96)_100%)]" />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-[radial-gradient(ellipse_at_bottom,rgba(34,197,94,.18),transparent_68%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_15%,rgba(0,0,0,.35)_48%,rgba(0,0,0,.9)_100%)]" />
                 <div className="relative flex min-h-72 flex-col justify-end p-7">
                   <div className="mb-5 flex items-center justify-end">
                     <ArrowRight className="h-5 w-5 text-white transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-semibold text-white">{category.name}</h3>
-                    <p className="mt-3 max-w-sm text-sm leading-6 text-white/62">
+                    <h3 className="text-2xl font-black uppercase text-white">{category.name}</h3>
+                    <p className="mt-3 max-w-sm text-sm leading-6 text-white/75">
                       {category.description}
                     </p>
                   </div>
@@ -307,18 +301,16 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-          <div className="glass-panel relative overflow-hidden rounded-[1.75rem] px-6 py-6 sm:px-8">
-            <div className="pointer-events-none absolute -left-20 -top-24 h-48 w-48 rounded-full bg-green-400/20 blur-[70px]" />
-            <div className="pointer-events-none absolute -right-20 -bottom-24 h-52 w-52 rounded-full bg-green-400/20 blur-[75px]" />
+          <div className="relative overflow-hidden rounded-xl border-2 border-black bg-white px-6 py-6 sm:px-8">
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/[.07] text-green-300 shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-[30px]">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-black bg-green-500 text-black">
                   <Zap className="h-7 w-7" />
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm uppercase tracking-[0.35em] text-green-300/70">Next drop</p>
-                  <h3 className="text-2xl font-semibold text-white">Fresh menu updates. Three times a week.</h3>
-                  <p className="text-sm text-white/48">
+                  <p className="text-sm font-bold uppercase tracking-[0.35em] text-green-700">Next drop</p>
+                  <h3 className="text-2xl font-black text-slate-950">Fresh menu updates. Three times a week.</h3>
+                  <p className="text-sm text-slate-600">
                     The vault opens Tuesday, Thursday, and Saturday at 10am.
                   </p>
                 </div>
@@ -335,15 +327,15 @@ export default async function HomePage() {
             {trustItems.map((item) => (
               <div
                 key={item.title}
-                className="glass-card min-w-[240px] flex-1 rounded-2xl px-5 py-4"
+                className="min-w-[240px] flex-1 rounded-xl border-2 border-black bg-white px-5 py-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[.06] text-green-300">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg border-2 border-black bg-green-500 text-black">
                     <item.icon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">{item.title}</p>
-                    <p className="text-sm text-white/45">{item.detail}</p>
+                    <p className="font-bold text-slate-950">{item.title}</p>
+                    <p className="text-sm text-slate-500">{item.detail}</p>
                   </div>
                 </div>
               </div>
@@ -352,33 +344,31 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="glass-panel relative grid gap-8 overflow-hidden rounded-[2rem] p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
-            <div className="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-green-500/20 blur-[110px]" />
-            <div className="pointer-events-none absolute bottom-[-8rem] left-[30%] h-64 w-64 rounded-full bg-green-400/14 blur-[100px]" />
+          <div className="relative grid gap-8 overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
             <div className="min-w-0 space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/80">This week</p>
-              <h2 className="text-4xl font-semibold sm:text-5xl">
-                A smaller menu.<br /><span className="aurora-text">A better edit.</span>
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">This week</p>
+              <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+                A smaller menu.<br /><span className="bg-green-500 px-2">A better edit.</span>
               </h2>
-              <p className="max-w-2xl text-lg leading-8 text-white/55">
+              <p className="max-w-2xl text-lg leading-8 text-slate-600">
                 We keep the collection focused so quality, freshness, and product information stay easy to understand.
               </p>
             </div>
-            <div className="relative rounded-[1.75rem] bg-black/20 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,.1)] backdrop-blur-[32px]">
+            <div className="relative rounded-xl border-2 border-black bg-slate-50 p-6">
               <div className="space-y-4">
                 {[
                   "A rotating edit across core formats",
                   "Clear strengths, sizes, and options",
                   "Local service across the Twin Cities",
                 ].map((item) => (
-                  <div key={item} className="flex items-start gap-3 text-white/68">
-                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-green-300" />
+                  <div key={item} className="flex items-start gap-3 text-slate-700">
+                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-green-600" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
               <Link href="/products" className="mt-6 inline-flex">
-                <Button size="lg" className="group gap-2 rounded-full px-7">
+                <Button size="lg" className="group gap-2 rounded-md !border-2 !border-black !bg-green-500 px-7 !text-black hover:!bg-green-400">
                   Shop the collection
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
@@ -389,9 +379,9 @@ export default async function HomePage() {
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="mb-8 space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/75">High Society, beyond the shop</p>
-            <h2 className="text-4xl font-semibold sm:text-5xl">
-              Learn something. <span className="aurora-text">Meet someone.</span>
+            <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">High Society, beyond the shop</p>
+            <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+              Learn something. <span className="bg-green-500 px-2">Meet someone.</span>
             </h2>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -399,19 +389,18 @@ export default async function HomePage() {
               <Link
                 key={card.href}
                 href={card.href}
-                className="glass-card group relative overflow-hidden rounded-[1.75rem] p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_90px_rgba(21,128,61,.16)]"
+                className="group relative overflow-hidden rounded-xl border-2 border-black bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0_0_rgba(34,197,94,1)]"
               >
-                <div className="pointer-events-none absolute -right-16 -top-20 h-44 w-44 rounded-full bg-green-500/15 blur-[70px] transition group-hover:bg-green-400/15" />
                 <div className="flex h-full flex-col gap-6">
-                  <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[.06] text-green-300 shadow-[inset_0_1px_0_rgba(255,255,255,.1)]">
+                  <div className="relative flex h-14 w-14 items-center justify-center rounded-xl border-2 border-black bg-green-500 text-black">
                     <card.icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-3">
-                    <p className="text-sm uppercase tracking-[0.3em] text-green-300/70">{card.eyebrow}</p>
-                    <h3 className="text-3xl font-semibold text-white">{card.title}</h3>
-                    <p className="text-base leading-7 text-white/48">{card.description}</p>
+                    <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">{card.eyebrow}</p>
+                    <h3 className="text-3xl font-black text-slate-950">{card.title}</h3>
+                    <p className="text-base leading-7 text-slate-600">{card.description}</p>
                   </div>
-                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-green-300 transition-colors group-hover:text-white">
+                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-green-700 transition-colors group-hover:text-slate-950">
                     {card.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
@@ -421,24 +410,23 @@ export default async function HomePage() {
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="glass-panel relative overflow-hidden rounded-[2rem] p-8 lg:p-10">
-            <div className="pointer-events-none absolute -left-24 bottom-[-9rem] h-72 w-72 rounded-full bg-green-400/16 blur-[100px]" />
+          <div className="relative overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:p-10">
             <div className="space-y-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/75">Local service</p>
-              <h2 className="text-4xl font-semibold sm:text-5xl">
-                Made for the <span className="aurora-text">Twin Cities.</span>
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">Local service</p>
+              <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+                Made for the <span className="bg-green-500 px-2">Twin Cities.</span>
               </h2>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-white/58">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
                 <span className="inline-flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-green-300" /> Saint Paul, Minneapolis & nearby metro neighborhoods
+                  <MapPin className="h-4 w-4 text-green-600" /> Saint Paul, Minneapolis & nearby metro neighborhoods
                 </span>
-                <span className="text-white/30">•</span>
-                <span className="inline-flex items-center gap-2 text-green-200/80">
+                <span className="text-slate-300">•</span>
+                <span className="inline-flex items-center gap-2 font-semibold text-green-700">
                   Delivery available Tue · Thu · Sat
                 </span>
               </div>
             </div>
-            <div className="relative mt-8 overflow-hidden rounded-[1.5rem] bg-white/[.04] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,.1)]">
+            <div className="relative mt-8 overflow-hidden rounded-xl border-2 border-black">
               <iframe
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-93.2290%2C44.9137%2C-93.0490%2C44.9937&amp;layer=mapnik&amp;marker=44.9537%2C-93.1039"
                 style={{ border: 0 }}
@@ -446,22 +434,19 @@ export default async function HomePage() {
                 height="300"
                 loading="lazy"
                 title="High Society MN delivery area map"
-                className="rounded-[1.25rem] opacity-80 saturate-[.6]"
               />
             </div>
           </div>
         </section>
 
         <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
-          <div className="glass-panel relative grid gap-8 overflow-hidden rounded-[2rem] p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
-            <div className="pointer-events-none absolute -right-28 -top-24 h-80 w-80 rounded-full bg-green-500/12 blur-[110px]" />
-            <div className="pointer-events-none absolute -bottom-24 left-[35%] h-64 w-64 rounded-full bg-green-400/15 blur-[100px]" />
+          <div className="relative grid gap-8 overflow-hidden rounded-xl border-2 border-black bg-white p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
             <div className="min-w-0 space-y-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/75">Private list</p>
-              <h2 className="text-4xl font-semibold sm:text-5xl">
-                First look.<br /><span className="aurora-text">Better rewards.</span>
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-green-700">Private list</p>
+              <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+                First look.<br /><span className="bg-green-500 px-2">Better rewards.</span>
               </h2>
-              <p className="text-lg leading-8 text-white/55">
+              <p className="text-lg leading-8 text-slate-600">
                 Get drop alerts, member offers, and service reminders without the noise.
               </p>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -471,13 +456,13 @@ export default async function HomePage() {
                   "Focused menu notes",
                   "Service-day reminders",
                 ].map((item) => (
-                  <div key={item} className="rounded-2xl bg-white/[.045] px-4 py-3 text-sm text-white/58 shadow-[inset_0_1px_0_rgba(255,255,255,.07)] backdrop-blur-[30px]">
+                  <div key={item} className="rounded-lg border-2 border-black bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
                     {item}
                   </div>
                 ))}
               </div>
             </div>
-            <div className="relative min-w-0 rounded-[1.75rem] bg-black/20 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-[32px]">
+            <div className="relative min-w-0 rounded-xl border-2 border-black bg-black p-2">
               <NewsletterSignup />
             </div>
           </div>

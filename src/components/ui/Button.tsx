@@ -8,12 +8,12 @@ export interface ButtonProps
 }
 
 const variantClasses = {
-  default: "bg-green-600 text-white hover:bg-green-700 font-semibold shadow-sm",
+  default: "border-2 border-black bg-green-500 text-black hover:bg-green-400 font-bold",
   outline:
-    "border border-green-200 bg-white text-green-700 hover:bg-green-50",
-  ghost: "text-green-400 hover:bg-green-50",
-  destructive: "bg-red-600 text-slate-950 hover:bg-red-500",
-  link: "text-green-400 underline-offset-4 hover:underline",
+    "border-2 border-black bg-white text-slate-950 hover:bg-green-50 font-bold",
+  ghost: "text-green-700 hover:bg-green-50 font-bold",
+  destructive: "border-2 border-black bg-red-600 text-white hover:bg-red-500 font-bold",
+  link: "text-green-700 underline-offset-4 hover:underline font-bold",
 };
 
 const sizeClasses = {

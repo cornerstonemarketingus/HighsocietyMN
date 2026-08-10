@@ -73,12 +73,12 @@ export function DropTimer() {
     <div className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 rounded-lg bg-white/[.065] px-3 py-1.5 text-sm font-medium text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,.1)] backdrop-blur-[30px] transition-colors hover:bg-white/[.11] hover:text-white"
+        className="flex items-center gap-2 rounded-lg border-2 border-black bg-white px-3 py-1.5 text-sm font-bold text-slate-900 transition-colors hover:bg-slate-50"
         aria-label="Toggle drop timer"
       >
-        <Zap className="h-3.5 w-3.5 text-green-300" />
+        <Zap className="h-3.5 w-3.5 text-green-600" />
         <span className="hidden sm:inline">Next Drop:</span>
-        <span className="font-mono tabular-nums text-green-200">
+        <span className="font-mono tabular-nums text-green-600">
           {timeLeft.days > 0 && `${timeLeft.days}d `}
           {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
         </span>
