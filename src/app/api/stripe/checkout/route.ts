@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       where: { code: body.discountCode, used: false, prizeType: "discount" },
       select: { id: true, prizeValue: true },
     }) : null;
-    const discountPercent = Math.max(0, Math.min(spinReward?.prizeValue ?? user?.activeDiscountPercent ?? 0, 100));
+    const discountPercent = Math.max(0, Math.min(spinReward?.prizeValue ?? user?.activeDiscountPercent ?? 0, 20));
     const discountedSubtotal = subtotal * (1 - discountPercent / 100);
     const tax = discountedSubtotal * 0.08875;
     const total = discountedSubtotal + tax;
