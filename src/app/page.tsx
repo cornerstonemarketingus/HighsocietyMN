@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { DropTimer } from "@/components/DropTimer";
 import { VaultDrop } from "@/components/VaultDrop";
-import { ProductCard } from "@/components/products/ProductCard";
+import { ProductCarousel } from "@/components/products/ProductCarousel";
 import { db } from "@/lib/db";
 import { attachSoldCounts } from "@/lib/products";
 import {
@@ -251,11 +251,7 @@ export default async function HomePage() {
                 </span>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
-              {trending.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
+            <ProductCarousel products={trending} />
           </section>
         )}
 
