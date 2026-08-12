@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { SpinWheel } from "@/components/SpinWheel";
 
 const AGE_VERIFIED_KEY = "hs_age_verified";
-const BUD_SEEKER_EMAIL_KEY = "hs_budseeker_email";
+const MEMBER_EMAIL_KEY = "hs_member_email";
 
 export function AgeVerification() {
   const [show, setShow] = useState(false);
@@ -40,7 +40,7 @@ export function AgeVerification() {
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) return setEmailError(data.error || "Could not join the list.");
-      localStorage.setItem(BUD_SEEKER_EMAIL_KEY, normalizedEmail);
+      localStorage.setItem(MEMBER_EMAIL_KEY, normalizedEmail);
       setEmail(normalizedEmail);
       setStep("reward");
     } finally {
