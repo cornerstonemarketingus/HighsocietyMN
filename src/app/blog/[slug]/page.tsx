@@ -44,7 +44,7 @@ export default async function BlogPostPage({
         {/* Back */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-400 transition-colors text-sm mb-8"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-700 transition-colors text-sm mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Blog
         </Link>

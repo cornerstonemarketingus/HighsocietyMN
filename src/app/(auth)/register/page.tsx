@@ -86,7 +86,7 @@ export default function RegisterPage() {
 
           <p className="text-xs text-slate-500">
             By creating an account, you confirm you are 21+ and agree to our{" "}
-            <Link href="/terms" className="text-green-400 hover:underline">
+            <Link href="/terms" className="text-green-700 hover:underline">
               Terms of Service
             </Link>
             .
@@ -99,7 +99,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-slate-600">
           Already have an account?{" "}
-          <Link href="/login" className="text-green-400 hover:underline">
+          <Link href="/login" className="text-green-700 hover:underline">
             Sign in
           </Link>
         </p>

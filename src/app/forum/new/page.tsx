@@ -74,7 +74,7 @@ export default function NewThreadPage() {
       <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
         <Link
           href="/forum"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-400 text-sm mb-8"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-700 text-sm mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Forum
         </Link>

@@ -75,7 +75,7 @@ export default async function ForumPage({
                     : "border-slate-200 bg-slate-50 hover:border-green-500/40"
                 }`}
               >
-                <h3 className="text-slate-950 font-semibold group-hover:text-green-400 transition-colors">
+                <h3 className="text-slate-950 font-semibold group-hover:text-green-700 transition-colors">
                   {cat.name}
                 </h3>
                 {cat.description && (
@@ -128,7 +128,7 @@ export default async function ForumPage({
                 <div className="flex items-center gap-2 mb-1">
                   {thread.pinned && <Pin className="h-3.5 w-3.5 text-green-500 shrink-0" />}
                   {thread.locked && <Lock className="h-3.5 w-3.5 text-slate-500 shrink-0" />}
-                  <h3 className="text-slate-950 font-medium truncate group-hover:text-green-400 transition-colors">
+                  <h3 className="text-slate-950 font-medium truncate group-hover:text-green-700 transition-colors">
                     {thread.title}
                   </h3>
                 </div>
