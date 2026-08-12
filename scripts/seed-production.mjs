@@ -115,7 +115,7 @@ await client.query(
 
 Our live menu brings the current High Society selection into one clean marketplace. Members can save products, schedule pickup or delivery, follow order progress, and earn rewards through referrals and games.
 
-The Member Lounge is a place for adults 21+ to exchange responsible-use tips, review products, and learn from one another. Bud Seeker will add private AI-assisted product discovery once our dedicated model service is online.
+The Member Lounge is a place for adults 21+ to exchange responsible-use tips, review products, and learn from one another. Your private budtender is available anytime for AI-assisted product discovery.
 
 Fresh vault drops arrive Tuesday, Thursday, and Saturday at 10am. Join the private email list to unlock the welcome wheel and receive drop alerts.
 

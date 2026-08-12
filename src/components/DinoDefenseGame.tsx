@@ -343,7 +343,7 @@ export function DinoDefenseGame() {
         <button type="button" onClick={fire} className="flex h-14 items-center justify-center rounded-2xl bg-green-300 text-[#050505] active:bg-green-200" aria-label="Fire"><Crosshair /></button>
         <button type="button" onClick={() => move(1)} className="flex h-14 items-center justify-center rounded-2xl bg-white/[.07] text-white active:bg-white/[.14]" aria-label="Move right"><ArrowRight /></button>
       </div>
-      <div className="hidden items-center justify-between px-7 py-4 text-xs text-white/38 sm:flex">
+      <div className="hidden items-center justify-between px-7 py-4 text-xs text-white/55 sm:flex">
         <span>Move: A / D or arrow keys · Jump: W / ↑ · Fire: F / space</span>
         <span>Free play · No purchase required</span>
       </div>

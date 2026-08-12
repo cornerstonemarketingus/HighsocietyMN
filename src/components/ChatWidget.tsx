@@ -18,7 +18,7 @@ type Place = {
 };
 type Coordinates = { latitude: number; longitude: number };
 
-const BUD_SEEKER_EMAIL_KEY = "hs_budseeker_email";
+const MEMBER_EMAIL_KEY = "hs_member_email";
 
 const BUDTENDER_CAPABILITIES = [
   "Recommend a strain by effect or flavor",
@@ -59,11 +59,11 @@ export function ChatWidget() {
     ? `https://www.openstreetmap.org/export/embed.html?bbox=${coordinates.longitude - 0.08}%2C${coordinates.latitude - 0.06}%2C${coordinates.longitude + 0.08}%2C${coordinates.latitude + 0.06}&layer=mapnik&marker=${coordinates.latitude}%2C${coordinates.longitude}`
     : "";
 
-  useEffect(() => setMemberEmail(localStorage.getItem(BUD_SEEKER_EMAIL_KEY) || ""), []);
+  useEffect(() => setMemberEmail(localStorage.getItem(MEMBER_EMAIL_KEY) || ""), []);
   useEffect(() => {
     const handler = () => { setOpen(true); setTab("nearby"); };
-    window.addEventListener("bud-seeker:open", handler);
-    return () => window.removeEventListener("bud-seeker:open", handler);
+    window.addEventListener("budtender:open", handler);
+    return () => window.removeEventListener("budtender:open", handler);
   }, []);
   useEffect(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
 
@@ -150,7 +150,7 @@ export function ChatWidget() {
     sendText(input.trim());
   }
 
-  async function joinBudSeeker(event: React.FormEvent) {
+  async function joinPrivateList(event: React.FormEvent) {
     event.preventDefault();
     setGateError("");
     setJoining(true);
@@ -163,7 +163,7 @@ export function ChatWidget() {
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) return setGateError(data.error || "Signup failed.");
-      localStorage.setItem(BUD_SEEKER_EMAIL_KEY, normalizedEmail);
+      localStorage.setItem(MEMBER_EMAIL_KEY, normalizedEmail);
       setMemberEmail(normalizedEmail);
     } finally {
       setJoining(false);
@@ -204,12 +204,12 @@ export function ChatWidget() {
           </header>
 
           {tab === "nearby" && !memberEmail ? (
-            <form onSubmit={joinBudSeeker} className="m-auto w-full max-w-md p-7">
+            <form onSubmit={joinPrivateList} className="m-auto w-full max-w-md p-7">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-green-600">Members only</p>
               <h3 className="mt-3 text-3xl font-semibold">Unlock nearby search.</h3>
               <p className="mt-3 leading-7 text-slate-600">Join the private list to search nearby dispensaries and use your personal product guide.</p>
-              <label htmlFor="bud-seeker-email" className="mt-6 block text-sm font-medium text-slate-700">Email address</label>
-              <input id="bud-seeker-email" type="email" required value={gateEmail} onChange={(event) => setGateEmail(event.target.value)}
+              <label htmlFor="budtender-email" className="mt-6 block text-sm font-medium text-slate-700">Email address</label>
+              <input id="budtender-email" type="email" required value={gateEmail} onChange={(event) => setGateEmail(event.target.value)}
                 className="mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 outline-none focus:border-green-500"
                 placeholder="you@example.com" />
               {gateError && <p className="mt-3 text-sm text-red-600">{gateError}</p>}

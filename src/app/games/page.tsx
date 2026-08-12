@@ -15,7 +15,7 @@ export default function GamesPage() {
   }, []);
 
   return (
-    <div className="aurora-page min-h-screen overflow-hidden text-white">
+    <div className="min-h-screen overflow-hidden bg-black text-white">
       <Header />
       <main className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="pointer-events-none absolute -left-32 top-24 h-80 w-80 rounded-full bg-green-400/15 blur-[120px]" />
@@ -23,13 +23,13 @@ export default function GamesPage() {
 
         <div className="relative mb-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300/75">High Society Arcade</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-green-300">High Society Arcade</p>
             <h1 className="mt-3 text-4xl font-semibold tracking-[-0.035em] sm:text-6xl">One game.<br /><span className="aurora-text">One more run.</span></h1>
-            <p className="mt-4 max-w-xl text-base leading-7 text-white/52">A fast, skill-based survival game designed for mobile and desktop. No slots, guessing games, wagering, or cannabis prizes.</p>
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/75">A fast, skill-based survival game designed for mobile and desktop. No slots, guessing games, wagering, or cannabis prizes.</p>
           </div>
-          <div className="glass-card flex gap-6 rounded-2xl px-5 py-4 text-sm">
-            <div><p className="text-white/38">Member points</p><p className="mt-1 font-mono text-lg text-white">{balance.points}</p></div>
-            <div><p className="text-white/38">Play tokens</p><p className="mt-1 font-mono text-lg text-white">{balance.tokens}</p></div>
+          <div className="flex gap-6 rounded-2xl border border-white/10 bg-white/[.06] px-5 py-4 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-xl">
+            <div><p className="text-white/60">Member points</p><p className="mt-1 font-mono text-lg text-white">{balance.points}</p></div>
+            <div><p className="text-white/60">Play tokens</p><p className="mt-1 font-mono text-lg text-white">{balance.tokens}</p></div>
           </div>
         </div>
 
@@ -43,9 +43,9 @@ export default function GamesPage() {
             ["Free play", "Chrome Ranger does not spend tokens and requires no purchase."],
             ["Responsible rewards", "Points and tokens have no cash value and cannot be redeemed for cannabis or THC products."],
           ].map(([title, copy]) => (
-            <div key={title} className="glass-card rounded-2xl p-5">
+            <div key={title} className="rounded-2xl border border-white/10 bg-white/[.06] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-xl">
               <h2 className="font-semibold text-white">{title}</h2>
-              <p className="mt-2 text-sm leading-6 text-white/45">{copy}</p>
+              <p className="mt-2 text-sm leading-6 text-white/65">{copy}</p>
             </div>
           ))}
         </section>

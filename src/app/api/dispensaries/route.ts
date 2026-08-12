@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "User-Agent": "HighSocietyMN-BudSeeker/1.0 (highsociety-mn.vercel.app)",
+          "User-Agent": "HighSocietyMN-Budtender/1.0 (highsociety-mn.vercel.app)",
         },
         body: `data=${encodeURIComponent(query)}`,
         signal: AbortSignal.timeout(25000),

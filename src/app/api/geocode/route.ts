@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=us&limit=1&q=${encodeURIComponent(query)}`, {
       headers: {
         "Accept": "application/json",
-        "User-Agent": "HighSocietyMN-BudSeeker/1.0 (highsociety-mn.vercel.app)",
+        "User-Agent": "HighSocietyMN-Budtender/1.0 (highsociety-mn.vercel.app)",
       },
       signal: AbortSignal.timeout(12000),
       next: { revalidate: 86400 },
