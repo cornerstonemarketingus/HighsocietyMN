@@ -133,6 +133,15 @@ export function Header() {
             <div className="pt-2">
               <DropTimer />
             </div>
+            {session?.user?.role === "ADMIN" && (
+              <Link
+                href="/admin"
+                className="block py-2 text-sm font-bold uppercase tracking-wide text-green-700 hover:text-green-600"
+                onClick={() => setMobileOpen(false)}
+              >
+                Admin
+              </Link>
+            )}
             {!session?.user && (
               <Link href="/login" onClick={() => setMobileOpen(false)}>
                 <Button className="w-full mt-2 !bg-black !text-white hover:!bg-slate-800">Sign In</Button>
