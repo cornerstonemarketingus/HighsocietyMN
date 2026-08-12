@@ -105,7 +105,7 @@ export default function ForumThreadPage() {
       <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <Link
           href="/forum"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-400 text-sm mb-6"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-700 text-sm mb-6"
         >
           <ArrowLeft className="h-4 w-4" /> Forum
         </Link>
@@ -135,7 +135,7 @@ export default function ForumThreadPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={post.author.image} alt={post.author.name ?? ""} className="h-8 w-8 rounded-full" />
                 ) : (
-                  <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs font-bold">
+                  <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xs font-bold">
                     {(post.author.name ?? "?").charAt(0).toUpperCase()}
                   </div>
                 )}

@@ -13,11 +13,12 @@ type Prize = {
 
 const PRIZES: Prize[] = [
   { prize: "10% off", prizeType: "discount", prizeValue: 10, weight: 25 },
-  { prize: "15% off", prizeType: "discount", prizeValue: 15, weight: 10 },
+  { prize: "15% off", prizeType: "discount", prizeValue: 15, weight: 12 },
+  { prize: "20% off", prizeType: "discount", prizeValue: 20, weight: 5 },
   { prize: "Free delivery", prizeType: "free_delivery", prizeValue: 0, weight: 15 },
   { prize: "100 bonus points", prizeType: "points", prizeValue: 100, weight: 20 },
   { prize: "50 bonus tokens", prizeType: "tokens", prizeValue: 50, weight: 15 },
-  { prize: "Better luck next time", prizeType: "none", prizeValue: 0, weight: 15 },
+  { prize: "Better luck next time", prizeType: "none", prizeValue: 0, weight: 13 },
 ];
 
 function pickPrize(prizes = PRIZES) {

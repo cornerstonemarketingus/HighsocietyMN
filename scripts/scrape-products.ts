@@ -370,7 +370,9 @@ async function main() {
   // 5. Write output
   fs.writeFileSync(OUT_FILE, JSON.stringify(products, null, 2));
   console.log(`\n✅ Scraped ${products.length} product(s) → ${OUT_FILE}`);
-  console.log('   Run "npm run import:products" to load them into your database.\n');
+  console.log('   This file is for manual inspection only. The live catalog syncs itself via');
+  console.log('   POST /api/admin/sync-products (admin session or CRON_SECRET), which scrapes,');
+  console.log('   uploads images to Cloudinary, and upserts products directly — no import step needed.\n');
 }
 
 main().catch((err) => {

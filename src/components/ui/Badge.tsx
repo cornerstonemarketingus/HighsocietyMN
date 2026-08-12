@@ -7,11 +7,11 @@ interface BadgeProps {
 }
 
 const variantClasses = {
-  default: "bg-green-500/20 text-green-400 border-green-500/30",
+  default: "bg-green-100 text-green-700 border-green-300",
   outline: "border border-slate-300 text-slate-700",
-  success: "bg-green-500/20 text-green-400 border-green-500/30",
-  warning: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  danger: "bg-red-500/20 text-red-400 border-red-500/30",
+  success: "bg-green-100 text-green-700 border-green-300",
+  warning: "bg-yellow-100 text-yellow-800 border-yellow-300",
+  danger: "bg-red-100 text-red-700 border-red-300",
 };
 
 export function Badge({

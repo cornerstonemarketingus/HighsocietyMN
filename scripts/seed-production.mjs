@@ -49,9 +49,9 @@ const products = [
 for (const [name, slug, category, price, comparePrice, brand] of products) {
   await client.query(
     `INSERT INTO "products" ("id","name","slug","description","categoryId","brand","price","comparePrice","images","effects","flavors","terpenes","inStock","stockQuantity","featured","published","updatedAt")
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,ARRAY[]::TEXT[],ARRAY[]::TEXT[],ARRAY[]::TEXT[],ARRAY[]::TEXT[],true,25,true,true,NOW())
-     ON CONFLICT ("slug") DO UPDATE SET "name"=EXCLUDED."name","categoryId"=EXCLUDED."categoryId","brand"=EXCLUDED."brand","price"=EXCLUDED."price","comparePrice"=EXCLUDED."comparePrice","inStock"=true,"published"=true,"updatedAt"=NOW()`,
-    [crypto.randomUUID(), name, slug, `Current product imported from highsocietymn.com.`, categoryIds[category], brand, price, comparePrice],
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,ARRAY[]::TEXT[],ARRAY[]::TEXT[],ARRAY[]::TEXT[],true,25,true,true,NOW())
+     ON CONFLICT ("slug") DO UPDATE SET "name"=EXCLUDED."name","categoryId"=EXCLUDED."categoryId","brand"=EXCLUDED."brand","price"=EXCLUDED."price","comparePrice"=EXCLUDED."comparePrice","images"=EXCLUDED."images","inStock"=true,"published"=true,"updatedAt"=NOW()`,
+    [crypto.randomUUID(), name, slug, `Current product imported from highsocietymn.com.`, categoryIds[category], brand, price, comparePrice, [`/products/${slug}.webp`]],
   );
 }
 

@@ -58,7 +58,7 @@ Be warm, professional, and concise. Use cannabis-friendly language but stay lega
     const baseUrl = (process.env.OLLAMA_BASE_URL || (process.env.OLLAMA_API_KEY ? "https://ollama.com" : "")).replace(/\/$/, "");
     if (!baseUrl) {
       return NextResponse.json(
-        { error: "Ollama guidance is not configured yet. Nearby dispensary search is still available." },
+        { error: "Ollama guidance is not configured yet." },
         { status: 503 },
       );
     }

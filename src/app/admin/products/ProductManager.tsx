@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ImagePlus, Pencil, Plus, Search, Trash2, X } from "lucide-react";
+import { ImagePlus, Pencil, Plus, RefreshCw, Search, Trash2, X } from "lucide-react";
 
 type Category = { id: string; name: string; slug: string };
 type Product = {
@@ -114,6 +114,8 @@ export function ProductManager({
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState("");
 
   const filtered = useMemo(() => {
     const term = query.toLowerCase().trim();
@@ -185,6 +187,25 @@ export function ProductManager({
     setOpen(false);
   }
 
+  async function syncFromSource() {
+    setSyncing(true);
+    setSyncMessage("");
+    try {
+      const response = await fetch("/api/admin/sync-products", { method: "POST" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setSyncMessage(data.error || "Sync failed.");
+        return;
+      }
+      setSyncMessage(`Synced ${data.synced} product(s) — ${data.created} added, ${data.updated} updated.${data.note ? ` ${data.note}` : ""}`);
+      window.location.reload();
+    } catch {
+      setSyncMessage("Sync failed — could not reach the server.");
+    } finally {
+      setSyncing(false);
+    }
+  }
+
   async function remove(product: Product) {
     if (!window.confirm(`Delete “${product.name}”? Unpublish it instead if it has order history.`)) return;
     const response = await fetch(`/api/admin/products/${product.id}`, { method: "DELETE" });
@@ -202,10 +223,17 @@ export function ProductManager({
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Products</h1>
             <p className="mt-1 text-sm text-slate-600">{products.length} products in your storefront</p>
           </div>
-          <button onClick={startCreate} className="inline-flex h-11 items-center justify-center rounded-full bg-green-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700">
-            <Plus className="mr-2 h-4 w-4" /> Add product
-          </button>
+          <div className="flex gap-2">
+            <button onClick={syncFromSource} disabled={syncing} className="inline-flex h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-green-300 hover:text-green-700 disabled:opacity-50">
+              <RefreshCw className={`mr-2 h-4 w-4 ${syncing ? "animate-spin" : ""}`} /> {syncing ? "Syncing…" : "Sync from highsocietymn.com"}
+            </button>
+            <button onClick={startCreate} className="inline-flex h-11 items-center justify-center rounded-full bg-green-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700">
+              <Plus className="mr-2 h-4 w-4" /> Add product
+            </button>
+          </div>
         </div>
+
+        {syncMessage && <p className="text-sm text-slate-600">{syncMessage}</p>}
 
         <label className="flex max-w-xl items-center rounded-full border border-slate-200 bg-white px-4 shadow-sm">
           <Search className="h-4 w-4 text-slate-400" />

@@ -48,7 +48,7 @@ export default async function ProductDetailPage({
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <Link
           href="/products"
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-400 mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-green-700 mb-8 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Products
         </Link>

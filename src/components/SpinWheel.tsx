@@ -10,6 +10,29 @@ type SpinPrize = {
   code: string | null;
 };
 
+// Mirrors the order and values of PRIZES in /api/spin so the wheel always lands on the right slice.
+const WHEEL_SLICES: { label: string; prizeType: string; prizeValue: number; color: string }[] = [
+  { label: "10% OFF", prizeType: "discount", prizeValue: 10, color: "#4f46e5" },
+  { label: "15% OFF", prizeType: "discount", prizeValue: 15, color: "#818cf8" },
+  { label: "20% OFF", prizeType: "discount", prizeValue: 20, color: "#4338ca" },
+  { label: "DELIVERY", prizeType: "free_delivery", prizeValue: 0, color: "#e0e7ff" },
+  { label: "POINTS", prizeType: "points", prizeValue: 100, color: "#c7d2fe" },
+  { label: "TOKENS", prizeType: "tokens", prizeValue: 50, color: "#eef2ff" },
+  { label: "TRY AGAIN", prizeType: "none", prizeValue: 0, color: "#a5b4fc" },
+];
+
+const SLICE_ANGLE = 360 / WHEEL_SLICES.length;
+const WHEEL_GRADIENT = `conic-gradient(${WHEEL_SLICES.map(
+  (slice, index) => `${slice.color} ${index * SLICE_ANGLE}deg ${(index + 1) * SLICE_ANGLE}deg`,
+).join(",")})`;
+
+function findSliceIndex(prize: SpinPrize): number {
+  const index = WHEEL_SLICES.findIndex(
+    (slice) => slice.prizeType === prize.prizeType && slice.prizeValue === prize.prizeValue,
+  );
+  return index === -1 ? WHEEL_SLICES.length - 1 : index;
+}
+
 export function SpinWheel({ email }: { email?: string } = {}) {
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
@@ -38,13 +61,8 @@ export function SpinWheel({ email }: { email?: string } = {}) {
         );
       }
 
-      const prizeIndex =
-        data.prize.prizeType === "discount" && data.prize.prizeValue === 10 ? 0 :
-        data.prize.prizeType === "points" ? 1 :
-        data.prize.prizeType === "discount" ? 2 :
-        data.prize.prizeType === "tokens" ? 3 :
-        data.prize.prizeType === "free_delivery" ? 4 : 5;
-      setRotation((current) => current + 1440 + (360 - (prizeIndex * 60 + 30)));
+      const sliceIndex = findSliceIndex(data.prize);
+      setRotation((current) => current + 1440 + (360 - (sliceIndex * SLICE_ANGLE + SLICE_ANGLE / 2)));
       await new Promise((resolve) => window.setTimeout(resolve, 3200));
       setPrize(data.prize);
       if (data.prize.code) localStorage.setItem("hs_spin_code", data.prize.code);
@@ -64,7 +82,7 @@ export function SpinWheel({ email }: { email?: string } = {}) {
             Spin for a <span className="text-green-600">High Society reward.</span>
           </h2>
           <p className="max-w-xl text-lg leading-8 text-slate-700">
-            Try your luck for discounts, delivery rewards, points, and tokens. Signed-in members get one spin.
+            Try your luck for up to 20% off, delivery rewards, points, and tokens. Signed-in members get one spin.
           </p>
           <button
             type="button"
@@ -97,17 +115,16 @@ export function SpinWheel({ email }: { email?: string } = {}) {
             className="relative h-full w-full rounded-full border-8 border-green-300/70 shadow-[0_0_60px_rgba(79,70,229,0.25)] transition-transform duration-[3000ms] ease-out"
             style={{
               transform: `rotate(${rotation}deg)`,
-              background:
-                "conic-gradient(#4f46e5 0deg 60deg,#e0e7ff 60deg 120deg,#818cf8 120deg 180deg,#c7d2fe 180deg 240deg,#4338ca 240deg 300deg,#eef2ff 300deg 360deg)",
+              background: WHEEL_GRADIENT,
             }}
           >
-            {["10% OFF", "POINTS", "15% OFF", "TOKENS", "DELIVERY", "TRY AGAIN"].map((label, index) => (
+            {WHEEL_SLICES.map((slice, index) => (
               <span
-                key={label}
+                key={slice.label}
                 className="absolute left-1/2 top-1/2 w-28 origin-left text-center text-[11px] font-bold text-slate-950 drop-shadow"
-                style={{ transform: `rotate(${index * 60 + 30}deg) translateX(42px)` }}
+                style={{ transform: `rotate(${index * SLICE_ANGLE + SLICE_ANGLE / 2}deg) translateX(42px)` }}
               >
-                {label}
+                {slice.label}
               </span>
             ))}
             <div className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-green-200 bg-white text-green-600">

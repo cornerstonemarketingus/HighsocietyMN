@@ -47,11 +47,11 @@ export default async function DropsPage() {
       <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-4 py-1.5 text-green-400 text-sm font-medium">
+          <div className="inline-flex items-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-4 py-1.5 text-green-700 text-sm font-medium">
             <Zap className="h-4 w-4" /> Live Drop Schedule
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-slate-950">
-            Product <span className="text-green-400">Drops</span>
+            Product <span className="text-green-600">Drops</span>
           </h1>
           <p className="text-slate-600 max-w-xl mx-auto text-lg">
             Fresh products drop every <strong className="text-slate-950">Tuesday</strong>,{" "}
@@ -89,8 +89,8 @@ export default async function DropsPage() {
                   className="rounded-2xl border border-green-500/40 bg-green-900/10 p-6 space-y-3"
                 >
                   <div className="flex items-center gap-2">
-                    <Zap className="h-5 w-5 text-green-400" />
-                    <span className="text-xs text-green-400 font-medium uppercase tracking-wide">
+                    <Zap className="h-5 w-5 text-green-600" />
+                    <span className="text-xs text-green-700 font-medium uppercase tracking-wide">
                       Featured Drop
                     </span>
                   </div>
@@ -134,7 +134,7 @@ export default async function DropsPage() {
                   <Zap className={`h-5 w-5 ${i === 0 ? "text-black" : "text-green-500"}`} />
                 </div>
                 <div>
-                  <p className={`font-medium text-sm ${i === 0 ? "text-green-400" : "text-slate-950"}`}>
+                  <p className={`font-medium text-sm ${i === 0 ? "text-green-700" : "text-slate-950"}`}>
                     {i === 0 ? "⚡ NEXT DROP" : label}
                   </p>
                   {i === 0 && <p className="text-xs text-slate-600">{label}</p>}

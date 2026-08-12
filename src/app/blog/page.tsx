@@ -65,13 +65,13 @@ export default async function BlogPage() {
                     {post.publishedAt ? formatDate(post.publishedAt) : formatDate(post.createdAt)}
                     {post.author.name && ` · ${post.author.name}`}
                   </p>
-                  <h2 className="text-slate-950 font-semibold text-lg leading-snug group-hover:text-green-400 transition-colors">
+                  <h2 className="text-slate-950 font-semibold text-lg leading-snug group-hover:text-green-700 transition-colors">
                     {post.title}
                   </h2>
                   {post.excerpt && (
                     <p className="text-slate-600 text-sm flex-1 line-clamp-3">{post.excerpt}</p>
                   )}
-                  <span className="flex items-center gap-1 text-green-400 text-sm mt-auto">
+                  <span className="flex items-center gap-1 text-green-700 text-sm mt-auto">
                     Read more <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
