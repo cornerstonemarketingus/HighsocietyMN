@@ -4,7 +4,7 @@ import { Check, BadgeCheck, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { formatPrice } from "@/lib/utils";
 
-interface ProductCardProps {
+export interface ProductCardProps {
   id: string;
   name: string;
   slug: string;

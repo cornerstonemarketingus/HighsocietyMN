@@ -116,6 +116,8 @@ export function ProductManager({
   const [error, setError] = useState("");
   const [syncing, setSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState("");
+  const [fixingImages, setFixingImages] = useState(false);
+  const [fixImagesMessage, setFixImagesMessage] = useState("");
 
   const filtered = useMemo(() => {
     const term = query.toLowerCase().trim();
@@ -206,6 +208,25 @@ export function ProductManager({
     }
   }
 
+  async function fixLocalImages() {
+    setFixingImages(true);
+    setFixImagesMessage("");
+    try {
+      const response = await fetch("/api/admin/fix-local-images", { method: "POST" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setFixImagesMessage(data.error || "Could not fix product photos.");
+        return;
+      }
+      setFixImagesMessage(`Checked ${data.checked} product(s) with no photo — fixed ${data.fixed}.${data.stillMissing?.length ? ` No matching file for: ${data.stillMissing.join(", ")}.` : ""}`);
+      if (data.fixed > 0) window.location.reload();
+    } catch {
+      setFixImagesMessage("Could not reach the server.");
+    } finally {
+      setFixingImages(false);
+    }
+  }
+
   async function remove(product: Product) {
     if (!window.confirm(`Delete “${product.name}”? Unpublish it instead if it has order history.`)) return;
     const response = await fetch(`/api/admin/products/${product.id}`, { method: "DELETE" });
@@ -223,7 +244,10 @@ export function ProductManager({
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Products</h1>
             <p className="mt-1 text-sm text-slate-600">{products.length} products in your storefront</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <button onClick={fixLocalImages} disabled={fixingImages} className="inline-flex h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-green-300 hover:text-green-700 disabled:opacity-50">
+              <ImagePlus className={`mr-2 h-4 w-4 ${fixingImages ? "animate-pulse" : ""}`} /> {fixingImages ? "Fixing…" : "Fix missing photos"}
+            </button>
             <button onClick={syncFromSource} disabled={syncing} className="inline-flex h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-green-300 hover:text-green-700 disabled:opacity-50">
               <RefreshCw className={`mr-2 h-4 w-4 ${syncing ? "animate-spin" : ""}`} /> {syncing ? "Syncing…" : "Sync from highsocietymn.com"}
             </button>
@@ -233,6 +257,7 @@ export function ProductManager({
           </div>
         </div>
 
+        {fixImagesMessage && <p className="text-sm text-slate-600">{fixImagesMessage}</p>}
         {syncMessage && <p className="text-sm text-slate-600">{syncMessage}</p>}
 
         <label className="flex max-w-xl items-center rounded-full border border-slate-200 bg-white px-4 shadow-sm">
