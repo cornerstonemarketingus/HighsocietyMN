@@ -19,7 +19,7 @@ export default function AdminLayout({
       <aside className="w-64 border-r border-white/10 bg-black shrink-0 hidden md:flex flex-col">
         <div className="p-6 border-b border-white/10">
           <Link href="/" className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-amber-500" />
+            <Leaf className="h-6 w-6 text-[#e5a12b]" />
             <div>
               <p className="text-white font-bold text-sm">High Society MN</p>
               <p className="text-gray-500 text-xs">Admin Dashboard</p>
@@ -31,7 +31,7 @@ export default function AdminLayout({
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:text-amber-400 hover:bg-white/5 transition-colors text-sm"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-300 hover:text-[#ffc263] hover:bg-white/5 transition-colors text-sm"
             >
               <Icon className="h-4 w-4" />
               {label}
@@ -39,7 +39,7 @@ export default function AdminLayout({
           ))}
         </nav>
         <div className="p-4 border-t border-white/10">
-          <Link href="/" className="text-xs text-gray-500 hover:text-amber-400">
+          <Link href="/" className="text-xs text-gray-500 hover:text-[#ffc263]">
             ← Back to Store
           </Link>
         </div>

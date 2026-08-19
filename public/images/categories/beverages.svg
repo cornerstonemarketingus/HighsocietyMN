@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Cannabis infused beverages category art">
+  <rect width="1200" height="800" fill="#041327"/>
+  <rect x="360" y="170" width="150" height="420" rx="26" fill="#1e40af" stroke="#60a5fa" stroke-width="5"/>
+  <rect x="540" y="130" width="150" height="460" rx="26" fill="#2563eb" stroke="#7dd3fc" stroke-width="5"/>
+  <rect x="720" y="190" width="150" height="400" rx="26" fill="#0ea5e9" stroke="#93c5fd" stroke-width="5"/>
+  <path d="M435 250C455 230 475 230 495 250" stroke="#dbeafe" stroke-width="6" fill="none"/>
+  <path d="M615 210C635 190 655 190 675 210" stroke="#dbeafe" stroke-width="6" fill="none"/>
+  <path d="M795 270C815 250 835 250 855 270" stroke="#dbeafe" stroke-width="6" fill="none"/>
+  <text x="80" y="740" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="64" font-weight="700">BEVERAGES</text>
+</svg>

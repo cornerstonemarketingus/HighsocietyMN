@@ -47,9 +47,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 justify-center">
-            <Leaf className="h-8 w-8 text-amber-500" />
+            <Leaf className="h-8 w-8 text-[#e5a12b]" />
             <span className="text-2xl font-bold text-white">
-              High Society <span className="text-amber-500">MN</span>
+              High Society <span className="text-[#e5a12b]">MN</span>
             </span>
           </Link>
           <p className="text-gray-400">Create your account</p>
@@ -98,8 +98,8 @@ export default function RegisterPage() {
             <label className="flex items-start gap-3 text-sm text-gray-300">
               <input type="checkbox" required className="mt-1" />
               <span>
-                I confirm I am <span className="text-amber-200 font-semibold">21+</span> and agree to our{" "}
-                <Link href="/terms" className="text-amber-400 hover:underline">Terms of Service</Link>.
+                I confirm I am <span className="text-[#f5df9b] font-semibold">21+</span> and agree to our{" "}
+                <Link href="/terms" className="text-[#ffc263] hover:underline">Terms of Service</Link>.
               </span>
             </label>
           </div>
@@ -115,7 +115,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-gray-400">
           Already have an account?{" "}
-          <Link href="/login" className="text-amber-400 hover:underline">
+          <Link href="/login" className="text-[#ffc263] hover:underline">
             Sign in
           </Link>
         </p>

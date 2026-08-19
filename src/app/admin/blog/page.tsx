@@ -33,9 +33,9 @@ export default async function AdminBlogPage() {
       <Header />
       <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">AI Blog Generator</h1>
+          <h1 className="text-3xl font-bold">Editorial Blog Generator</h1>
           <p className="text-gray-400 mt-2">
-            Generate SEO blog posts using the configured internal LLM. Posts are created as published.
+            Generate structured editorial posts with Ollama. Weekly autonomous publishing uses the same guarded workflow.
           </p>
         </div>
 

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { formatPrice } from "@/lib/utils";
+import { usableProductImages } from "@/lib/product-images";
 
 interface ProductCardProps {
   id: string;
@@ -19,6 +20,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({
+  id,
   name,
   slug,
   price,
@@ -28,13 +30,13 @@ export function ProductCard({
   thcContent,
   inStock,
 }: ProductCardProps) {
-  const imageUrl = images[0] ?? "https://images.unsplash.com/photo-1668001201519-1e5bff88bf01?w=400&q=80";
+  const imageUrl = usableProductImages(images, category.name)[0];
   if (!imageUrl || typeof imageUrl !== "string") {
     return null;
   }
 
   return (
-    <div className="group relative rounded-xl border border-white/10 bg-white/5 overflow-hidden hover:border-amber-500/50 transition-all duration-300">
+    <article className="group relative overflow-hidden border border-white/10 bg-[#11110f] transition-colors hover:border-[#e5a12b]/55">
       <Link href={`/products/${slug}`} className="block">
         <div className="relative aspect-square overflow-hidden bg-black/40">
           <Image
@@ -42,7 +44,7 @@ export function ProductCard({
             alt={name}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           {!inStock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -55,38 +57,26 @@ export function ProductCard({
             </div>
           )}
         </div>
-        <div className="p-4 space-y-2">
-          <p className="text-xs text-amber-500 uppercase tracking-wider">
-            {category.name}
+        <div className="space-y-3 p-4">
+          <p className="text-[10px] uppercase text-[#e5a12b]">
+            {category.name}{thcContent != null ? ` · ${thcContent}% THC` : ""}
           </p>
           <h3 className="text-white font-medium text-sm leading-tight line-clamp-2">
             {name}
           </h3>
-          {thcContent !== null && thcContent !== undefined && (
-            <p className="text-xs text-gray-400">THC: {thcContent}%</p>
-          )}
-          <div className="flex items-center gap-2">
-            <span className="text-amber-400 font-bold">
+          <div className="flex items-center justify-between gap-2 border-t border-white/10 pt-3">
+            <span className="font-semibold text-[#ffc263]">
               {formatPrice(price)}
             </span>
-            {comparePrice && comparePrice > price && (
+            {comparePrice && comparePrice > price ? (
               <span className="text-gray-500 text-sm line-through">
                 {formatPrice(comparePrice)}
               </span>
-            )}
+            ) : <ArrowRight className="h-4 w-4 text-zinc-500 transition-transform group-hover:translate-x-1 group-hover:text-[#e5a12b]" />}
           </div>
         </div>
       </Link>
-      <div className="px-4 pb-4">
-        <Button
-          size="sm"
-          className="w-full"
-          disabled={!inStock}
-        >
-          <ShoppingCart className="h-4 w-4 mr-2" />
-          Add to Cart
-        </Button>
-      </div>
-    </div>
+      <div className="px-4 pb-4"><AddToCartButton productId={id} inStock={inStock} className="w-full rounded-none bg-[#e5a12b] text-black hover:bg-[#ffc263]" /></div>
+    </article>
   );
 }

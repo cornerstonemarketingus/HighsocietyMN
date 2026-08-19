@@ -40,9 +40,9 @@ export default function LoginPage() {
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 justify-center">
-            <Leaf className="h-8 w-8 text-amber-500" />
+            <Leaf className="h-8 w-8 text-[#e5a12b]" />
             <span className="text-2xl font-bold text-white">
-              High Society <span className="text-amber-500">MN</span>
+              High Society <span className="text-[#e5a12b]">MN</span>
             </span>
           </Link>
           <p className="text-gray-400">Sign in to your account</p>
@@ -97,7 +97,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-gray-400">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-amber-400 hover:underline">
+          <Link href="/register" className="text-[#ffc263] hover:underline">
             Create one
           </Link>
         </p>

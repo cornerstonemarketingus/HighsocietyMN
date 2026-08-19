@@ -4,6 +4,8 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { AgeVerification } from "@/components/AgeVerification";
 import { ChatWidget } from "@/components/ChatWidget";
+import { cookies } from "next/headers";
+import { AGE_GATE_COOKIE_NAME, AGE_GATE_COOKIE_VALUE } from "@/lib/age-gate";
 
 const headingFont = Sora({
   subsets: ["latin"],
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | High Society MN",
   },
   description:
-    "Minnesota's premier cannabis dispensary. Shop premium flower, edibles, vapes, and concentrates. 21+ only. Store pickup available.",
+    "Minnesota's premium cannabis delivery boutique. Shop curated flower, edibles, vapes, and concentrates. Adults 21+ only.",
   keywords: [
     "cannabis dispensary Minnesota",
     "cannabis MN",
@@ -40,16 +42,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const ageVerified = (await cookies()).get(AGE_GATE_COOKIE_NAME)?.value === AGE_GATE_COOKIE_VALUE;
   return (
     <html lang="en" className={`dark ${headingFont.variable} ${bodyFont.variable}`}>
       <body className="antialiased bg-black text-white font-sans">
         <SessionProvider>
-          <AgeVerification />
+          <AgeVerification initiallyVerified={ageVerified} />
           {children}
           <ChatWidget />
         </SessionProvider>

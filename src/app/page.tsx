@@ -1,491 +1,171 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
-import { NewsletterSignup } from "@/components/NewsletterSignup";
-import { DropTimer } from "@/components/DropTimer";
-import { VaultDoors } from "@/components/VaultDoors";
-
+import Link from "next/link";
 import {
   ArrowRight,
-  MapPin,
-  Star,
-  Shield,
-  Truck,
-  Package,
-  Zap,
-  MessageSquare,
-  BookOpen,
+  Check,
   Crown,
+  FlaskConical,
+  PackageCheck,
   Sparkles,
+  Truck,
 } from "lucide-react";
-
-export const dynamic = "force-dynamic";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { VaultDoors } from "@/components/VaultDoors";
+import { ProductCarousel } from "@/components/products/ProductCarousel";
+import { db } from "@/lib/db";
+import { categoryImage, usableProductImages } from "@/lib/product-images";
+import { LIVE_CATALOG } from "@/lib/live-catalog";
 
 export const metadata: Metadata = {
-  title: "High Society MN | Premium Cannabis Delivery — Saint Paul & Minneapolis",
+  title: "High Society MN | Fresh Flower, Good Energy",
   description:
-    "Minnesota's premier cannabis delivery boutique. Premium flower, edibles, vapes & concentrates delivered to Saint Paul & Minneapolis metro. 21+ only. Delivery Tue, Thu, Sat.",
-  keywords: [
-    "cannabis delivery Minnesota",
-    "weed delivery Saint Paul",
-    "cannabis delivery Minneapolis",
-    "THC delivery MN",
-    "premium cannabis boutique Minnesota",
-    "high society MN",
-  ],
-  openGraph: {
-    title: "High Society MN | Premium Cannabis Delivery",
-    description: "Luxury cannabis delivery service in Saint Paul & Minneapolis metro.",
-    type: "website",
-  },
+    "Fresh cannabis, laid-back service, and metro delivery across Saint Paul and Minneapolis. Pull up the menu and find your next favorite.",
 };
 
-const categories = [
-  {
-    name: "Flower",
-    slug: "flower",
-    image:
-      "https://images.unsplash.com/photo-1603909223429-69bb7101f420?auto=format&fit=crop&w=1200&q=80",
-    description: "Velvet-smooth cultivars selected for aroma, nuance, and elevated evenings.",
-  },
-  {
-    name: "Edibles",
-    slug: "edibles",
-    image:
-      "https://images.unsplash.com/photo-1514995669114-c1e9311103f8?auto=format&fit=crop&w=1200&q=80",
-    description: "Chef-inspired confections with precise dosing and boutique presentation.",
-  },
-  {
-    name: "Vapes",
-    slug: "vapes",
-    image:
-      "https://images.unsplash.com/photo-1518183214770-9cffbec72538?auto=format&fit=crop&w=1200&q=80",
-    description: "Refined terpene-rich cartridges for clean flavor and effortless luxury.",
-  },
-  {
-    name: "Concentrates",
-    slug: "concentrates",
-    image:
-      "https://images.unsplash.com/photo-1459908676235-d5f02a50184b?auto=format&fit=crop&w=1200&q=80",
-    description: "High-potency extracts crafted for enthusiasts who appreciate depth.",
-  },
-  {
-    name: "Beverages",
-    slug: "beverages",
-    image:
-      "https://images.unsplash.com/photo-1481671703460-040cb8a2d909?auto=format&fit=crop&w=1200&q=80",
-    description: "Sparkling, sip-worthy infusions made for polished social rituals.",
-  },
-  {
-    name: "Accessories",
-    slug: "accessories",
-    image:
-      "https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?auto=format&fit=crop&w=1200&q=80",
-    description: "Elegant essentials that complete a curated and discreet experience.",
-  },
-] as const;
+async function getFeaturedProducts() {
+  const formatProducts = (products: typeof LIVE_CATALOG) => products
+    .filter(product => product.category.slug !== "mystery" && !product.slug.startsWith("mystery-"))
+    .slice(0, 8)
+    .map(product => ({
+    name: product.name,
+    slug: product.slug,
+    image: usableProductImages(product.images, product.category.name)[0],
+    type: product.strain || product.category.name,
+    thc: product.thcContent != null ? `${product.thcContent}% THC` : "Potency varies",
+    price: new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(product.price),
+    effects: product.effects.slice(0, 3),
+    flavor: product.flavors.slice(0, 3).join(" · ") || "See product details",
+  }));
+  try {
+    const products = await db.product.findMany({
+      where: {
+        published: true,
+        inStock: true,
+        category: { slug: { not: "mystery" } },
+        NOT: { slug: { startsWith: "mystery-" } },
+      },
+      include: { category: true },
+      orderBy: [{ featured: "desc" }, { updatedAt: "desc" }],
+      take: 8,
+    });
+    return products.length ? formatProducts(products) : formatProducts(LIVE_CATALOG);
+  } catch { return formatProducts(LIVE_CATALOG); }
+}
 
-const trustItems = [
-  { icon: Shield, title: "Lab Tested", detail: "Verified purity" },
-  { icon: Crown, title: "Premium Quality", detail: "Curated selection" },
-  { icon: Truck, title: "Fast Delivery", detail: "Tue · Thu · Sat" },
-  { icon: Package, title: "Discreet Packaging", detail: "Private arrival" },
-] as const;
-
-const communityCards = [
-  {
-    href: "/blog",
-    icon: BookOpen,
-    eyebrow: "Editorial",
-    title: "Read the journal",
-    description:
-      "Explore refined guides, terpene spotlights, and product stories tailored to Minnesota connoisseurs.",
-    cta: "Explore the blog",
-  },
-  {
-    href: "/forum",
-    icon: MessageSquare,
-    eyebrow: "Community",
-    title: "Join the conversation",
-    description:
-      "Connect with a thoughtful local circle sharing recommendations, rituals, and elevated experiences.",
-    cta: "Visit the forum",
-  },
-] as const;
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Store",
-  name: "High Society MN",
-  description:
-    "Premium cannabis delivery boutique serving Saint Paul and Minneapolis with curated flower, edibles, vapes, concentrates, beverages, and accessories.",
-  areaServed: ["Saint Paul, MN", "Minneapolis, MN"],
-  availableService: {
-    "@type": "Service",
-    name: "Cannabis Delivery",
-    areaServed: "Saint Paul & Minneapolis Metro",
-    hoursAvailable: "Tue, Thu, Sat 10:00",
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Premium cannabis collection",
-    itemListElement: categories.map((category) => ({
-      "@type": "OfferCatalog",
-      name: category.name,
-    })),
-  },
+const categoryDescriptions: Record<string, string> = {
+  flower: "Fresh buds, loud jars, and small-batch drops",
+  "pre-rolls": "Twisted up and ready when the lobby loads",
+  vapes: "Flavor-forward carts for low-key sessions",
+  concentrates: "Hash, rosin, resin, diamonds, and heavy hitters",
+  edibles: "Gummies, treats, and easygoing infused sips",
+  specials: "Solid smoke without cooking the snack budget",
+  mystery: "A little something for the ones who know",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredProducts = await getFeaturedProducts();
+  const categories = Array.from(
+    LIVE_CATALOG.reduce((groups, product) => {
+      if (product.category.slug === "mystery") return groups;
+      const current = groups.get(product.category.slug);
+      groups.set(product.category.slug, {
+        name: product.category.name,
+        slug: product.category.slug,
+        image: current?.image ?? usableProductImages(product.images, product.category.name)[0] ?? categoryImage(product.category.name),
+        count: (current?.count ?? 0) + 1,
+      });
+      return groups;
+    }, new Map<string, { name: string; slug: string; image: string; count: number }>()).values()
+  );
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#070706] text-[#f5f1e8]">
       <Header />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-
       <main>
-        <section className="relative isolate overflow-hidden border-b border-white/10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(245,158,11,0.18),transparent_32%),radial-gradient(circle_at_80%_20%,rgba(251,191,36,0.12),transparent_24%),linear-gradient(135deg,#120c02_0%,#000000_42%,#050505_100%)]" />
-          <div className="absolute inset-0 animate-shimmer opacity-60" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
-          <div className="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl gap-16 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-24">
-            <div className="max-w-3xl space-y-8">
-              <Badge className="w-fit border-amber-400/30 bg-amber-500/10 px-4 py-2 text-sm text-amber-200 shadow-[0_0_30px_rgba(245,158,11,0.12)]">
-                🌿 Saint Paul & Minneapolis Delivery
-              </Badge>
-              <div className="space-y-6">
-                <p className="text-sm uppercase tracking-[0.4em] text-amber-300/80">
-                  Premium Cannabis Boutique
-                </p>
-                <h1 className="text-5xl font-semibold leading-none sm:text-6xl lg:text-7xl">
-                  <span className="block text-white">Luxury cannabis,</span>
-                  <span className="block bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
-                    delivered with intention.
-                  </span>
-                </h1>
-                <p className="max-w-2xl text-lg leading-8 text-zinc-300 sm:text-xl">
-                  Discover a polished collection of flower, edibles, vapes, and concentrates curated for elevated routines across Saint Paul and Minneapolis.
-                </p>
-              </div>
+        <VaultDoors products={featuredProducts.slice(0, 3)} />
+        <ProductCarousel products={featuredProducts} />
 
-              <div className="flex flex-wrap gap-4">
-                <Link href="/products">
-                  <Button
-                    size="lg"
-                    className="group gap-2 rounded-full border border-amber-300/20 bg-amber-400 px-8 text-base text-black shadow-[0_18px_50px_rgba(245,158,11,0.22)] transition-transform hover:-translate-y-0.5"
-                  >
-                    Shop the Collection
-                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-                <Link href="/drops">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="rounded-full border-white/20 bg-white/5 px-8 text-base text-white backdrop-blur-sm hover:border-amber-400 hover:bg-amber-500/10 hover:text-amber-200"
-                  >
-                    View Next Drop
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-3">
-                {[
-                  "Curated premium assortment",
-                  "Discreet delivery windows",
-                  "21+ only · ID verified at delivery",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-zinc-300 backdrop-blur-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative mx-auto flex w-full max-w-xl items-center justify-center lg:justify-end">
-              <div className="absolute h-80 w-80 rounded-full bg-amber-400/20 blur-3xl animate-glow" />
-              <div className="absolute right-10 top-10 h-32 w-32 rounded-full border border-amber-300/20 bg-white/5 backdrop-blur-xl" />
-              <div className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-                <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(245,158,11,0.18),transparent_42%,rgba(255,255,255,0.04))]" />
-                <div className="relative space-y-6">
-                  <div className="flex items-center justify-between text-sm text-zinc-300">
-                    <span className="rounded-full border border-amber-400/20 bg-amber-500/10 px-3 py-1 text-amber-200">
-                      Curated for connoisseurs
-                    </span>
-                    <Sparkles className="h-5 w-5 text-amber-300 animate-float" />
-                  </div>
-
-                  <div className="mx-auto flex h-72 w-72 items-center justify-center rounded-full border border-amber-300/20 bg-[radial-gradient(circle,rgba(251,191,36,0.22),rgba(245,158,11,0.08)_40%,transparent_68%)]">
-                    <div className="animate-float rounded-full border border-white/10 bg-black/30 p-8 shadow-[0_0_50px_rgba(245,158,11,0.2)] backdrop-blur-xl">
-                      <svg
-                        viewBox="0 0 160 160"
-                        className="h-40 w-40 text-amber-300 drop-shadow-[0_0_30px_rgba(245,158,11,0.45)]"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M80 18C72 40 71 60 80 82C89 60 88 40 80 18ZM56 31C52 54 56 72 72 90C74 66 68 48 56 31ZM104 31C92 48 86 66 88 90C104 72 108 54 104 31ZM34 54C36 78 48 93 70 102C60 80 48 64 34 54ZM126 54C112 64 100 80 90 102C112 93 124 78 126 54ZM59 99C59 119 66 134 80 144C94 134 101 119 101 99C92 106 85 110 80 112C75 110 68 106 59 99Z"
-                          stroke="currentColor"
-                          strokeWidth="5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M80 78V140"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
-                      <p className="text-xs uppercase tracking-[0.3em] text-amber-300/70">Next service window</p>
-                      <p className="mt-2 text-lg font-medium text-white">Tue · Thu · Sat</p>
-                      <p className="text-sm text-zinc-400">Fresh drops delivered at 10am.</p>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
-                      <p className="text-xs uppercase tracking-[0.3em] text-amber-300/70">Metro coverage</p>
-                      <p className="mt-2 text-lg font-medium text-white">Saint Paul + Minneapolis</p>
-                      <p className="text-sm text-zinc-400">Boutique service with discreet arrival.</p>
-                    </div>
-                  </div>
+        <section className="border-y border-[#8a5710]/20 bg-[#0b0b09]">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-y divide-white/10 px-4 sm:grid-cols-4 sm:divide-y-0 sm:px-6 lg:px-8">
+            {[
+              [FlaskConical, "Lab verified", "Clean facts, no guesswork"],
+              [Crown, "Handpicked", "Only the good stuff"],
+              [Truck, "Metro delivery", "Tue · Thu · Sat"],
+              [PackageCheck, "Low-key arrival", "Your business stays yours"],
+            ].map(([Icon, title, detail]) => (
+              <div key={String(title)} className="flex min-h-28 items-center gap-3 px-4 py-6 lg:px-7">
+                <Icon className="h-5 w-5 shrink-0 text-[#e5a12b]" />
+                <div>
+                  <p className="text-sm font-semibold text-white">{String(title)}</p>
+                  <p className="mt-1 text-xs text-zinc-500">{String(detail)}</p>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="space-y-3">
-              <Badge className="w-fit border-white/10 bg-white/5 px-4 py-1.5 text-amber-200">Shop by Category</Badge>
-              <h2 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-                <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
-                  Build your ritual
-                </span>
-                <span className="block pt-2 text-white">from our signature collection.</span>
-              </h2>
-              <p className="max-w-2xl text-lg text-zinc-400">
-                Explore standout formats crafted for every mood, from intimate evenings to social pours.
-              </p>
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="mb-10 flex items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow">Pick your lane</p>
+              <h2 className="mt-3 max-w-2xl text-3xl font-medium sm:text-5xl">What are we getting into tonight?</h2>
             </div>
-            <Link href="/products" className="inline-flex items-center gap-2 text-sm font-medium text-amber-300 transition-colors hover:text-amber-200">
-              View all categories <ArrowRight className="h-4 w-4" />
+            <Link href="/products" className="hidden items-center gap-2 text-sm text-[#e5a12b] hover:text-[#ffc263] sm:flex">
+              View complete menu <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {categories.map((category, index) => (
-              <Link
-                key={category.slug}
-                href={`/products?category=${category.slug}`}
-                className="group relative min-h-56 overflow-hidden rounded-[1.75rem] border border-white/15 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#69f2ff]/60 hover:shadow-lg hover:shadow-[#69f2ff]/20"
-              >
-                <Image
-                  src={category.image}
-                  alt={`${category.name} collection`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,11,17,0.18),rgba(8,11,17,0.86))]" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(105,242,255,0.22),transparent_42%)] opacity-80" />
-                <div className="absolute right-5 top-5 rounded-full border border-white/20 bg-black/30 px-2.5 py-1 text-xs text-zinc-300">0{index + 1}</div>
-                <div className="relative flex h-full flex-col justify-end gap-3 p-6">
-                  <div className="flex items-end justify-between gap-4">
-                    <h3 className="text-2xl font-semibold text-white">{category.name}</h3>
-                    <ArrowRight className="h-5 w-5 text-[#69f2ff] transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                  <p className="max-w-sm text-sm leading-6 text-zinc-200/90">
-                    {category.description}
-                  </p>
+          <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map(({ name, slug, image, count }) => (
+              <Link key={slug} href={`/products?category=${slug}`} className="group relative min-h-[390px] overflow-hidden bg-[#10100e]">
+                <Image src={image} alt={`${name} product collection`} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover opacity-65 transition duration-700 group-hover:scale-105 group-hover:opacity-85" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-7">
+                  <p className="mb-3 text-xs uppercase text-[#e5a12b]">{count} {count === 1 ? "selection" : "selections"}</p>
+                  <h3 className="text-2xl font-medium">{name}</h3>
+                  <p className="mt-2 text-sm text-zinc-400">{categoryDescriptions[slug] ?? "Explore the current collection"}</p>
+                  <ArrowRight className="mt-6 h-5 w-5 text-[#e5a12b] transition-transform group-hover:translate-x-2" />
                 </div>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-[1.75rem] border border-amber-400/30 bg-[linear-gradient(135deg,rgba(245,158,11,0.18),rgba(255,255,255,0.03),rgba(0,0,0,0.7))] p-[1px] shadow-[0_10px_40px_rgba(245,158,11,0.12)]">
-            <div className="flex flex-col gap-6 rounded-[1.7rem] bg-black/80 px-6 py-6 backdrop-blur-xl sm:px-8 lg:flex-row lg:items-center lg:justify-between">
-              <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-500/10 text-amber-300">
-                  <Zap className="h-7 w-7" />
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm uppercase tracking-[0.35em] text-amber-300/70">Drop Timer</p>
-                  <h3 className="text-2xl font-semibold text-white">New drops delivered Tue · Thu · Sat @ 10am</h3>
-                  <p className="text-sm text-zinc-400">
-                    Count down to the next release and secure the week&apos;s most coveted menu additions.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center justify-start gap-4 lg:justify-end">
-                <DropTimer />
-                <VaultDoors />
-              </div>
-            </div>
+        <section className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-28">
+          <div>
+            <p className="eyebrow">The house standard</p>
+            <h2 className="mt-3 text-3xl font-medium leading-tight sm:text-5xl">Fresh herb. Good people. No weird energy.</h2>
           </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {trustItems.map((item) => (
-              <div
-                key={item.title}
-                className="min-w-[240px] flex-1 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/10 text-amber-300">
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white">{item.title}</p>
-                    <p className="text-sm text-zinc-400">{item.detail}</p>
-                  </div>
-                </div>
+          <div className="grid gap-8 sm:grid-cols-2">
+            {[
+              "Real strain notes, not a wall of mystery numbers",
+              "Flavor, terpenes, and expected effects laid out clean",
+              "A straight-up menu with no runaround",
+              "Discreet service that keeps your business your business",
+            ].map((item) => (
+              <div key={item} className="border-t border-[#8a5710]/30 pt-5">
+                <Check className="mb-5 h-5 w-5 text-[#e5a12b]" />
+                <p className="text-base leading-7 text-zinc-300">{item}</p>
               </div>
             ))}
+            <Link href="/about" className="inline-flex items-center gap-2 text-sm font-semibold text-[#e5a12b] transition hover:text-[#ffc263] sm:col-span-2">
+              Our story and house rules <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(245,158,11,0.08),rgba(0,0,0,0.85))] p-8 backdrop-blur-sm lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:p-12">
-            <div className="space-y-5">
-              <Badge className="w-fit border-amber-400/20 bg-amber-500/10 px-4 py-1.5 text-amber-200">Featured Collection</Badge>
-              <h2 className="text-4xl font-semibold sm:text-5xl">
-                Discover this week&apos;s <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">premium selection</span>
-              </h2>
-              <p className="max-w-2xl text-lg leading-8 text-zinc-300">
-                From signature flower to polished edible experiences, each release is selected for taste, consistency, and elevated presentation.
-              </p>
+        <section className="border-y border-white/10 bg-[#11100d]">
+          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-4 py-14 sm:px-6 md:flex-row md:items-center lg:px-8">
+            <div>
+              <div className="flex items-center gap-2 text-[#e5a12b]"><Sparkles className="h-4 w-4" /><span className="eyebrow">Fresh drop</span></div>
+              <h2 className="mt-3 text-2xl font-medium sm:text-3xl">The menu is up. Come see what landed.</h2>
             </div>
-            <div className="rounded-[1.75rem] border border-white/10 bg-black/30 p-6 shadow-[0_16px_60px_rgba(0,0,0,0.3)]">
-              <div className="space-y-4">
-                {[
-                  "Rotating craft flower and infused essentials",
-                  "Fresh menu updates aligned with every drop window",
-                  "Delivery tailored to Saint Paul & Minneapolis metro",
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3 text-zinc-300">
-                    <Star className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-              <Link href="/products" className="mt-6 inline-flex">
-                <Button size="lg" className="group gap-2 rounded-full px-7">
-                  Shop /products
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mb-8 space-y-3">
-            <Badge className="w-fit border-white/10 bg-white/5 px-4 py-1.5 text-amber-200">Community</Badge>
-            <h2 className="text-4xl font-semibold sm:text-5xl">
-              Beyond the menu, <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">join the culture.</span>
-            </h2>
-          </div>
-          <div className="grid gap-6 lg:grid-cols-2">
-            {communityCards.map((card) => (
-              <Link
-                key={card.href}
-                href={card.href}
-                className="group rounded-[1.75rem] border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-400/40 hover:shadow-lg hover:shadow-amber-500/20"
-              >
-                <div className="flex h-full flex-col gap-6">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-400/20 bg-amber-500/10 text-amber-300">
-                    <card.icon className="h-6 w-6" />
-                  </div>
-                  <div className="space-y-3">
-                    <p className="text-sm uppercase tracking-[0.3em] text-amber-300/70">{card.eyebrow}</p>
-                    <h3 className="text-3xl font-semibold text-white">{card.title}</h3>
-                    <p className="text-base leading-7 text-zinc-400">{card.description}</p>
-                  </div>
-                  <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-amber-200 transition-colors group-hover:text-amber-100">
-                    {card.cta} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-sm lg:p-10">
-            <div className="space-y-4">
-              <Badge className="w-fit border-amber-400/20 bg-amber-500/10 px-4 py-1.5 text-amber-200">Delivery Coverage</Badge>
-              <h2 className="text-4xl font-semibold sm:text-5xl">
-                Delivery Area: <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">Saint Paul & Minneapolis Metro</span>
-              </h2>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-300">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-4 py-2">
-                  <MapPin className="h-4 w-4 text-amber-300" /> Saint Paul, Minneapolis & nearby metro neighborhoods
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-500/10 px-4 py-2 text-amber-200">
-                  🚗 Delivery available Tue · Thu · Sat
-                </span>
-              </div>
-            </div>
-            <div className="mt-8 overflow-hidden rounded-xl border border-amber-500/30">
-              <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-93.2290%2C44.9137%2C-93.0490%2C44.9937&amp;layer=mapnik&amp;marker=44.9537%2C-93.1039"
-                style={{ border: 0 }}
-                width="100%"
-                height="300"
-                loading="lazy"
-                title="High Society MN delivery area map"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8" id="newsletter">
-          <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(245,158,11,0.12),rgba(255,255,255,0.04),rgba(0,0,0,0.9))] p-8 backdrop-blur-sm lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:p-12">
-            <div className="space-y-5">
-              <Badge className="w-fit border-amber-400/20 bg-amber-500/10 px-4 py-1.5 text-amber-200">Rewards & Updates</Badge>
-              <h2 className="text-4xl font-semibold sm:text-5xl">
-                Join our <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">rewards program</span>
-              </h2>
-              <p className="text-lg leading-8 text-zinc-300">
-                Unlock first access to coveted drops, members-only offers, and curated delivery alerts tailored to your taste.
-              </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {[
-                  "Priority drop notifications",
-                  "Exclusive rewards for repeat orders",
-                  "Private menu highlights",
-                  "Delivery reminders for Tue · Thu · Sat",
-                ].map((item) => (
-                  <div key={item} className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-300">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-[1.75rem] border border-white/10 bg-black/30 p-2">
-              <NewsletterSignup />
-            </div>
+            <Link href="/products" className="inline-flex h-12 items-center gap-3 bg-[#e5a12b] px-6 text-sm font-semibold text-black transition hover:bg-[#ffc263]">
+              Check the stash <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );

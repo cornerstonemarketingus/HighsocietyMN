@@ -44,6 +44,10 @@ type PrismaLike = {
   };
 };
 
+function isUniqueConstraintError(error: unknown): boolean {
+  return typeof error === "object" && error !== null && "code" in error && error.code === "P2002";
+}
+
 async function createUniqueDiscountCode(prisma: PrismaLike) {
 
 
@@ -63,36 +67,60 @@ async function createUniqueDiscountCode(prisma: PrismaLike) {
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
-    const body = await req.json().catch(() => ({})) as { userId?: string };
+    const body = await req.json().catch(() => ({})) as { userId?: string; email?: string };
     const userId = session?.user?.id ?? null;
+    const email = body.email?.trim().toLowerCase() ?? "";
 
     if (body.userId && userId && body.userId !== userId) {
       return NextResponse.json({ error: "user_mismatch" }, { status: 403 });
     }
 
     const prisma = db;
+    let emailSpinCode: string | null = null;
 
     if (userId) {
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-        select: { spinUsed: true },
-      }) as { spinUsed: boolean } | null;
+      const user = await prisma.user.findUnique({ where: { id: userId }, select: { id: true } });
 
       if (!user) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
 
-      if (user.spinUsed) {
+    } else {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return NextResponse.json({ error: "email_signup_required" }, { status: 400 });
+      }
+      const subscriber = await prisma.newsletterSubscriber.findUnique({
+        where: { email },
+        select: { discountCode: true },
+      });
+      if (!subscriber) {
+        return NextResponse.json({ error: "email_signup_required" }, { status: 403 });
+      }
+      emailSpinCode = `SPIN-${subscriber.discountCode}`;
+      const existingSpin = await prisma.spinResult.findUnique({ where: { code: emailSpinCode } });
+      if (existingSpin) {
         return NextResponse.json({ error: "already_used" }, { status: 400 });
       }
     }
 
     const selectedPrize = pickPrize();
-    const code = selectedPrize.prizeType === "discount"
-      ? await createUniqueDiscountCode(prisma)
-      : null;
+    const code = emailSpinCode ?? (
+      selectedPrize.prizeType === "discount"
+        ? await createUniqueDiscountCode(prisma)
+        : null
+    );
 
     const spinResult = await prisma.$transaction(async (tx) => {
+      if (userId) {
+        // Claim eligibility before creating or crediting a prize. updateMany makes
+        // concurrent requests contend on one atomic state transition.
+        const claimed = await tx.user.updateMany({
+          where: { id: userId, spinUsed: false },
+          data: { spinUsed: true },
+        });
+        if (claimed.count !== 1) throw new Error("SPIN_ALREADY_USED");
+      }
+
       const createdSpinResult = await tx.spinResult.create({
 
         data: {
@@ -105,7 +133,7 @@ export async function POST(req: NextRequest) {
       });
 
       if (userId) {
-        const userData: Record<string, unknown> = { spinUsed: true };
+        const userData: Record<string, unknown> = {};
 
         if (selectedPrize.prizeType === "points") {
           userData.points = { increment: selectedPrize.prizeValue };
@@ -138,8 +166,16 @@ export async function POST(req: NextRequest) {
       return createdSpinResult;
     });
 
-    return NextResponse.json({ prize: spinResult });
+    return NextResponse.json({
+      prize: {
+        ...spinResult,
+        code: selectedPrize.prizeType === "discount" ? spinResult.code : null,
+      },
+    });
   } catch (err) {
+    if ((err instanceof Error && err.message === "SPIN_ALREADY_USED") || isUniqueConstraintError(err)) {
+      return NextResponse.json({ error: "already_used" }, { status: 409 });
+    }
     console.error("Spin API error:", err);
     return NextResponse.json({ error: "Failed to process spin" }, { status: 500 });
   }

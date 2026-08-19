@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2, Leaf } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, Crown } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -23,7 +23,7 @@ export function ChatWidget() {
     {
       role: "assistant",
       content:
-        "Hey! 👋 I'm your High Society MN budtender. Ask me anything about our products, strains, dosing, store hours, or today's drops!",
+        "Yo, welcome in. I'm your budtender. Tell me the vibe, flavor, or potency you're after and I'll help you find something fresh on today's menu.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -56,11 +56,15 @@ export function ChatWidget() {
         }),
       });
       const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok) {
+        throw new Error(data.error ?? "Chat request failed");
+      }
+      const reply = sanitizeAssistantContent(data.reply ?? "");
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-            content: sanitizeAssistantContent(data.reply ?? "Sorry, I couldn't get a response. Please try again!"),
+          content: reply || "Sorry, I couldn't get a response. Please try again!",
         },
       ]);
 
@@ -82,24 +86,25 @@ export function ChatWidget() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-black shadow-lg hover:bg-amber-400 transition-all hover:scale-105"
-        aria-label={open ? "Close chat" : "Open chat"}
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-[#ffc263]/50 bg-[#e5a12b] text-black shadow-[0_12px_40px_rgba(0,0,0,.55)] transition hover:bg-[#ffc263]"
+        aria-label={open ? "Close budtender" : "Open budtender"}
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </button>
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex flex-col w-80 sm:w-96 rounded-2xl border border-white/10 bg-zinc-900 shadow-2xl overflow-hidden">
+        <div className="fixed bottom-24 right-3 z-50 flex max-h-[min(620px,calc(100vh-7rem))] w-[calc(100vw-1.5rem)] flex-col overflow-hidden border border-[#8a5710]/35 bg-[#10100e] shadow-2xl sm:right-6 sm:w-96">
           {/* Header */}
           <div className="flex items-center gap-3 border-b border-white/10 bg-black/60 px-4 py-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500">
-              <Leaf className="h-4 w-4 text-black" />
+            <div className="flex h-9 w-9 items-center justify-center border border-[#8a5710]/40 bg-[#e5a12b]/10">
+              <Crown className="h-4 w-4 text-[#e5a12b]" />
             </div>
-            <div>
-              <p className="text-sm font-semibold text-white">HS Budtender</p>
-              <p className="text-xs text-green-400">● Online now</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-white">Budtender</p>
+              <p className="text-xs text-[#e5a12b]">Online · Inventory aware</p>
             </div>
+            <button onClick={() => setOpen(false)} className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 text-zinc-300 transition hover:border-[#e5a12b] hover:bg-[#e5a12b] hover:text-black" aria-label="Close budtender" title="Close chat"><X className="h-5 w-5" /></button>
           </div>
 
           {/* Messages */}
@@ -112,7 +117,7 @@ export function ChatWidget() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-amber-500 text-black rounded-br-sm"
+                      ? "bg-[#e5a12b] text-black rounded-br-sm"
                       : "bg-white/10 text-white rounded-bl-sm"
                   }`}
                 >
@@ -138,15 +143,15 @@ export function ChatWidget() {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about products, drops, hours…"
-              className="flex-1 rounded-xl bg-white/10 px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
+              placeholder="Ask about strains, effects, or potency"
+              className="min-w-0 flex-1 border border-white/10 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-[#e5a12b] focus:outline-none"
               disabled={loading}
               autoFocus
             />
             <button
               type="submit"
               disabled={!input.trim() || loading}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500 text-black disabled:opacity-40 hover:bg-amber-400 transition-colors"
+              className="flex h-9 w-9 items-center justify-center bg-[#e5a12b] text-black transition-colors hover:bg-[#ffc263] disabled:opacity-40"
             >
               <Send className="h-4 w-4" />
             </button>

@@ -9,14 +9,14 @@ export interface ButtonProps
 
 const variantClasses = {
   default:
-    "bg-[linear-gradient(145deg,#69f2ff,#c3ff5f)] text-black hover:brightness-105 font-semibold shadow-[0_12px_35px_rgba(105,242,255,0.24)]",
+    "bg-[#e5a12b] text-black hover:bg-[#ffc263] font-semibold shadow-[0_12px_35px_rgba(212,175,55,0.2)]",
 
-  outline: "border border-white/20 text-white bg-white/5 hover:bg-white/10 hover:border-[#69f2ff]/50",
+  outline: "border border-[#e5a12b]/45 text-[#ffc263] bg-[#e5a12b]/5 hover:bg-[#e5a12b]/15 hover:border-[#e5a12b]",
 
-  ghost: "text-[#69f2ff] hover:bg-white/10",
+  ghost: "text-[#e5a12b] hover:bg-[#e5a12b]/10",
 
   destructive: "bg-red-600 text-white hover:bg-red-500",
-  link: "text-[#69f2ff] underline-offset-4 hover:underline",
+  link: "text-[#e5a12b] underline-offset-4 hover:underline",
 
 };
 
@@ -42,7 +42,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#69f2ff]/70 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e5a12b]/70 disabled:pointer-events-none disabled:opacity-50",
           variantClasses[variant],
           sizeClasses[size],
           className

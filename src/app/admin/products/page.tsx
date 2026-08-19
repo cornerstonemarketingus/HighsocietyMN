@@ -63,7 +63,7 @@ export default async function AdminProductsPage() {
                   <td className="p-4 hidden sm:table-cell">
                     <span className="text-gray-300">{product.category.name}</span>
                   </td>
-                  <td className="p-4 text-amber-400 font-medium">
+                  <td className="p-4 text-[#ffc263] font-medium">
                     {formatPrice(product.price)}
                   </td>
                   <td className="p-4 hidden md:table-cell text-gray-300">

@@ -6,16 +6,12 @@ import { Input } from "@/components/ui/Input";
 import { Loader2, Sparkles } from "lucide-react";
 
 const TOPICS = [
-  "The Benefits of Microdosing Cannabis for Creativity",
-  "Understanding Terpenes: The Aromatic Compounds in Cannabis",
-  "Indica vs Sativa vs Hybrid: What Does It All Mean?",
-  "How to Choose the Right Cannabis Strain for Sleep",
-  "Minnesota Cannabis Laws: What You Need to Know in 2024",
-  "The Art of the Perfect Cannabis Pairing: Food and Flower",
-  "Live Resin vs Distillate: Which Extract is Right for You?",
-  "Cannabis and Wellness: A Modern Approach to Self-Care",
-  "Top Cannabis Strains for Social Situations",
-  "The Science Behind the Entourage Effect",
+  "A practical guide to reading cannabis product labels",
+  "Terpenes and aroma: how to shop with your senses",
+  "Flower, edibles, vapes, and concentrates: choosing a format",
+  "How to build a thoughtful low-dose cannabis routine",
+  "What makes small-batch flower feel premium",
+  "Live resin, rosin, and distillate explained",
 ];
 
 export function GenerateBlogForm() {
@@ -119,9 +115,7 @@ export function GenerateBlogForm() {
       </Button>
 
       <p className="text-xs text-gray-500">
-        Generates using the internal LLM ({" "}
-        <span className="text-gray-400">LLM_BASE_URL</span>{" "}
-        ) and creates the post as published.
+        Generates with the configured Ollama editorial model and publishes with a matched cover image.
       </p>
     </form>
   );

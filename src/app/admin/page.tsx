@@ -42,7 +42,7 @@ export default async function AdminDashboard() {
   const [stats, recentOrders] = await Promise.all([getStats(), getRecentOrders()]);
 
   const cards = [
-    { label: "Total Revenue", value: formatPrice(stats.revenue), icon: DollarSign, color: "text-amber-400" },
+    { label: "Total Revenue", value: formatPrice(stats.revenue), icon: DollarSign, color: "text-[#ffc263]" },
     { label: "Total Orders", value: stats.orderCount.toString(), icon: ShoppingBag, color: "text-blue-400" },
     { label: "Products", value: stats.productCount.toString(), icon: Package, color: "text-green-400" },
     { label: "Customers", value: stats.userCount.toString(), icon: Users, color: "text-purple-400" },
@@ -100,7 +100,7 @@ export default async function AdminDashboard() {
                   <p className="text-gray-400 text-xs">{order.user?.email}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-amber-400 font-medium">{formatPrice(order.total)}</p>
+                  <p className="text-[#ffc263] font-medium">{formatPrice(order.total)}</p>
                   <span className="text-xs text-gray-500 capitalize">{order.status.toLowerCase()}</span>
                 </div>
               </div>

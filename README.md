@@ -74,6 +74,8 @@ NEXTAUTH_URL="http://localhost:3000"
 STRIPE_SECRET_KEY="sk_test_..."
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 STRIPE_WEBHOOK_SECRET="whsec_..."
+OLLAMA_BASE_URL="http://127.0.0.1:11434"
+OLLAMA_MODEL="llama3.2"
 ```
 
 ### 3. Set up the database
@@ -83,9 +85,7 @@ npm run db:push    # Push schema to DB
 npm run db:seed    # Seed categories, products, admin user
 ```
 
-Default admin credentials after seed:
-- Email: `admin@highsocietymn.com`
-- Password: `admin1234`
+Never deploy seeded or shared administrator credentials. Create the production administrator through the controlled account workflow and rotate any development-only password before deployment.
 
 ### 4. Run locally
 
@@ -116,7 +116,7 @@ npm run verify
 1. **Push this branch to GitHub** (done via PR)
 
 2. **Create a Vercel project** at [vercel.com/new](https://vercel.com/new)
-   - Import the `cornerstonemarketingus/HighsocietyMN` repository
+   - Import the High Society MN repository
    - Framework preset: **Next.js** (auto-detected)
 
 3. **Add Environment Variables** in Vercel dashboard → Settings → Environment Variables:
@@ -127,6 +127,15 @@ npm run verify
    STRIPE_SECRET_KEY
    STRIPE_WEBHOOK_SECRET
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+   AUTH_SECRET
+   AUTH_URL
+   CRON_SECRET
+   NEXT_PUBLIC_BUDSEEKER_URL
+   OLLAMA_BASE_URL
+   OLLAMA_MODEL
+   OLLAMA_TIMEOUT_MS
+   OLLAMA_API_KEY          (optional, for an authenticated gateway)
+   AUTO_BLOG_AUTHOR_EMAIL  (optional admin author for weekly posts)
    ```
 
 4. **Deploy** — Vercel will run `prisma generate && next build` automatically
@@ -140,6 +149,14 @@ npm run verify
 6. **Configure Stripe webhook** in Stripe Dashboard → Webhooks:
    - Endpoint URL: `https://your-domain.vercel.app/api/stripe/webhook`
    - Events: `checkout.session.completed`
+
+7. **Verify production readiness**:
+   - `/api/health` returns database reachability and boolean integration readiness without returning secrets.
+   - Set `ERROR_WEBHOOK_URL` for server exception alerts.
+   - Set both `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` to enable Google sign-in; credentials sign-in remains available without them.
+   - The budtender uses Ollama's native `/api/chat` endpoint when `OLLAMA_BASE_URL` is set. Production must use a protected HTTPS Ollama endpoint reachable from Vercel; a laptop's localhost process is not reachable from a hosted deployment. If Ollama is unavailable, the route falls back to verified catalog and store responses.
+   - The protected `/api/cron/blog-publish` job runs each Tuesday and publishes one original editorial post through the same Ollama connection. It selects an admin author, avoids recent topics, validates the model's JSON response, and assigns a topic-matched cover. Set `AUTO_BLOG_AUTHOR_EMAIL` to choose a specific admin account; otherwise the oldest admin account is used.
+   - Configure an external uptime check for `/api/health` and alert on non-200 responses.
 
 ### Recommended PostgreSQL Providers (free tiers available)
 - **[Neon](https://neon.tech)** — Serverless PostgreSQL, generous free tier

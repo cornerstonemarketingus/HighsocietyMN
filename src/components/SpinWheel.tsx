@@ -48,6 +48,13 @@ export function SpinWheel({
   const [balance, setBalance] = useState<{ points: number; tokens: number } | null>(
     null
   );
+  const [email, setEmail] = useState("");
+  const [spinEmail, setSpinEmail] = useState<string | null>(null);
+  const [emailConsent, setEmailConsent] = useState(false);
+  const [signupError, setSignupError] = useState("");
+  const [signingUp, setSigningUp] = useState(false);
+
+  const canSpin = eligible || spinEmail !== null;
 
   useEffect(() => {
     if (!eligible) return;
@@ -65,13 +72,15 @@ export function SpinWheel({
   }, [eligible]);
 
   async function handleSpin() {
-    if (!eligible || spinning) return;
+    if (!canSpin || spinning) return;
     setSpinning(true);
     setResult(null);
 
     try {
       const res = await fetch("/api/spin", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(spinEmail ? { email: spinEmail } : {}),
       });
       const data = (await res.json()) as
         | { prize: SpinPrize }
@@ -120,6 +129,28 @@ export function SpinWheel({
     }
   }
 
+  async function handleEmailSignup(e: React.FormEvent) {
+    e.preventDefault();
+    if (!emailConsent || signingUp) return;
+    setSigningUp(true);
+    setSignupError("");
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      const res = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: normalizedEmail }),
+      });
+      const data = await res.json() as { error?: string };
+      if (!res.ok) throw new Error(data.error ?? "Unable to sign up");
+      setSpinEmail(normalizedEmail);
+    } catch (error) {
+      setSignupError(error instanceof Error ? error.message : "Unable to sign up");
+    } finally {
+      setSigningUp(false);
+    }
+  }
+
   const prizeText =
     result?.prizeType === "discount" && result?.code
       ? `${result.prize} · Code: ${result.code}`
@@ -127,16 +158,42 @@ export function SpinWheel({
       ? result.prize
       : null;
 
-  if (!eligible) {
+  if (!canSpin) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-black/60 p-6 text-center text-white">
-        <div className="text-amber-400 font-semibold">Spin requires eligibility</div>
-        <div className="text-sm text-gray-400 mt-2">
-          Confirm 21+ and add your phone to your account.
-        </div>
-        <div className="mt-5 text-xs text-gray-500">
-          This is delivery-only on Tue · Thu · Sat.
-        </div>
+      <div className="rounded-2xl border border-white/10 bg-black/60 p-6 text-white">
+        <div className="text-[#ffc263] font-semibold">Join the list to unlock one spin</div>
+        <p className="mt-2 text-sm text-gray-400">
+          Enter your email for drop alerts and confirm you are 21 or older.
+        </p>
+        <form onSubmit={handleEmailSignup} className="mt-5 space-y-3">
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            required
+            className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#e5a12b]"
+          />
+          <label className="flex items-start gap-2 text-xs text-gray-400">
+            <input
+              type="checkbox"
+              checked={emailConsent}
+              onChange={(event) => setEmailConsent(event.target.checked)}
+              required
+              className="mt-0.5"
+            />
+            <span>I am 21+ and agree to receive High Society MN email updates. I can unsubscribe anytime.</span>
+          </label>
+          <Button
+            type="submit"
+            className="w-full rounded-xl bg-[#e5a12b] text-black hover:bg-[#ffc263] font-bold"
+            disabled={!emailConsent || signingUp}
+          >
+            {signingUp ? "Unlocking…" : "Sign Up & Unlock Spin"}
+          </Button>
+          {signupError && <p className="text-sm text-red-400">{signupError}</p>}
+        </form>
+        <p className="mt-4 text-xs text-gray-500">One spin per subscribed email. No purchase necessary.</p>
       </div>
     );
   }
@@ -145,7 +202,7 @@ export function SpinWheel({
     <div className="rounded-2xl border border-white/10 bg-black/60 p-6">
       <div className="flex items-start justify-between gap-4 mb-5">
         <div>
-          <div className="text-amber-400 font-semibold text-sm">Vault Wheel</div>
+          <div className="text-[#ffc263] font-semibold text-sm">Vault Wheel</div>
           <div className="text-white text-2xl font-bold">Spin for instant rewards</div>
           <div className="text-sm text-gray-400 mt-1">
             Earn points & tokens for mini-games and perks.
@@ -165,8 +222,8 @@ export function SpinWheel({
 
       <div className="grid gap-6 md:grid-cols-[1fr_0.9fr] items-center">
         <div className="relative">
-          <div className="absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.22),transparent_55%)]" />
-          <div className="mx-auto w-[290px] h-[290px] rounded-full border border-white/10 bg-[conic-gradient(from_0deg,rgba(245,158,11,0.18),rgba(245,158,11,0.02),rgba(255,255,255,0.03),rgba(245,158,11,0.18))] shadow-[0_0_60px_rgba(245,158,11,0.15)] flex items-center justify-center">
+          <div className="absolute inset-0 -z-10 rounded-full bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.22),transparent_55%)]" />
+          <div className="mx-auto w-[290px] h-[290px] rounded-full border border-white/10 bg-[conic-gradient(from_0deg,rgba(212,175,55,0.18),rgba(212,175,55,0.02),rgba(255,255,255,0.03),rgba(212,175,55,0.18))] shadow-[0_0_60px_rgba(212,175,55,0.15)] flex items-center justify-center">
             <div
               id="hs-wheel-rotor"
               className="w-[240px] h-[240px] rounded-full border border-white/10 bg-black/20 flex items-center justify-center"
@@ -181,7 +238,7 @@ export function SpinWheel({
                   return (
                     <div
                       key={idx}
-                      className="absolute top-1/2 left-1/2 text-[10px] text-amber-300/90 font-semibold select-none"
+                      className="absolute top-1/2 left-1/2 text-[10px] text-[#b97416]/90 font-semibold select-none"
                       style={{
                         transform: `rotate(${angle}deg) translate(0,-110px) rotate(${-angle}deg)`,
                         transformOrigin: "center",
@@ -192,8 +249,8 @@ export function SpinWheel({
                   );
                 })}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-[92px] h-[92px] rounded-full bg-amber-500/15 border border-amber-400/30 shadow-[0_0_40px_rgba(245,158,11,0.25)] flex flex-col items-center justify-center">
-                    <div className="text-amber-200 text-xs font-bold">SPIN</div>
+                  <div className="w-[92px] h-[92px] rounded-full bg-[#e5a12b]/15 border border-[#ffc263]/30 shadow-[0_0_40px_rgba(212,175,55,0.25)] flex flex-col items-center justify-center">
+                    <div className="text-[#f5df9b] text-xs font-bold">SPIN</div>
                     <div className="text-white text-lg font-extrabold">🎁</div>
                   </div>
                 </div>
@@ -202,7 +259,7 @@ export function SpinWheel({
           </div>
 
           <div className="absolute left-1/2 -translate-x-1/2 top-[-14px] z-10">
-            <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-b-[18px] border-l-transparent border-r-transparent border-b-amber-500 drop-shadow-[0_10px_20px_rgba(245,158,11,0.2)]" />
+            <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-b-[18px] border-l-transparent border-r-transparent border-b-[#e5a12b] drop-shadow-[0_10px_20px_rgba(212,175,55,0.2)]" />
           </div>
         </div>
 
@@ -211,26 +268,26 @@ export function SpinWheel({
             <div className="text-xs uppercase tracking-[0.28em] text-gray-400">Your balance</div>
             <div className="mt-2 flex items-center justify-between">
               <div className="text-white font-semibold">Points</div>
-              <div className="text-amber-300 font-mono">{balance?.points ?? 0}</div>
+              <div className="text-[#b97416] font-mono">{balance?.points ?? 0}</div>
             </div>
             <div className="mt-2 flex items-center justify-between">
               <div className="text-white font-semibold">Tokens</div>
-              <div className="text-amber-300 font-mono">{balance?.tokens ?? 0}</div>
+              <div className="text-[#b97416] font-mono">{balance?.tokens ?? 0}</div>
             </div>
           </div>
 
           <Button
             size="lg"
-            className="w-full rounded-xl bg-amber-500 text-black hover:bg-amber-400 font-bold"
-            disabled={spinning || !eligible}
+            className="w-full rounded-xl bg-[#e5a12b] text-black hover:bg-[#ffc263] font-bold"
+            disabled={spinning || !canSpin}
             onClick={handleSpin}
           >
             {spinning ? "Spinning…" : "Spin the Wheel"}
           </Button>
 
           {result && (
-            <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
-              <div className="text-amber-300 text-sm font-semibold">Your result</div>
+            <div className="rounded-xl border border-[#e5a12b]/30 bg-[#e5a12b]/10 p-4">
+              <div className="text-[#b97416] text-sm font-semibold">Your result</div>
               <div className="text-white text-xl font-bold mt-1">{prizeText ?? "—"}</div>
               {result.prizeType === "discount" && result.code && (
                 <div className="text-xs text-gray-400 mt-2">

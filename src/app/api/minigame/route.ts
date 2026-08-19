@@ -6,6 +6,12 @@ export const dynamic = "force-dynamic";
 
 const SYMBOLS = ["🍀", "💎", "🌿", "⭐", "🔥", "💨"];
 const PLAY_COST = 10;
+const MAX_DAILY_PLAYS = 100;
+
+function startOfUtcDay() {
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+}
 
 export async function POST() {
   const session = await auth();
@@ -14,18 +20,6 @@ export async function POST() {
   }
 
   const prisma = db;
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { tokens: true },
-  });
-  const tokens = user?.tokens ?? 0;
-
-
-  if (tokens < PLAY_COST) {
-    return NextResponse.json({ error: "Insufficient tokens" }, { status: 400 });
-  }
-
-
   const reels = [
     SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
     SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
@@ -39,30 +33,42 @@ export async function POST() {
     winTokens = 50;
   }
 
-  const netChange = winTokens - PLAY_COST;
+  try {
+    const newBalance = await prisma.$transaction(async (tx) => {
+      const playsToday = await tx.tokenTransaction.count({
+        where: { userId: session.user.id, reason: "minigame_play", createdAt: { gte: startOfUtcDay() } },
+      });
+      if (playsToday >= MAX_DAILY_PLAYS) throw new Error("DAILY_PLAY_LIMIT");
 
-  await prisma.$transaction([
-    prisma.user.update({
-      where: { id: session.user.id },
-      data: { tokens: { increment: netChange } },
-    }),
-    prisma.tokenTransaction.create({
-      data: { userId: session.user.id, tokens: -PLAY_COST, reason: "minigame_play" },
-    }),
-    ...(winTokens > 0
-      ? [
-          prisma.tokenTransaction.create({
-            data: { userId: session.user.id, tokens: winTokens, reason: "minigame_win" },
-          }),
-        ]
-      : []),
-  ]);
+      const debit = await tx.user.updateMany({
+        where: { id: session.user.id, tokens: { gte: PLAY_COST } },
+        data: { tokens: { decrement: PLAY_COST } },
+      });
+      if (debit.count !== 1) throw new Error("INSUFFICIENT_TOKENS");
 
-  const updatedUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { tokens: true },
-  });
+      await tx.tokenTransaction.create({
+        data: { userId: session.user.id, tokens: -PLAY_COST, reason: "minigame_play" },
+      });
+      if (winTokens > 0) {
+        await tx.user.update({ where: { id: session.user.id }, data: { tokens: { increment: winTokens } } });
+        await tx.tokenTransaction.create({
+          data: { userId: session.user.id, tokens: winTokens, reason: "minigame_win" },
+        });
+      }
+      const user = await tx.user.findUnique({ where: { id: session.user.id }, select: { tokens: true } });
+      return user?.tokens ?? 0;
+    });
 
-  return NextResponse.json({ reels, winTokens, newBalance: updatedUser?.tokens ?? 0 });
+    return NextResponse.json({ reels, winTokens, newBalance });
+  } catch (error) {
+    if (error instanceof Error && error.message === "DAILY_PLAY_LIMIT") {
+      return NextResponse.json({ error: "Daily play limit reached" }, { status: 429 });
+    }
+    if (error instanceof Error && error.message === "INSUFFICIENT_TOKENS") {
+      return NextResponse.json({ error: "Insufficient tokens" }, { status: 409 });
+    }
+    console.error("Minigame API error:", error);
+    return NextResponse.json({ error: "Unable to play right now" }, { status: 500 });
+  }
 
 }

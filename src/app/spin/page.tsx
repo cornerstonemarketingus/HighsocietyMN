@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SpinWheel } from "@/components/SpinWheel";
+import { GameHub } from "@/components/games/GameHub";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 
@@ -27,15 +27,15 @@ export default async function SpinPage() {
       <Header />
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <div className="text-amber-400 text-sm font-semibold">Vault</div>
-          <h1 className="text-4xl font-bold">Spin the Wheel</h1>
+          <div className="eyebrow">Society arcade</div>
+          <h1 className="mt-3 text-4xl font-medium sm:text-5xl">The Game Vault</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
-            Earn points & tokens and unlock perks. Eligibility requires a phone on your account and a 21+ confirmation.
+            Make a run for the vault or unlock your one-time reward wheel. For adults 21+.
           </p>
         </div>
 
-        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-4 md:p-8">
-          <SpinWheel eligible={eligible} />
+        <div className="border border-white/10 bg-[#11110f] p-4 md:p-8">
+          <GameHub eligible={eligible} />
         </div>
       </main>
       <Footer />

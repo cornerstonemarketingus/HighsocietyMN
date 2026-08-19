@@ -15,7 +15,7 @@ export default auth((req: NextRequest & { auth: { user?: { role?: string } } | n
     pathname === "/api/spin" ||
     pathname === "/api/points" ||
     pathname === "/api/minigame" ||
-    pathname.startsWith("/api/budseeker/");
+    pathname === "/api/chat";
 
   if ((isAgeGateProtectedPath(pathname) || ageProtectedApi) && !ageVerified) {
     if (pathname.startsWith("/api/")) {
@@ -55,8 +55,6 @@ export const config = {
     "/checkout/:path*",
     "/orders/:path*",
     "/products/:path*",
-    "/budseeker/:path*",
-    "/weed-seeker/:path*",
     "/drops/:path*",
     "/spin/:path*",
     "/blog/:path*",
@@ -65,6 +63,6 @@ export const config = {
     "/api/spin",
     "/api/points",
     "/api/minigame",
-    "/api/budseeker/:path*",
+    "/api/chat",
   ],
 };

@@ -46,12 +46,15 @@ export default function ForumThreadPage() {
   const [replyContent, setReplyContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [loadError, setLoadError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function load() {
       const res = await fetch(`/api/forum/threads/${params.slug}/posts`).catch(() => null);
-      if (!res?.ok) { router.push("/forum"); return; }
+      if (!res) { setLoadError("The community service could not be reached. Please try again shortly."); setLoading(false); return; }
+      if (res.status === 404) { router.push("/forum"); return; }
+      if (!res.ok) { setLoadError("This discussion is temporarily unavailable while the community service reconnects."); setLoading(false); return; }
       const data = await res.json() as { thread: Thread; posts: Post[] };
       setThread(data.thread);
       setPosts(data.posts);
@@ -91,8 +94,24 @@ export default function ForumThreadPage() {
       <div className="min-h-screen bg-black">
         <Header />
         <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="h-8 w-8 text-amber-500 animate-spin" />
+          <Loader2 className="h-8 w-8 text-[#e5a12b] animate-spin" />
         </div>
+      </div>
+    );
+  }
+
+  if (!thread && loadError) {
+    return (
+      <div className="min-h-screen bg-black">
+        <Header />
+        <main className="mx-auto flex min-h-[60vh] max-w-xl items-center px-4 text-center">
+          <div className="w-full border border-amber-400/35 bg-amber-400/10 p-8">
+            <p className="font-semibold text-amber-100">Community temporarily unavailable</p>
+            <p className="mt-2 text-sm text-amber-100/70">{loadError}</p>
+            <Link href="/forum" className="mt-5 inline-flex text-sm font-semibold text-[#e5a12b] hover:text-[#ffc263]">Return to forum</Link>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
@@ -105,7 +124,7 @@ export default function ForumThreadPage() {
       <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <Link
           href="/forum"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-400 text-sm mb-6"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-[#ffc263] text-sm mb-6"
         >
           <ArrowLeft className="h-4 w-4" /> Forum
         </Link>
@@ -113,9 +132,9 @@ export default function ForumThreadPage() {
         {/* Thread header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
-            {thread.pinned && <Pin className="h-4 w-4 text-amber-500" />}
+            {thread.pinned && <Pin className="h-4 w-4 text-[#e5a12b]" />}
             {thread.locked && <Lock className="h-4 w-4 text-gray-500" />}
-            <span className="text-xs text-amber-500 font-medium">{thread.category.name}</span>
+            <span className="text-xs text-[#e5a12b] font-medium">{thread.category.name}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{thread.title}</h1>
           <p className="text-xs text-gray-500">
@@ -135,7 +154,7 @@ export default function ForumThreadPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={post.author.image} alt={post.author.name ?? ""} className="h-8 w-8 rounded-full" />
                 ) : (
-                  <div className="h-8 w-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">
+                  <div className="h-8 w-8 rounded-full bg-[#e5a12b]/20 flex items-center justify-center text-[#ffc263] text-xs font-bold">
                     {(post.author.name ?? "?").charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -170,7 +189,7 @@ export default function ForumThreadPage() {
               rows={5}
               maxLength={5000}
               required
-              className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+              className="w-full rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#e5a12b] resize-none"
             />
             <div className="flex justify-end">
               <Button type="submit" disabled={submitting} className="gap-2">

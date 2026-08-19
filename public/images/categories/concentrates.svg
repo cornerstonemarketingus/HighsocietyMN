@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Cannabis concentrates category art">
+  <rect width="1200" height="800" fill="#040f22"/>
+  <circle cx="430" cy="400" r="170" fill="#1d4ed8" opacity="0.75"/>
+  <circle cx="770" cy="400" r="170" fill="#0ea5e9" opacity="0.7"/>
+  <path d="M420 290L505 420L360 420Z" fill="#93c5fd"/>
+  <path d="M780 285L860 440L700 440Z" fill="#bfdbfe"/>
+  <rect x="500" y="500" width="200" height="80" rx="18" fill="#0f2f59" stroke="#60a5fa" stroke-width="5"/>
+  <text x="80" y="740" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="64" font-weight="700">CONCENTRATES</text>
+</svg>

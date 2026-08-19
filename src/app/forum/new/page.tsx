@@ -74,7 +74,7 @@ export default function NewThreadPage() {
       <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
         <Link
           href="/forum"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-400 text-sm mb-8"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-[#ffc263] text-sm mb-8"
         >
           <ArrowLeft className="h-4 w-4" /> Back to Forum
         </Link>
@@ -93,7 +93,7 @@ export default function NewThreadPage() {
             <select
               value={categorySlug}
               onChange={(e) => setCategorySlug(e.target.value)}
-              className="w-full rounded-md border border-white/20 bg-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full rounded-md border border-white/20 bg-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#e5a12b]"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat.slug} value={cat.slug} className="bg-zinc-900">
@@ -123,7 +123,7 @@ export default function NewThreadPage() {
               required
               rows={8}
               maxLength={5000}
-              className="w-full rounded-md border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none"
+              className="w-full rounded-md border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#e5a12b] resize-none"
             />
             <p className="text-xs text-gray-600 text-right">{content.length}/5000</p>
           </div>

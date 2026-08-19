@@ -1,72 +1,97 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { extractAssistantReply } from "@/lib/llm-response";
+import { requestOllamaReply } from "@/lib/ollama";
+import { hasInventoryIntent, ruleBasedResponse } from "@/lib/chat-fallback";
+import { exceedsBodyLimit, isAgeVerified, rateLimit, readBoundedJson } from "@/lib/request-guards";
 
 export const dynamic = "force-dynamic";
 
-function ruleBasedResponse(message: string, productSummary: string): string {
-  const lower = message.toLowerCase();
-  if (lower.includes("hour") || lower.includes("open") || lower.includes("close")) {
-    return "Our team is available Monday–Saturday 10am–9pm and Sunday 11am–7pm, with delivery service available Tuesday, Thursday, and Saturday.";
+const INVENTORY_TIMEOUT_MS = 2_000;
+const DEFAULT_LLM_TIMEOUT_MS = 30_000;
+const MAX_MESSAGES = 20;
+const MAX_MESSAGE_LENGTH = 2_000;
+
+interface ChatMessage {
+  readonly role: "user" | "assistant";
+  readonly content: string;
+}
+
+function isChatMessage(value: unknown): value is ChatMessage {
+  if (typeof value !== "object" || value === null) return false;
+  const candidate = value as Record<string, unknown>;
+  return (
+    (candidate.role === "user" || candidate.role === "assistant") &&
+    typeof candidate.content === "string" &&
+    candidate.content.trim().length > 0 &&
+    candidate.content.length <= MAX_MESSAGE_LENGTH
+  );
+}
+
+function llmTimeoutMs(): number {
+  const configured = Number(process.env.LLM_TIMEOUT_MS);
+  return Number.isFinite(configured) && configured >= 1_000
+    ? Math.min(configured, 120_000)
+    : DEFAULT_LLM_TIMEOUT_MS;
+}
+
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("Operation timed out")), timeoutMs);
+  });
+
+  try {
+    return await Promise.race([promise, timeout]);
+  } finally {
+    if (timeoutId !== undefined) clearTimeout(timeoutId);
   }
-  if (lower.includes("pickup") || lower.includes("delivery") || lower.includes("order")) {
-    return "High Society MN is delivery-only — no in-person pickup. We deliver on Tuesday, Thursday, and Saturday throughout Saint Paul and the greater Minneapolis–Saint Paul metro area.";
-  }
-  if (lower.includes("drop") || lower.includes("new product") || lower.includes("restock")) {
-    return "New product drops happen every Tuesday, Thursday, and Saturday at 10am. Check our Drops page to see what's landing next.";
-  }
-  if (lower.includes("thc") || lower.includes("cbd") || lower.includes("potency")) {
-    return "All our products are third-party lab tested, and THC/CBD percentages are listed on each product page. I can also help you compare potency options for adults 21+.";
-  }
-  if (lower.includes("discount") || lower.includes("coupon") || lower.includes("promo") || lower.includes("deal")) {
-    return "Sign up for our newsletter to get 10% off your first delivery order and be first to hear about fresh drops and exclusive offers.";
-  }
-  if (lower.includes("flower")) {
-    return "Our flower selection includes premium sativa, indica, and hybrid strains. Browse the Flower category for current availability, terpene profiles, and THC/CBD details.";
-  }
-  if (lower.includes("edible")) {
-    return "We carry a wide range of edibles including gummies, chocolates, mints, and more. They're precisely dosed for consistency — start low and go slow.";
-  }
-  if (lower.includes("vape") || lower.includes("cartridge")) {
-    return "Our vape lineup includes live resin and full-spectrum options across sativa, indica, and hybrid profiles. Check the Vapes section for current inventory.";
-  }
-  if (lower.includes("concentrate") || lower.includes("wax") || lower.includes("rosin") || lower.includes("shatter")) {
-    return "We carry premium concentrates including live rosin, badder, and shatter. These are high-potency products best suited for experienced adult consumers.";
-  }
-  if (lower.includes("product") || lower.includes("available") || lower.includes("sell") || lower.includes("carry")) {
-    return `We carry flower, edibles, vapes, concentrates, beverages, and accessories. Here's a quick overview of current inventory:\n\n${productSummary}\n\nYou can browse the full menu on our Shop page and place a delivery order for eligible areas.`;
-  }
-  if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey") || lower.includes("help")) {
-    return "Hey there! 👋 Welcome to High Society MN. I can help with product recommendations, delivery info, drops, and general cannabis questions for adults 21+. What can I help you with today?";
-  }
-  return `Thanks for your question! I'm here to help with product info, delivery details, drops, and more.\n\nWe carry flower, edibles, vapes, concentrates, beverages, and accessories, and we deliver Tuesday, Thursday, and Saturday across Saint Paul and the greater Minneapolis–Saint Paul metro area.\n\nIs there something specific I can help you with?`;
+}
+
+function summarizeProducts(products: Array<{
+  name: string; slug: string; price: number; thcContent: number | null; cbdContent?: number | null;
+  strain: string | null; category: { name: string };
+}>) {
+  return products.map(product =>
+    `• ${product.name} (${product.category.name}) — $${product.price}${product.thcContent ? ` | THC: ${product.thcContent}%` : ""}${product.cbdContent ? ` | CBD: ${product.cbdContent}%` : ""}${product.strain ? ` | ${product.strain}` : ""} | /products/${product.slug}`
+  ).join("\n");
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json() as {
-      messages: Array<{ role: "user" | "assistant" | "system"; content: string }>;
-    };
+    if (!isAgeVerified(req)) return NextResponse.json({ error: "Age verification required" }, { status: 403 });
+    if (exceedsBodyLimit(req, 50_000)) return NextResponse.json({ error: "Request is too large" }, { status: 413 });
+    const retryAfter = rateLimit(req, "chat", 12, 60_000);
+    if (retryAfter) return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": String(retryAfter) } });
+    const body = await readBoundedJson<{ messages?: unknown }>(req, 50_000);
+    const messages = body.messages;
 
-    if (!Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json({ error: "messages required" }, { status: 400 });
+    if (
+      !Array.isArray(messages) ||
+      messages.length === 0 ||
+      messages.length > MAX_MESSAGES ||
+      !messages.every(isChatMessage)
+    ) {
+      return NextResponse.json(
+        { error: "Provide 1–20 valid user or assistant messages." },
+        { status: 400 },
+      );
     }
 
     // Important: never hard-fail the chat endpoint when DB isn't ready.
     let productSummary = "";
     try {
-      const products = await db.product.findMany({
-        where: { published: true, inStock: true },
-        include: { category: true },
-        take: 30,
-        orderBy: { featured: "desc" },
-      });
+      const products = await withTimeout(
+        db.product.findMany({
+          where: { published: true, inStock: true },
+          include: { category: true },
+          take: 30,
+          orderBy: { featured: "desc" },
+        }),
+        INVENTORY_TIMEOUT_MS,
+      );
 
-      productSummary = products
-        .map(
-          (p) =>
-            `• ${p.name} (${p.category.name}) — $${p.price}${p.thcContent ? ` | THC: ${p.thcContent}%` : ""}${p.cbdContent ? ` | CBD: ${p.cbdContent}%` : ""}${p.strain ? ` | ${p.strain}` : ""}`
-        )
-        .join("\n");
+      productSummary = summarizeProducts(products);
     } catch (dbErr) {
       console.warn(
         "Chat API DB query failed; continuing without inventory:",
@@ -96,44 +121,69 @@ Store info:
 Current inventory:
 ${productSummary}
 
+Grounding rules:
+- Only describe a product as available when it appears in Current inventory above
+- Never invent a product, price, potency, promotion, policy, or product URL
+- If inventory is empty or does not answer the question, say you cannot verify it and direct the customer to the Shop page
+
 Be warm, professional, and concise. Use cannabis-friendly language but stay legal and responsible.`;
 
     const lastUserMessage =
       [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
 
+    // Inventory answers must come from the normalized catalog, never model memory.
+    if (hasInventoryIntent(lastUserMessage)) {
+      return NextResponse.json({ reply: ruleBasedResponse(lastUserMessage, productSummary) });
+    }
+
+    if (process.env.OLLAMA_BASE_URL) {
+      try {
+        const reply = await requestOllamaReply([
+          { role: "system", content: systemPrompt },
+          ...messages.slice(-10),
+        ]);
+        if (reply) return NextResponse.json({ reply });
+      } catch (ollamaErr) {
+        console.warn("Chat API Ollama request failed; using fallback:", ollamaErr);
+      }
+    }
+
     if (process.env.LLM_BASE_URL) {
-      const model = process.env.LLM_MODEL ?? "llama3.2";
-      const baseUrl = process.env.LLM_BASE_URL.replace(/\/$/, "");
+      try {
+        const model = process.env.LLM_MODEL ?? "llama3.2";
+        const baseUrl = process.env.LLM_BASE_URL.replace(/\/$/, "");
 
-      const llmRes = await fetch(`${baseUrl}/v1/chat/completions`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: systemPrompt },
-            ...messages.slice(-10),
-          ],
-          max_tokens: 500,
-          temperature: 0.7,
-          stream: false,
-        }),
-      });
+        const llmRes = await fetch(`${baseUrl}/v1/chat/completions`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: "system", content: systemPrompt },
+              ...messages.slice(-10),
+            ],
+            max_tokens: 500,
+            temperature: 0.7,
+            stream: false,
+          }),
+          signal: AbortSignal.timeout(llmTimeoutMs()),
+        });
 
-      if (llmRes.ok) {
-        const data = (await llmRes.json()) as {
-          choices?: Array<{ message?: { content?: string } }>;
-        };
-        const reply =
-          data.choices?.[0]?.message?.content ??
-          "Sorry, I couldn't generate a response.";
-        return NextResponse.json({ reply });
+        if (llmRes.ok) {
+          const reply = extractAssistantReply(await llmRes.json());
+          if (reply) return NextResponse.json({ reply });
+        } else {
+          console.warn("Chat API LLM returned a non-success status:", llmRes.status);
+        }
+      } catch (llmErr) {
+        console.warn("Chat API LLM request failed; using local fallback:", llmErr);
       }
     }
 
     const reply = ruleBasedResponse(lastUserMessage, productSummary);
     return NextResponse.json({ reply });
   } catch (err) {
+    if (err instanceof RangeError) return NextResponse.json({ error: err.message }, { status: 413 });
     console.error("Chat API error:", err);
     return NextResponse.json(
       { error: "Chat service unavailable" },

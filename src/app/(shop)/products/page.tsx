@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductCard } from "@/components/products/ProductCard";
 import { db } from "@/lib/db";
+import { CatalogProduct, LIVE_CATEGORIES } from "@/lib/live-catalog";
 
 
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ interface SearchParams {
   page?: string;
 }
 
-async function getProducts(params: SearchParams) {
+async function getProducts(params: SearchParams): Promise<CatalogProduct[]> {
   try {
     const where: Record<string, unknown> = { published: true };
 
@@ -47,7 +48,6 @@ async function getProducts(params: SearchParams) {
       where,
       include: { category: true },
       orderBy,
-      take: 48,
     });
 
     return products;
@@ -58,9 +58,10 @@ async function getProducts(params: SearchParams) {
 
 async function getCategories() {
   try {
-    return await db.category.findMany({ orderBy: { sortOrder: "asc" } });
+    const categories = await db.category.findMany({ orderBy: { sortOrder: "asc" } });
+    return categories.length ? categories : LIVE_CATEGORIES;
   } catch {
-    return [];
+    return LIVE_CATEGORIES;
   }
 }
 
@@ -98,8 +99,8 @@ export default async function ProductsPage({
               href="/products"
               className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                 !params.category
-                  ? "bg-amber-500 text-black border-amber-500 font-medium"
-                  : "border-white/20 text-gray-300 hover:border-amber-500/50"
+                  ? "bg-[#e5a12b] text-black border-[#e5a12b] font-medium"
+                  : "border-white/20 text-gray-300 hover:border-[#e5a12b]/50"
               }`}
             >
               All
@@ -111,8 +112,8 @@ export default async function ProductsPage({
                 href={`/products?category=${cat.slug}`}
                 className={`px-4 py-2 rounded-full text-sm border transition-colors ${
                   params.category === cat.slug
-                    ? "bg-amber-500 text-black border-amber-500 font-medium"
-                    : "border-white/20 text-gray-300 hover:border-amber-500/50"
+                    ? "bg-[#e5a12b] text-black border-[#e5a12b] font-medium"
+                    : "border-white/20 text-gray-300 hover:border-[#e5a12b]/50"
                 }`}
               >
                 {cat.name}
@@ -127,7 +128,7 @@ export default async function ProductsPage({
           {products.length === 0 ? (
             <div className="text-center py-20 space-y-4">
               <p className="text-gray-400 text-lg">No products found.</p>
-              <Link href="/products" className="text-amber-400 hover:underline">
+              <Link href="/products" className="text-[#ffc263] hover:underline">
                 View all products
               </Link>
 

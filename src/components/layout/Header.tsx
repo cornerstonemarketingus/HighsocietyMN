@@ -2,194 +2,44 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { ShoppingCart, User, Menu, X, ChevronDown } from "lucide-react";
-import { useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { DropTimer } from "@/components/DropTimer";
+import { Crown, ShoppingBag, UserRound } from "lucide-react";
 
-const shopLinks = [
-  { href: "/products", label: "All Products" },
+const navLinks = [
+  { href: "/about", label: "About" },
+  { href: "/products", label: "Shop all" },
   { href: "/products?category=flower", label: "Flower" },
   { href: "/products?category=edibles", label: "Edibles" },
   { href: "/products?category=vapes", label: "Vapes" },
   { href: "/products?category=concentrates", label: "Concentrates" },
-];
-
-const communityLinks = [
-  { href: "/budseeker", label: "BudSeeker" },
-  { href: "/blog", label: "Blog" },
-  { href: "/forum", label: "Forum" },
-];
+  { href: "/drops", label: "Drop Vault" },
+  { href: "/spin", label: "Games" },
+  { href: "/blog", label: "Journal" },
+] as const;
 
 export function Header() {
   const { data: session } = useSession();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [communityOpen, setCommunityOpen] = useState(false);
-
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(8,11,17,0.88)] backdrop-blur-xl">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/rolex.svg" alt="High Society MN" className="h-8 w-8" />
-
-            <span className="text-xl font-bold text-white">
-              High Society <span className="text-[#69f2ff]">MN</span>
-            </span>
-          </Link>
-
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {shopLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-2 text-sm text-gray-300 hover:text-[#69f2ff] transition-colors rounded-md hover:bg-white/5"
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            {/* Community dropdown */}
-            <div className="relative">
-              <button
-                onMouseEnter={() => setCommunityOpen(true)}
-                onMouseLeave={() => setCommunityOpen(false)}
-                className="flex items-center gap-1 px-3 py-2 text-sm text-gray-300 hover:text-[#69f2ff] transition-colors rounded-md hover:bg-white/5"
-              >
-                Community <ChevronDown className="h-3.5 w-3.5" />
-              </button>
-              {communityOpen && (
-                <div
-                  onMouseEnter={() => setCommunityOpen(true)}
-                  onMouseLeave={() => setCommunityOpen(false)}
-                  className="absolute left-0 top-full pt-1 w-44 z-50"
-                >
-                  <div className="rounded-xl border border-white/10 bg-zinc-900 shadow-xl overflow-hidden">
-                    {communityLinks.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        className="block px-4 py-3 text-sm text-gray-300 hover:text-[#69f2ff] hover:bg-white/5 transition-colors"
-                        onClick={() => setCommunityOpen(false)}
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link
-              href="/drops"
-              className="px-3 py-2 text-sm text-[#c3ff5f] hover:text-[#deffad] transition-colors rounded-md hover:bg-[#c3ff5f]/10 font-medium"
-            >
-              ⚡ Drops
-            </Link>
-          </nav>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-2">
-            {/* Drop timer — desktop */}
-            <div className="hidden lg:block">
-              <DropTimer />
-            </div>
-
-            <Link
-              href="/cart"
-              className="relative p-2 text-gray-300 hover:text-[#69f2ff] transition-colors"
-              aria-label="Cart"
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Link>
-
-            {session?.user ? (
-              <div className="flex items-center gap-2">
-                {session.user.role === "ADMIN" && (
-                  <Link href="/admin">
-                    <Button variant="ghost" size="sm" className="text-xs hidden sm:flex">
-                      Admin
-                    </Button>
-                  </Link>
-                )}
-                <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="p-2 text-gray-300 hover:text-amber-400 transition-colors"
-                  aria-label="Account"
-                >
-                  <User className="h-5 w-5" />
-                </button>
-              </div>
-            ) : (
-              <Link href="/login">
-                <Button size="sm" className="hidden sm:flex">
-                  Sign In
-                </Button>
-              </Link>
-            )}
-
-            <button
-              className="md:hidden p-2 text-gray-300 hover:text-white"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+    <header className="sticky top-0 z-50 border-b border-[#8a5710]/20 bg-[#070706]/95 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="High Society MN home">
+          <Crown className="h-7 w-7 fill-[#e5a12b]/15 text-[#e5a12b]" strokeWidth={1.5} />
+          <span className="text-[15px] font-semibold uppercase text-white">High Society <span className="text-[#e5a12b]">MN</span></span>
+        </Link>
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary navigation">
+          {navLinks.slice(0, 8).map(link => <Link key={link.href} href={link.href} className="text-xs text-zinc-400 transition hover:text-[#ffc263]">{link.label}</Link>)}
+        </nav>
+        <div className="flex items-center gap-1">
+          <Link href="/cart" className="header-icon" aria-label="Shopping bag"><ShoppingBag className="h-5 w-5" /></Link>
+          {session?.user ? (
+            <button onClick={() => signOut({ callbackUrl: "/" })} className="header-icon" aria-label="Sign out"><UserRound className="h-5 w-5" /></button>
+          ) : (
+            <Link href="/login" className="header-icon" aria-label="Sign in"><UserRound className="h-5 w-5" /></Link>
+          )}
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-white/10 bg-black">
-          <div className="px-4 py-4 space-y-1">
-            {shopLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-gray-300 hover:text-amber-400 py-2 text-sm"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="border-t border-white/10 my-2" />
-            {communityLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block text-gray-300 hover:text-amber-400 py-2 text-sm"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/drops"
-              className="block text-amber-400 hover:text-amber-300 py-2 text-sm font-medium"
-              onClick={() => setMobileOpen(false)}
-            >
-              ⚡ Drops
-            </Link>
-            <div className="pt-2">
-              <DropTimer />
-            </div>
-            {!session?.user && (
-              <Link href="/login" onClick={() => setMobileOpen(false)}>
-                <Button className="w-full mt-2">Sign In</Button>
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
+      <nav className="mx-auto flex h-11 max-w-7xl items-center gap-6 overflow-x-auto border-t border-white/[0.06] px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden" aria-label="Mobile navigation">
+        {navLinks.map(link => <Link key={link.href} href={link.href} className="shrink-0 text-[11px] uppercase text-zinc-400 transition hover:text-[#ffc263]">{link.label}</Link>)}
+      </nav>
     </header>
   );
 }
-

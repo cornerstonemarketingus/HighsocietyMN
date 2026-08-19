@@ -68,7 +68,7 @@ export default async function AdminOrdersPage() {
                     <p className="text-gray-300">{order.user?.name ?? "—"}</p>
                     <p className="text-gray-500 text-xs">{order.user?.email}</p>
                   </td>
-                  <td className="p-4 text-amber-400 font-medium">
+                  <td className="p-4 text-[#ffc263] font-medium">
                     {formatPrice(order.total)}
                   </td>
                   <td className="p-4 hidden md:table-cell text-gray-400">

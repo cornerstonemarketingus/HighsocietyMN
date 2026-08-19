@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Cannabis edible gummies category art">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#041226"/>
+      <stop offset="100%" stop-color="#0a2b4f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <g opacity="0.95">
+    <rect x="240" y="260" width="170" height="220" rx="38" fill="#2563eb"/>
+    <rect x="430" y="220" width="170" height="260" rx="38" fill="#3b82f6"/>
+    <rect x="620" y="260" width="170" height="220" rx="38" fill="#60a5fa"/>
+    <rect x="810" y="230" width="170" height="250" rx="38" fill="#38bdf8"/>
+  </g>
+  <circle cx="325" cy="320" r="18" fill="#dbeafe"/>
+  <circle cx="515" cy="285" r="18" fill="#dbeafe"/>
+  <circle cx="705" cy="320" r="18" fill="#dbeafe"/>
+  <circle cx="895" cy="295" r="18" fill="#dbeafe"/>
+  <text x="80" y="740" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="64" font-weight="700">EDIBLES</text>
+</svg>

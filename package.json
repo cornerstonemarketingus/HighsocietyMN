@@ -9,16 +9,18 @@
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/**/*.test.mjs",
+    "test": "node --import tsx --test tests/**/*.test.mjs tests/**/*.test.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "scrape:products": "tsx scripts/scrape-products.ts",
+    "sync:products:https": "tsx scripts/write-products-neon-http.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
     "@hookform/resolvers": "^5.4.0",
+    "@neondatabase/serverless": "^1.1.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@stripe/stripe-js": "^9.9.0",
@@ -56,4 +58,3 @@
     "typescript": "^5"
   }
 }
-

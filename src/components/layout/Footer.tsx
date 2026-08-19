@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Leaf, MapPin, Phone, Mail } from "lucide-react";
+import { Crown, MapPin, Phone, Mail } from "lucide-react";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 export function Footer() {
@@ -13,20 +13,20 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Leaf className="h-6 w-6 text-[#69f2ff]" />
+              <Crown className="h-6 w-6 text-[#e5a12b]" strokeWidth={1.5} />
               <span className="text-lg font-bold text-white">
-                High Society <span className="text-[#69f2ff]">MN</span>
+                High Society <span className="text-[#e5a12b]">MN</span>
               </span>
             </div>
             <p className="text-sm text-gray-400">
-              Premium cannabis delivery boutique serving Saint Paul and Minneapolis with a luxury, discreet experience.
+              Fresh cannabis, chill service, and discreet metro delivery for Saint Paul and Minneapolis adults 21+.
             </p>
             <div className="flex gap-3">
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-gray-400 transition-colors hover:text-[#69f2ff]"
+                className="text-sm font-medium text-gray-400 transition-colors hover:text-[#e5a12b]"
                 aria-label="Instagram"
               >
                 IG
@@ -35,7 +35,7 @@ export function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-gray-400 transition-colors hover:text-[#69f2ff]"
+                className="text-sm font-medium text-gray-400 transition-colors hover:text-[#e5a12b]"
                 aria-label="Facebook"
               >
                 FB
@@ -56,7 +56,7 @@ export function Footer() {
                 { href: "/drops", label: "Drops" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition-colors hover:text-[#69f2ff]">
+                  <Link href={link.href} className="text-sm text-gray-400 transition-colors hover:text-[#e5a12b]">
                     {link.label}
                   </Link>
                 </li>
@@ -68,14 +68,15 @@ export function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Community</h3>
             <ul className="space-y-2">
               {[
-                { href: "/budseeker", label: "BudSeeker" },
+                { href: "/about", label: "About & House Rules" },
+                { href: process.env.NEXT_PUBLIC_BUDSEEKER_URL ?? "https://budseeker-mn.vercel.app", label: "BudSeeker" },
                 { href: "/blog", label: "Blog" },
                 { href: "/forum", label: "Forum" },
                 { href: "/terms", label: "Terms of Service" },
                 { href: "/privacy", label: "Privacy Policy" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-gray-400 transition-colors hover:text-[#69f2ff]">
+                  <Link href={link.href} className="text-sm text-gray-400 transition-colors hover:text-[#e5a12b]">
                     {link.label}
                   </Link>
                 </li>
@@ -87,20 +88,20 @@ export function Footer() {
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Delivery Info</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#69f2ff]" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#e5a12b]" />
                 <span className="text-sm text-gray-400">Saint Paul & Minneapolis Metro</span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-[#69f2ff]" />
-                <a href="tel:+16125550000" className="text-sm text-gray-400 transition-colors hover:text-[#69f2ff]">
+                <Phone className="h-4 w-4 shrink-0 text-[#e5a12b]" />
+                <a href="tel:+16125550000" className="text-sm text-gray-400 transition-colors hover:text-[#e5a12b]">
                   (612) 555-0000
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-[#69f2ff]" />
+                <Mail className="h-4 w-4 shrink-0 text-[#e5a12b]" />
                 <a
                   href="mailto:hello@highsocietymn.com"
-                  className="text-sm text-gray-400 transition-colors hover:text-[#69f2ff]"
+                  className="text-sm text-gray-400 transition-colors hover:text-[#e5a12b]"
                 >
                   hello@highsocietymn.com
                 </a>

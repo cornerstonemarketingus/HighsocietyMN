@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Cannabis vape cartridge category art">
+  <rect width="1200" height="800" fill="#051429"/>
+  <rect x="330" y="190" width="540" height="120" rx="24" fill="#0f2f59" stroke="#60a5fa" stroke-width="6"/>
+  <rect x="360" y="330" width="480" height="260" rx="30" fill="#1d4ed8" opacity="0.9"/>
+  <rect x="500" y="140" width="200" height="48" rx="20" fill="#38bdf8"/>
+  <rect x="540" y="590" width="120" height="70" rx="20" fill="#0c2f57" stroke="#60a5fa" stroke-width="5"/>
+  <path d="M400 560C470 520 730 520 800 560" stroke="#93c5fd" stroke-width="8" fill="none" opacity="0.8"/>
+  <text x="80" y="740" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="64" font-weight="700">VAPES</text>
+</svg>

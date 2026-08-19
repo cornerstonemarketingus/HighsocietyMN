@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Cannabis flower category art">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#041226"/>
+      <stop offset="100%" stop-color="#072544"/>
+    </linearGradient>
+    <radialGradient id="g" cx="0.25" cy="0.2" r="0.8">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <g transform="translate(430 140) scale(2.2)">
+    <path d="M80 18C72 40 71 60 80 82C89 60 88 40 80 18ZM56 31C52 54 56 72 72 90C74 66 68 48 56 31ZM104 31C92 48 86 66 88 90C104 72 108 54 104 31ZM34 54C36 78 48 93 70 102C60 80 48 64 34 54ZM126 54C112 64 100 80 90 102C112 93 124 78 126 54ZM59 99C59 119 66 134 80 144C94 134 101 119 101 99C92 106 85 110 80 112C75 110 68 106 59 99Z" stroke="#7dd3fc" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M80 78V140" stroke="#7dd3fc" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="80" y="740" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="64" font-weight="700">FLOWER</text>
+</svg>
